@@ -6,7 +6,9 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 let tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
+  fs.readFileSync(
+    `${__dirname}/dev-data/data/tours-simple.json`
+  )
 );
 const getAllTours = (req, res) => {
   res.json({
@@ -20,7 +22,12 @@ const getSingleTour = (req, res) => {
   const id = req.params.id * 1;
   const tour = tours.find((el) => el.id === id);
   if (!tour) {
-    return res.status(404).json({ status: 'fail', message: 'Invalid Id' });
+    return res
+      .status(404)
+      .json({
+        status: 'fail',
+        message: 'Invalid Id',
+      });
   }
 
   res.json({
@@ -33,7 +40,10 @@ const addTour = (req, res) => {
   // console.log(req.body);
   const newId = tours[tours.length - 1].id + 1;
 
-  const newTours = Object.assign({ id: newId }, req.body);
+  const newTours = Object.assign(
+    { id: newId },
+    req.body
+  );
   tours.push(newTours);
   fs.writeFile(
     `${__dirname}/dev-data/data/tours-simple.json`,
@@ -52,7 +62,12 @@ const addTour = (req, res) => {
 const updateTour = (req, res) => {
   const id = req.params.id * 1;
   if (id > tours.length) {
-    return res.status(404).json({ status: 'fail', message: 'Invalid Id' });
+    return res
+      .status(404)
+      .json({
+        status: 'fail',
+        message: 'Invalid Id',
+      });
   }
 
   res.json({
@@ -64,7 +79,12 @@ const updateTour = (req, res) => {
 const deleteTour = (req, res) => {
   const id = req.params.id * 1;
   if (id > tours.length) {
-    return res.status(404).json({ status: 'fail', message: 'Invalid Id' });
+    return res
+      .status(404)
+      .json({
+        status: 'fail',
+        message: 'Invalid Id',
+      });
   }
 
   res.json({
@@ -109,21 +129,33 @@ const deleteUser = (req, res) => {
   });
 };
 
-app.route('/api/v1/tours').get(getAllTours).post(addTour);
-app
-  .route('/api/v1/tours/:id')
+const tourRouter = express.Router();
+const userRouter = express.Router();
+tourRouter
+  .route('/')
+  .get(getAllTours)
+  .post(addTour);
+tourRouter
+  .route('/:id')
   .patch(updateTour)
   .delete(deleteTour)
   .get(getSingleTour);
 
-app.route('/api/v1/users').get(getAllUsers).post(addUser);
-app
-  .route('/api/v1/users/:id')
+userRouter
+  .route('/')
+  .get(getAllUsers)
+  .post(addUser);
+userRouter
+  .route('/:id')
   .patch(updateUser)
   .delete(deleteUser)
   .get(getSingleUser);
 
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
 const port = 3000;
 app.listen(port, () => {
-  console.log(`Server listening on http://localhost:${port}`);
+  console.log(
+    `Server listening on http://localhost:${port}`
+  );
 });

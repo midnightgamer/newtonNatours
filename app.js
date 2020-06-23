@@ -1,8 +1,8 @@
 const express = require('express');
 const fs = require('fs');
-
+const morgan = require('morgan');
 const app = express();
-
+app.use(morgan('dev'));
 app.use(express.json());
 
 let tours = JSON.parse(
@@ -73,12 +73,55 @@ const deleteTour = (req, res) => {
   });
 };
 
+const getAllUsers = (req, res) => {
+  res.json({
+    status: 500,
+    data: 'Not yet implemented',
+  });
+};
+
+const getSingleUser = (req, res) => {
+  res.json({
+    status: 500,
+    data: 'Not yet implemented',
+  });
+};
+
+const addUser = (req, res) => {
+  // console.log(req.body);
+  res.json({
+    status: 500,
+    data: 'Not yet implemented',
+  });
+};
+
+const updateUser = (req, res) => {
+  res.json({
+    status: 500,
+    data: 'Not yet implemented',
+  });
+};
+
+const deleteUser = (req, res) => {
+  res.json({
+    status: 500,
+    data: 'Not yet implemented',
+  });
+};
+
 app.route('/api/v1/tours').get(getAllTours).post(addTour);
 app
   .route('/api/v1/tours/:id')
   .patch(updateTour)
   .delete(deleteTour)
   .get(getSingleTour);
+
+app.route('/api/v1/users').get(getAllUsers).post(addUser);
+app
+  .route('/api/v1/users/:id')
+  .patch(updateUser)
+  .delete(deleteUser)
+  .get(getSingleUser);
 
 const port = 3000;
 app.listen(port, () => {

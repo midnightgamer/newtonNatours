@@ -10,3 +10,4 @@ route
   .get(getSingleUser);
 
 module.exports = route;
+

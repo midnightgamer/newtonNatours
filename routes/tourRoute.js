@@ -1,3 +1,4 @@
+
 const express = require('express');
 const {getAllTours , addTour , deleteTour , getSingleTour , updateTour} = require( "../controllers/tourController");
 
@@ -9,5 +10,3 @@ route
   .patch(updateTour)
   .delete(deleteTour)
   .get(getSingleTour);
-
-module.exports = route;

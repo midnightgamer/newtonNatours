@@ -2,7 +2,18 @@ const Tour = require('../modals/tourModel');
 
 exports.getAllTours = async (req, res) => {
    try {
-      const tours = await Tour.find();
+      const queryObj = {
+         ...req.query,
+      };
+      const excludeFields = [
+         'page',
+         'sort',
+         'limit',
+         'fields',
+      ];
+      excludeFields.forEach((el) => delete queryObj[el]);
+      const query = Tour.find(queryObj);
+      const tours = await query;
       res.status(200).json({
          status: 'success',
          results: tours.length,
@@ -11,7 +22,10 @@ exports.getAllTours = async (req, res) => {
          },
       });
    } catch (e) {
-      res.status(400).json({ status: 400, message: e });
+      res.status(400).json({
+         status: 400,
+         message: e,
+      });
    }
 };
 

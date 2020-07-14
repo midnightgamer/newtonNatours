@@ -1,58 +1,27 @@
 const Tour = require('../modals/tourModel');
+const APIFeatures = require('../utils/apiFeatures');
+
+exports.aliasTop5Cheap = (req, res, next) => {
+   req.query.limit = '5';
+   req.query.sort = '-ratingsAverage,price';
+   req.query.fields =
+      'name,price,ratingsAverage,summary,difficulty';
+   next();
+};
 
 exports.getAllTours = async (req, res) => {
    try {
-      const queryObj = {
-         ...req.query,
-      };
-      //Basic Filtering
-      const excludeFields = [
-         'page',
-         'sort',
-         'limit',
-         'fields',
-      ];
-      excludeFields.forEach((el) => delete queryObj[el]);
-
-      //Advance Filtering
-      let queryStr = JSON.stringify(queryObj);
-      queryStr = queryStr.replace(
-         /\b(gte|gt|lt|lte)\b/g,
-         (match) => `$${match}`
-      );
-      let query = Tour.find(JSON.parse(queryStr));
-
-      //Sorting
-      if (req.query.sort) {
-         const sortBy = req.query.sort.split(',').join(' ');
-         query = query.sort(sortBy);
-      } else {
-         query = query.sort('-createdAt');
-      }
-
-      //Field Limiting
-      if (req.query.fields) {
-         const sortBy = req.query.fields
-            .split(',')
-            .join(' ');
-         query = query.select(sortBy);
-      } else {
-         query = query.select('-__v');
-      }
-
-      //Pagination
-      const page = req.query.page * 1 || 1;
-      const limit = req.query.limit * 1 || 100;
-      const skip = (page - 1) * limit;
-      query = query.skip(skip).limit(limit);
-
-      if (req.query.page) {
-         const numTours = await Tour.countDocuments();
-         if (skip > numTours)
-            throw new Error('This page dose not exists');
-      }
       //Execute query
-      const tours = await query;
+      const features = new APIFeatures(
+         Tour.find(),
+         req.query
+      )
+         .filter()
+         .sort()
+         .limitFields()
+         .paginate();
+      const tours = await features.query;
+
       res.status(200).json({
          status: 'success',
          results: tours.length,

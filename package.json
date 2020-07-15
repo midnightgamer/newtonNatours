@@ -5,7 +5,8 @@
    "main": "app.js",
    "scripts": {
       "start:dev": "nodemon server.js",
-      "start:prod": "NODE_ENV=production nodemon server.js"
+      "start:prod": "NODE_ENV=production nodemon server.js",
+      "debug": "ndb server.js"
    },
    "keywords": [],
    "author": "",
@@ -15,7 +16,8 @@
       "express": "^4.17.1",
       "mongoose": "^5.9.23",
       "morgan": "^1.10.0",
-      "slugify": "^1.4.4"
+      "slugify": "^1.4.4",
+      "validator": "^13.1.1"
    },
    "devDependencies": {
       "eslint": "^7.4.0",

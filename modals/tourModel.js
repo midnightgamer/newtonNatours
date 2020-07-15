@@ -96,6 +96,19 @@ tourSchema.pre(/^find/, function (next) {
    });
    next();
 });
+
+//AGGREGATION MIDDLEWARE
+
+tourSchema.pre('aggregate', function (next) {
+   this.pipeline().unshift({
+      $match: {
+         secretTour: {
+            $ne: true,
+         },
+      },
+   });
+   next();
+});
 //Virtual Properties
 tourSchema.virtual('durationWeek').get(function () {
    return this.duration / 7;

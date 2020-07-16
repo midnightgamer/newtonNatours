@@ -12,10 +12,7 @@ const userSchema = new mongoose.Schema({
       required: [true, 'A user must have e email'],
       unique: true,
       lowercase: true,
-      validate: [
-         validator.isEmail,
-         'Please enter a valid email',
-      ],
+      validate: [validator.isEmail, 'Please enter a valid email'],
    },
    photo: {
       type: String,
@@ -24,6 +21,7 @@ const userSchema = new mongoose.Schema({
       type: String,
       required: [true, 'Please provide a password'],
       minLength: [8, 'Password must contain 8 character'],
+      select: false,
    },
    passwordConfirm: {
       type: String,
@@ -33,8 +31,7 @@ const userSchema = new mongoose.Schema({
             return el === this.password;
          },
          //Works only and save
-         message:
-            'Password and Confirm password should be same',
+         message: 'Password and Confirm password should be same',
       },
    },
 });
@@ -45,6 +42,14 @@ userSchema.pre('save', async function (next) {
    this.passwordConfirm = undefined;
    next();
 });
+
+userSchema.methods.correctPassword = async function (
+   candidatePassword,
+   userPassword
+) {
+   console.log('in');
+   return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 const User = mongoose.model('users', userSchema);
 module.exports = User;

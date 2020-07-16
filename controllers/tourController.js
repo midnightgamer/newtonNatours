@@ -1,16 +1,17 @@
 const Tour = require('../modals/tourModel');
 const APIFeatures = require('../utils/apiFeatures');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
-exports.aliasTopTours = (req, res, next) => {
+exports.aliasTopTours = catchAsync((req, res, next) => {
    req.query.limit = '5';
    req.query.sort = '-ratingsAverage,price';
    req.query.fields =
       'name,price,ratingsAverage,summary,difficulty';
    next();
-};
+});
 
-exports.getAllTours = async (req, res) => {
+exports.getAllTours = catchAsync(async (req, res, next) => {
    try {
       // EXECUTE QUERY
       const features = new APIFeatures(
@@ -37,9 +38,13 @@ exports.getAllTours = async (req, res) => {
          message: err,
       });
    }
-};
+});
+
 exports.getTour = catchAsync(async (req, res, next) => {
    const tour = await Tour.findById(req.params.id);
+   if (!tour) {
+      return next(new AppError('No Tour found', 404));
+   }
    res.status(200).json({
       status: 'success',
       data: {
@@ -60,7 +65,7 @@ exports.createTour = catchAsync(async (req, res) => {
    });
 });
 
-exports.updateTour = catchAsync(async (req, res) => {
+exports.updateTour = catchAsync(async (req, res, next) => {
    const tour = await Tour.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -69,7 +74,9 @@ exports.updateTour = catchAsync(async (req, res) => {
          runValidators: true,
       }
    );
-
+   if (!tour) {
+      return next(new AppError('No Tour found', 404));
+   }
    res.status(200).json({
       status: 'success',
       data: {
@@ -78,9 +85,11 @@ exports.updateTour = catchAsync(async (req, res) => {
    });
 });
 
-exports.deleteTour = catchAsync(async (req, res) => {
-   await Tour.findByIdAndDelete(req.params.id);
-
+exports.deleteTour = catchAsync(async (req, res, next) => {
+   const tour = await Tour.findByIdAndDelete(req.params.id);
+   if (!tour) {
+      return next(new AppError('No Tour found', 404));
+   }
    res.status(204).json({
       status: 'success',
       data: null,

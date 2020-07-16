@@ -45,3 +45,21 @@ exports.login = catchAsync(async (req, res, next) => {
       token,
    });
 });
+
+exports.protect = catchAsync(async (req, res, next) => {
+   //Get Token
+   let token;
+   if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer')
+   ) {
+      token = req.headers.authorization.split(' ')[1];
+   }
+   if (!token) {
+      return next(new AppError('Not authorized', 401));
+   }
+   //Validate
+   //Check if user is authorized
+   //Check if user change password after token issue
+   next();
+});

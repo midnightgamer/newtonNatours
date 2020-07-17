@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
 const User = require('../modals/userModal');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
@@ -15,6 +16,7 @@ exports.signup = catchAsync(async (req, res, next) => {
       email: req.body.email,
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
+      passwordChangeAt: req.body.passwordChangeAt,
    });
    const token = siginToken(newUser._id);
    res.status(201).json({
@@ -49,17 +51,24 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.protect = catchAsync(async (req, res, next) => {
    //Get Token
    let token;
-   if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith('Bearer')
-   ) {
+   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
       token = req.headers.authorization.split(' ')[1];
    }
    if (!token) {
       return next(new AppError('Not authorized', 401));
    }
-   //Validate
+   //Verification token
+   const decodedToken = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
    //Check if user is authorized
+   const user = await User.findById(decodedToken.id);
+
+   if (!user) {
+      return next(new AppError('The user does not exists', 401));
+   }
    //Check if user change password after token issue
+   if (user.changedPassword(decodedToken.iat)) {
+      return next(new AppError('The user has changed password , Please try again', 401));
+   }
+   req.user = user;
    next();
 });

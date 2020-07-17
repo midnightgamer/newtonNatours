@@ -17,6 +17,7 @@ exports.signup = catchAsync(async (req, res, next) => {
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
       passwordChangeAt: req.body.passwordChangeAt,
+      role: this.role,
    });
    const token = siginToken(newUser._id);
    res.status(201).json({
@@ -72,3 +73,12 @@ exports.protect = catchAsync(async (req, res, next) => {
    req.user = user;
    next();
 });
+
+exports.restrictTo = (...role) => {
+   return (req, res, next) => {
+      if (!role.includes(req.user.role)) {
+         return next(new AppError('You are not authorized', 403));
+      }
+      next();
+   };
+};

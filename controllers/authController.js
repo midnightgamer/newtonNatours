@@ -82,3 +82,27 @@ exports.restrictTo = (...role) => {
       next();
    };
 };
+
+exports.resetPassword = catchAsync(async (req, res, next) => {
+   //1)Get user based on email
+   const user = await User.findOne({ email: req.body.email });
+   if (!user) {
+      return next(new AppError('The user does not exists with this email', 404));
+   }
+   //2)Generate random reset token
+   const resetToken = user.createPasswordToken();
+   await user.save({ validateBeforeSave: false });
+   //3)Send reset token
+});
+
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+   //1)Get user based on email
+   const user = await User.findOne({ email: req.body.email });
+   if (!user) {
+      return next(new AppError('The user does not exists with this email', 404));
+   }
+   //2)Generate random reset token
+   const resetToken = user.createPasswordToken();
+   await user.save({ validateBeforeSave: false });
+   //3)Send reset token
+});

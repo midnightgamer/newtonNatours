@@ -1,6 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
-
+const rateLimit = require('express-rate-limit');
 const AppError = require('./utils/appError');
 
 const globalErrors = require('./controllers/errorController');
@@ -15,6 +15,13 @@ if (process.env.NODE_ENV === 'development') {
    app.use(morgan('dev'));
 }
 
+const limiter = rateLimit({
+   max: 100,
+   windowMs: 60 * 60 * 1000,
+   message: 'Too many requests from this IP please try again later',
+});
+
+app.use('/api', limiter);
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
@@ -34,12 +41,7 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/auth', authRouter);
 
 app.all('*', (req, res, next) => {
-   next(
-      new AppError(
-         `Can't find ${req.originalUrl} not found`,
-         404
-      )
-   );
+   next(new AppError(`Can't find ${req.originalUrl} not found`, 404));
 });
 
 app.use(globalErrors);

@@ -9,6 +9,7 @@ const {
    deleteTour,
    aliasTopTours,
 } = require('../controllers/tourController');
+const { createReview } = require('../controllers/reviewController');
 const { protect, restrictTo } = require('../controllers/authController');
 
 const router = express.Router();
@@ -27,5 +28,10 @@ router
    .get(getTour)
    .patch(updateTour)
    .delete(protect, restrictTo('admin'), deleteTour);
+
+// Nested Route
+router
+   .route('/:tourId/reviews')
+   .post(protect, restrictTo('user'), createReview);
 
 module.exports = router;

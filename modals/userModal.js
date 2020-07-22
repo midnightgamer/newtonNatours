@@ -68,12 +68,18 @@ userSchema.pre(/^find/, function (next) {
    this.find({ active: { $ne: false } });
    next();
 });
-userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
+userSchema.methods.correctPassword = async function (
+   candidatePassword,
+   userPassword
+) {
    return await bcrypt.compare(candidatePassword, userPassword);
 };
 userSchema.methods.changedPassword = function (JWTTimestamp) {
    if (this.passwordChangeAt) {
-      const changeTimestamp = parseInt(this.passwordChangeAt.getTime() / 1000, 10);
+      const changeTimestamp = parseInt(
+         this.passwordChangeAt.getTime() / 1000,
+         10
+      );
       return JWTTimestamp < changeTimestamp;
    }
    //False means not change
@@ -82,7 +88,10 @@ userSchema.methods.changedPassword = function (JWTTimestamp) {
 userSchema.methods.createPasswordToken = function () {
    const resetPasswordToken = crypto.randomBytes(32).toString('hex');
 
-   this.passwordToken = crypto.createHash('sha256').update(resetPasswordToken).digest('hex');
+   this.passwordToken = crypto
+      .createHash('sha256')
+      .update(resetPasswordToken)
+      .digest('hex');
    this.passwordResetExpiresAt = Date.now() + 10 * 60 * 1000;
    return resetPasswordToken;
 };

@@ -4,6 +4,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const hpp = require('hpp');
 const AppError = require('./utils/appError');
 
 const globalErrors = require('./controllers/errorController');
@@ -34,6 +35,8 @@ app.use(express.json({ limit: '10kb' }));
 app.use(mongoSanitize());
 //Data sanitization against xss
 app.use(xss());
+//Remove duplicate query strings
+app.use(hpp({ whitelist: ['duration'] }));
 
 //Static file serving
 app.use(express.static(`${__dirname}/public`));

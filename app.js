@@ -36,7 +36,18 @@ app.use(mongoSanitize());
 //Data sanitization against xss
 app.use(xss());
 //Remove duplicate query strings
-app.use(hpp({ whitelist: ['duration'] }));
+app.use(
+   hpp({
+      whitelist: [
+         'duration',
+         'ratingsQuantity',
+         'ratingsAverage',
+         'maxGroupSize',
+         'difficulty',
+         'price',
+      ],
+   })
+);
 
 //Static file serving
 app.use(express.static(`${__dirname}/public`));

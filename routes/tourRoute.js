@@ -9,13 +9,15 @@ const {
    deleteTour,
    aliasTopTours,
 } = require('../controllers/tourController');
-const { createReview } = require('../controllers/reviewController');
+const reviewRouter = require('./reviewRoute');
 const { protect, restrictTo } = require('../controllers/authController');
 
 const router = express.Router();
 
-// router.param('id', tourController.checkID);
+// Calling reviewRouter if request url is /:tourId/reviews
+router.use('/:tourId/reviews', reviewRouter);
 
+// router.param('id', tourController.checkID);
 router.route('/top-5-cheap').get(aliasTopTours, getAllTours);
 
 router.route('/tour-stats').get(getTourStats);
@@ -28,10 +30,5 @@ router
    .get(getTour)
    .patch(updateTour)
    .delete(protect, restrictTo('admin'), deleteTour);
-
-// Nested Route
-router
-   .route('/:tourId/reviews')
-   .post(protect, restrictTo('user'), createReview);
 
 module.exports = router;

@@ -33,8 +33,7 @@ const tourSchema = new mongoose.Schema(
          required: [true, 'A tour must have a difficulty'],
          enum: {
             values: ['easy', 'medium', 'difficult'],
-            message:
-               'Difficulty is either: easy, medium, difficult',
+            message: 'Difficulty is either: easy, medium, difficult',
          },
       },
       ratingsAverage: {
@@ -58,8 +57,7 @@ const tourSchema = new mongoose.Schema(
                // this only points to current doc on NEW document creation
                return val < this.price;
             },
-            message:
-               'Discount price ({VALUE}) should be below regular price',
+            message: 'Discount price ({VALUE}) should be below regular price',
          },
       },
       summary: {
@@ -86,6 +84,37 @@ const tourSchema = new mongoose.Schema(
          type: Boolean,
          default: false,
       },
+      startLocation: {
+         //GeoJSON
+         type: {
+            type: String,
+            default: 'Point',
+            enum: ['Point'],
+         },
+         coordinates: [Number],
+         address: String,
+         description: String,
+      },
+      //Embed Document
+      locations: [
+         {
+            type: {
+               type: String,
+               default: 'Point',
+               enum: ['Point'],
+            },
+            coordinates: [Number],
+            address: String,
+            description: String,
+            day: Number,
+         },
+      ],
+      guides: [
+         {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
+         },
+      ],
    },
    {
       toJSON: { virtuals: true },
@@ -123,9 +152,7 @@ tourSchema.pre(/^find/, function (next) {
 });
 
 tourSchema.post(/^find/, function (docs, next) {
-   console.log(
-      `Query took ${Date.now() - this.start} milliseconds!`
-   );
+   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
    next();
 });
 

@@ -1,4 +1,5 @@
 const express = require('express');
+const { restrictTo } = require('../controllers/authController');
 const {
    getUser,
    createUser,
@@ -13,11 +14,12 @@ const { protect } = require('../controllers/authController');
 
 const router = express.Router();
 router.use(protect);
-router.route('/').get(getAllUsers).post(createUser);
-
-router.route('/me').get(getMe, getUser);
 router.route('/updateMe').patch(updateMe);
 router.route('/deleteMe').delete(deleteMe);
+router.route('/me').get(getMe, getUser);
+
+router.use(restrictTo('admin'));
+router.route('/').get(getAllUsers).post(createUser);
 router.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
 
 module.exports = router;

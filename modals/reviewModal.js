@@ -42,11 +42,20 @@ reviewSchema.statics.calcAverageRating = async function (tourId) {
          },
       },
    ]);
-   await Tour.findByIdAndUpdate(tourId, {
-      ratingsQuantity: stats[0].nRating,
-      ratingsAverage: stats[0].averageRating,
-   });
+   if (stats.length > 0) {
+      await Tour.findByIdAndUpdate(tourId, {
+         ratingsQuantity: stats[0].nRating,
+         ratingsAverage: stats[0].averageRating,
+      });
+   } else {
+      await Tour.findByIdAndUpdate(tourId, {
+         ratingsQuantity: 0,
+         ratingsAverage: 4.5,
+      });
+   }
 };
+// TODO: Check this implementation after a day, it should not allow user to post multiple comment
+reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
 
 reviewSchema.pre(/^find/, function () {
    /* this.populate({
@@ -68,6 +77,8 @@ reviewSchema.post('save', function () {
 });
 
 reviewSchema.pre(/findOneAnd/, async function (next) {
+   // Can not access this.constructor in post middleware so here we string current modal to this.r  so we can use in
+   // post middleware
    this.r = await this.findOne();
    next();
 });

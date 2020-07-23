@@ -1,6 +1,7 @@
 const User = require('../modals/userModal');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const { deleteOne, updateOne, createOne } = require('./factoryController');
 
 const filterObject = (obj, ...fileds) => {
    const newObj = {};
@@ -26,31 +27,16 @@ exports.getUser = (req, res) => {
       message: 'This route is not yet defined!',
    });
 };
-exports.createUser = (req, res) => {
-   res.status(500).json({
-      status: 'error',
-      message: 'This route is not yet defined!',
-   });
-};
-exports.updateUser = (req, res) => {
-   res.status(500).json({
-      status: 'error',
-      message: 'This route is not yet defined!',
-   });
-};
-exports.deleteUser = (req, res) => {
-   res.status(500).json({
-      status: 'error',
-      message: 'This route is not yet defined!',
-   });
-};
+exports.createUser = createOne(User);
+exports.updateUser = updateOne(User);
+exports.deleteUser = deleteOne(User);
 
 exports.updateMe = catchAsync(async (req, res, next) => {
-   //Create error for password changes
+   // Create error for password changes
    if (req.body.password || req.body.passwordConfirm) {
       return next(new AppError('You cannot update password', 400));
    }
-   //Update user data
+   // Update user data
    const filteredBody = filterObject(req.body, 'name', 'email');
    const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
       new: true,

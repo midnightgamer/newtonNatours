@@ -1,7 +1,13 @@
 const User = require('../modals/userModal');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
-const { deleteOne, updateOne, createOne } = require('./factoryController');
+const {
+   deleteOne,
+   updateOne,
+   createOne,
+   getOne,
+   getAll,
+} = require('./factoryController');
 
 const filterObject = (obj, ...fileds) => {
    const newObj = {};
@@ -10,23 +16,8 @@ const filterObject = (obj, ...fileds) => {
    });
    return newObj;
 };
-exports.getAllUsers = catchAsync(async (req, res, next) => {
-   const users = await User.find();
-   // SEND RESPONSE
-   res.status(200).json({
-      status: 'success',
-      results: users.length,
-      data: {
-         users,
-      },
-   });
-});
-exports.getUser = (req, res) => {
-   res.status(500).json({
-      status: 'error',
-      message: 'This route is not yet defined!',
-   });
-};
+exports.getAllUsers = getAll(User);
+exports.getUser = getOne(User);
 exports.createUser = createOne(User);
 exports.updateUser = updateOne(User);
 exports.deleteUser = deleteOne(User);

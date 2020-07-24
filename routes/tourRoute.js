@@ -8,6 +8,7 @@ const {
    updateTour,
    deleteTour,
    aliasTopTours,
+   getDistance,
    getToursWithin,
 } = require('../controllers/tourController');
 const reviewRouter = require('./reviewRoute');
@@ -41,4 +42,5 @@ router
    .route('/toursWithin/distance/:distance/center/:latlng/unit/:unit')
    .get(getToursWithin);
 
+router.route('/distances/:latlng/unit/:unit').get(getDistance);
 module.exports = router;

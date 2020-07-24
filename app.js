@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -14,6 +15,11 @@ const authRouter = require('./routes/authRoute');
 const reviewRouter = require('./routes/reviewRoute');
 
 const app = express();
+
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+// Static file serving
+app.use(express.static(path.join(__dirname, 'public')));
 
 // 1) MIDDLEWARES
 if (process.env.NODE_ENV === 'development') {
@@ -50,9 +56,6 @@ app.use(
    })
 );
 
-// Static file serving
-app.use(express.static(`${__dirname}/public`));
-
 app.use((req, res, next) => {
    console.log('Hello from the middleware 👋');
    next();
@@ -64,6 +67,10 @@ app.use((req, res, next) => {
 });
 
 // 3) ROUTES
+app.get('/', (req, res) => {
+   res.status(200).render('base');
+});
+
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/auth', authRouter);

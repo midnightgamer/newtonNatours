@@ -21,3 +21,9 @@ exports.getTour = catchAsymc(async (req, res, next) => {
       tour,
    });
 });
+
+exports.getLogin = catchAsymc(async (req, res, next) => {
+   res.status(200).render('login', {
+      title: 'Login',
+   });
+});

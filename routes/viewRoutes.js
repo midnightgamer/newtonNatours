@@ -5,8 +5,10 @@ const {
    getLogin,
 } = require('../controllers/viewController');
 
-const router = express.Router();
+const { isLoggedIn } = require('../controllers/authController.js');
 
+const router = express.Router();
+router.use(isLoggedIn);
 router.get('/', getOverview);
 router.get('/tour/:slug', getTour);
 router.get('/login', getLogin);

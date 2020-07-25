@@ -22,7 +22,7 @@ const createAndSendToken = (user, statusCode, res) => {
    };
    if (process.env.NODE_ENV === 'production') options.secure = true;
    res.cookie('jwt', token, options);
-   //To hide password
+   // To hide password
    user.password = undefined;
    res.status(statusCode).json({
       status: 'success',
@@ -61,35 +61,61 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
-   //Get Token
+   // Get Token
    let token;
    if (
       req.headers.authorization &&
       req.headers.authorization.startsWith('Bearer')
    ) {
       token = req.headers.authorization.split(' ')[1];
+   } else if (req.cookie.jwt) {
+      token = req.cookie.jwt;
    }
    if (!token) {
       return next(new AppError('Not authorized', 401));
    }
-   //Verification token
+   // Verification token
    const decodedToken = await promisify(jwt.verify)(
       token,
       process.env.JWT_SECRET
    );
-   //Check if user is authorized
+   // Check if user is authorized
    const user = await User.findById(decodedToken.id);
 
    if (!user) {
       return next(new AppError('The user does not exists', 401));
    }
-   //Check if user change password after token issue
+   // Check if user change password after token issue
    if (user.changedPassword(decodedToken.iat)) {
       return next(
          new AppError('The user has changed password , Please try again', 401)
       );
    }
    req.user = user;
+   next();
+});
+
+exports.isLoggedIn = catchAsync(async (req, res, next) => {
+   // Get Token
+   if (req.cookies.jwt) {
+      // Verification token
+      const decodedToken = await promisify(jwt.verify)(
+         req.cookies.jwt,
+         process.env.JWT_SECRET
+      );
+      // Check if user is authorized
+      const user = await User.findById(decodedToken.id);
+
+      if (!user) {
+         return next();
+      }
+      // Check if user change password after token issue
+      if (user.changedPassword(decodedToken.iat)) {
+         return next();
+      }
+      res.locals.user = user;
+      return next();
+   }
    next();
 });
 
@@ -127,7 +153,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
-   //1)Get user based on email
+   // 1)Get user based on email
    const user = await User.findOne({
       email: req.body.email,
    });
@@ -136,10 +162,10 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
          new AppError('The user does not exists with this email', 404)
       );
    }
-   //2)Generate random reset token
+   // 2)Generate random reset token
    const resetToken = user.createPasswordToken();
    await user.save({ validateBeforeSave: false });
-   //3)Send reset token
+   // 3)Send reset token
    const resetURL = `${req.protocol}://${req.host}/api/v1/auth/resetPassword/${resetToken}`;
    const message = `Forgot password ? Use below link to change it \n  ${resetURL} \n If you didn't forget your password, please ignore this email`;
 

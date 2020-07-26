@@ -1,5 +1,6 @@
 const Tour = require('../modals/tourModel');
 const catchAsymc = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 
 exports.getOverview = catchAsymc(async (req, res, next) => {
    // 1 Get tour data from collection
@@ -16,6 +17,9 @@ exports.getTour = catchAsymc(async (req, res, next) => {
       path: 'reviews',
       fields: 'review rating user',
    });
+   if (!tour) {
+      return next(new AppError('No Tour found with this name', 404));
+   }
    res.status(200).render('tour', {
       title: `${tour.name} Tour`,
       tour,

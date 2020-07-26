@@ -36,16 +36,19 @@ if (logoutButton) {
 }
 
 if (settingsButton) {
-   settingsButton.addEventListener('click', (evt) => {
+   settingsButton.addEventListener('click', async (evt) => {
       evt.preventDefault();
-      document.querySelector('.btn--save-password').value = 'Updating...';
-      const email = document.getElementById('email').value;
-      const name = document.getElementById('name').value;
-      updateData({
-         name,
-         email
-      }, 'data');
-      document.querySelector('.btn--save-password').value = 'save settings';
+      document.querySelector('#save-data').innerHTML = 'Updating...';
+      let form = new FormData();
+
+      form.append('name',document.getElementById('name').value)
+      form.append('email',document.getElementById('email').value)
+      form.append('photo',document.getElementById('photo').files[0])
+
+      await updateData(
+         form
+      , 'data');
+      document.querySelector('#save-data').innerHTML = 'save settings';
    });
 }
 

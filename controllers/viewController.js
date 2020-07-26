@@ -1,8 +1,9 @@
 const Tour = require('../modals/tourModel');
-const catchAsymc = require('../utils/catchAsync');
+const User = require('../modals/userModal');
+const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
-exports.getOverview = catchAsymc(async (req, res, next) => {
+exports.getOverview = catchAsync(async (req, res, next) => {
    // 1 Get tour data from collection
    const tours = await Tour.find();
    // 2 Build template
@@ -12,7 +13,7 @@ exports.getOverview = catchAsymc(async (req, res, next) => {
    });
 });
 
-exports.getTour = catchAsymc(async (req, res, next) => {
+exports.getTour = catchAsync(async (req, res, next) => {
    const tour = await Tour.findOne({ slug: req.params.slug }).populate({
       path: 'reviews',
       fields: 'review rating user',
@@ -31,9 +32,8 @@ exports.getLogin = async (req, res) => {
       title: 'Login',
    });
 };
-
-exports.getMe = async (req, res) => {
+exports.updateUserData = catchAsync(async (req, res, next) => {
    res.status(200).render('account', {
-      title: 'Me',
+      title: 'Your account',
    });
-};
+});

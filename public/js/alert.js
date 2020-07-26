@@ -1,7 +1,7 @@
 export const hideAlert = () => {
    const el = document.querySelector('.alert');
    if (el) {
-      el.parentElement.appendChild(el);
+      el.parentElement.removeChild(el);
    }
 };
 

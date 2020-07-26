@@ -9,13 +9,14 @@ const {
    getAll,
 } = require('./factoryController');
 
-const filterObject = (obj, ...fileds) => {
+const filterObj = (obj, ...allowedFields) => {
    const newObj = {};
-   Object.keys(obj).forEach((key) => {
-      if (fileds.includes(key)) newObj[key] = obj[key];
+   Object.keys(obj).forEach((el) => {
+      if (allowedFields.includes(el)) newObj[el] = obj[el];
    });
    return newObj;
 };
+
 exports.getAllUsers = getAll(User);
 exports.getUser = getOne(User);
 exports.createUser = createOne(User);
@@ -23,15 +24,24 @@ exports.updateUser = updateOne(User);
 exports.deleteUser = deleteOne(User);
 
 exports.updateMe = catchAsync(async (req, res, next) => {
-   // Create error for password changes
+   // 1) Create error if user POSTs password data
    if (req.body.password || req.body.passwordConfirm) {
-      return next(new AppError('You cannot update password', 400));
+      return next(
+         new AppError(
+            'This route is not for password updates. Please use /updateMyPassword.',
+            400
+         )
+      );
    }
-   // Update user data
-   const filteredBody = filterObject(req.body, 'name', 'email');
+
+   // 2) Filtered out unwanted fields names that are not allowed to be updated
+   const filteredBody = filterObj(req.body, 'name', 'email');
+   if (req.file) filteredBody.photo = req.file.filename;
+
+   // 3) Update user document
    const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
       new: true,
-      runValidation: true,
+      runValidators: true,
    });
 
    res.status(200).json({
@@ -41,6 +51,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
       },
    });
 });
+
 exports.getMe = (req, res, next) => {
    req.params.id = req.user.id;
    next();

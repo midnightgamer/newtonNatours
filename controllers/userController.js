@@ -1,4 +1,6 @@
 const User = require('../modals/userModal');
+const multer = require('multer');
+
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const {
@@ -6,9 +8,31 @@ const {
    updateOne,
    createOne,
    getOne,
-   getAll,
+   getAll
 } = require('./factoryController');
 
+const multerStore = multer.diskStorage({
+   destination: (req, file, callback) => {
+      callback(null, 'public/img/users');
+   },
+   filename(req, file, callback) {
+      const ext = file.mimetype.split('/')[1];
+      callback(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+   }
+});
+
+const multerFilter = (req, file, callback) => {
+   if (file.mimetype.startsWith('image')) {
+      callback(null, true);
+   } else {
+      callback(new AppError('Not a valid image', 400), false);
+   }
+};
+const upload = multer({
+   storage: multerStore,
+   fileFilter: multerFilter
+});
+exports.uploadUserPhoto = upload.single('photo');
 const filterObj = (obj, ...allowedFields) => {
    const newObj = {};
    Object.keys(obj).forEach((el) => {
@@ -43,14 +67,14 @@ exports.updateMe = catchAsync(async (req, res, next) => {
    // 3) Update user document
    const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
       new: true,
-      runValidators: true,
+      runValidators: true
    });
 
    res.status(200).json({
       status: 'success',
       data: {
-         user: updatedUser,
-      },
+         user: updatedUser
+      }
    });
 });
 
@@ -61,6 +85,6 @@ exports.getMe = (req, res, next) => {
 exports.deleteMe = catchAsync(async (req, res, next) => {
    await User.findByIdAndUpdate(req.user.id, { active: false });
    res.status(204).json({
-      status: 'success',
+      status: 'success'
    });
 });

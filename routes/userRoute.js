@@ -9,13 +9,14 @@ const {
    getAllUsers,
    deleteMe,
    getMe,
-   uploadUserPhoto
+   uploadUserPhoto,
+   resizeUserPhoto
 } = require('../controllers/userController');
 const { protect } = require('../controllers/authController');
 
 const router = express.Router();
 router.use(protect);
-router.route('/updateMe').patch( uploadUserPhoto,updateMe);
+router.route('/updateMe').patch( uploadUserPhoto,resizeUserPhoto,updateMe);
 router.route('/deleteMe').delete(deleteMe);
 router.route('/me').get(getMe, getUser);
 

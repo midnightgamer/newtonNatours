@@ -12461,7 +12461,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
             Object.defineProperty(exports, '__esModule', {
                value: true,
             });
-            exports.login = void 0;
+            exports.logout = exports.login = void 0;
 
             var _alert = require('./alert');
 
@@ -12597,6 +12597,59 @@ parcelRequire = (function (modules, cache, entry, globalName) {
             })();
 
             exports.login = login;
+
+            var logout = /*#__PURE__*/ (function () {
+               var _ref2 = _asyncToGenerator(
+                  /*#__PURE__*/ regeneratorRuntime.mark(function _callee2() {
+                     var res;
+                     return regeneratorRuntime.wrap(
+                        function _callee2$(_context2) {
+                           while (1) {
+                              switch ((_context2.prev = _context2.next)) {
+                                 case 0:
+                                    _context2.prev = 0;
+                                    _context2.next = 3;
+                                    return (0, _axios.default)({
+                                       method: 'GET',
+                                       url:
+                                          'http://localhost:3000/api/v1/auth/logout',
+                                    });
+
+                                 case 3:
+                                    res = _context2.sent;
+                                    if (res.data.status === 'success')
+                                       location.reload(true);
+                                    _context2.next = 11;
+                                    break;
+
+                                 case 7:
+                                    _context2.prev = 7;
+                                    _context2.t0 = _context2['catch'](0);
+                                    (0, _alert.showAlert)(
+                                       'error',
+                                       _context2.t0.response.data.message
+                                    );
+                                    console.log(_context2.t0);
+
+                                 case 11:
+                                 case 'end':
+                                    return _context2.stop();
+                              }
+                           }
+                        },
+                        _callee2,
+                        null,
+                        [[0, 7]]
+                     );
+                  })
+               );
+
+               return function logout() {
+                  return _ref2.apply(this, arguments);
+               };
+            })();
+
+            exports.logout = logout;
          },
          { './alert': 'alert.js', axios: '../../node_modules/axios/index.js' },
       ],
@@ -12924,7 +12977,8 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
             //DOM Elements
             var mapBox = document.getElementById('map');
-            var loginForm = document.querySelector('.form'); //Values
+            var loginForm = document.querySelector('.form');
+            var logoutButton = document.querySelector('.nav__el-logout'); //Values
             //Delegation
 
             if (mapBox) {
@@ -12940,6 +12994,14 @@ parcelRequire = (function (modules, cache, entry, globalName) {
                   var email = document.getElementById('email').value;
                   var password = document.getElementById('password').value;
                   (0, _login.login)(email, password);
+               });
+            }
+
+            if (logoutButton) {
+               logoutButton.addEventListener('click', function (evt) {
+                  evt.preventDefault();
+                  console.log('clicked');
+                  (0, _login.logout)();
                });
             }
          },
@@ -13237,7 +13299,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
                var hostname = '' || location.hostname;
                var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
                var ws = new WebSocket(
-                  protocol + '://' + hostname + ':' + '54368' + '/'
+                  protocol + '://' + hostname + ':' + '62100' + '/'
                );
 
                ws.onmessage = function (event) {

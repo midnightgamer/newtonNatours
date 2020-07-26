@@ -59,7 +59,15 @@ exports.login = catchAsync(async (req, res, next) => {
    //   3) If everything okay , send jwt
    createAndSendToken(user, 200, res);
 });
-
+exports.logout = catchAsync(async (req, res, next) => {
+   res.cookie('jwt', 'logout', {
+      expires: new Date(Date.now() + 10 * 1000),
+      httpOnly: true,
+   });
+   res.status(200).json({
+      status: 'success',
+   });
+});
 exports.protect = catchAsync(async (req, res, next) => {
    // Get Token
    let token;
@@ -95,29 +103,33 @@ exports.protect = catchAsync(async (req, res, next) => {
    next();
 });
 
-exports.isLoggedIn = catchAsync(async (req, res, next) => {
+exports.isLoggedIn = async (req, res, next) => {
    // Get Token
    if (req.cookies.jwt) {
-      // Verification token
-      const decodedToken = await promisify(jwt.verify)(
-         req.cookies.jwt,
-         process.env.JWT_SECRET
-      );
-      // Check if user is authorized
-      const user = await User.findById(decodedToken.id);
+      try {
+         // Verification token
+         const decodedToken = await promisify(jwt.verify)(
+            req.cookies.jwt,
+            process.env.JWT_SECRET
+         );
+         // Check if user is authorized
+         const user = await User.findById(decodedToken.id);
 
-      if (!user) {
+         if (!user) {
+            return next();
+         }
+         // Check if user change password after token issue
+         if (user.changedPassword(decodedToken.iat)) {
+            return next();
+         }
+         res.locals.user = user;
+         return next();
+      } catch (e) {
          return next();
       }
-      // Check if user change password after token issue
-      if (user.changedPassword(decodedToken.iat)) {
-         return next();
-      }
-      res.locals.user = user;
-      return next();
    }
    next();
-});
+};
 
 exports.restrictTo = (...role) => {
    return (req, res, next) => {

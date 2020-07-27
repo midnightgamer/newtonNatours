@@ -8,6 +8,30 @@ const {
    getOne,
    getAll,
 } = require('./factoryController');
+const multer = require('multer');
+const sharp = require('sharp');
+
+const multerStore = multer.memoryStorage();
+const multerFilter = (req, file, callback) => {
+   if (file.mimetype.startsWith('image')) {
+      callback(null, true);
+   } else {
+      callback(new AppError('Not a valid image', 400), false);
+   }
+};
+const upload = multer({
+   storage: multerStore,
+   fileFilter: multerFilter
+});
+
+exports.resizeTourImages = (req,res,next) =>{
+   console.log(req.files);
+   next()
+}
+exports.uploadTourImages = upload.fields([
+   {name:'imageCover' , maxCount:1},
+   {name:'images' , maxCount:3},
+])
 
 exports.aliasTopTours = catchAsync((req, res, next) => {
    req.query.limit = '5';

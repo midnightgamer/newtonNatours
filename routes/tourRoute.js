@@ -10,6 +10,8 @@ const {
    aliasTopTours,
    getDistance,
    getToursWithin,
+   resizeTourImages,
+   uploadTourImages
 } = require('../controllers/tourController');
 const reviewRouter = require('./reviewRoute');
 const { protect, restrictTo } = require('../controllers/authController');
@@ -35,7 +37,7 @@ router
 router
    .route('/:id')
    .get(getTour)
-   .patch(protect, restrictTo('admin', 'lead-guide'), updateTour)
+   .patch(protect, restrictTo('admin', 'lead-guide'), uploadTourImages, resizeTourImages, updateTour)
    .delete(protect, restrictTo('admin', 'lead-guide'), deleteTour);
 
 router

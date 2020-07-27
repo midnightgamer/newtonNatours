@@ -8386,8 +8386,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var login = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(email, password) {
-    var _result;
-
+    var result;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -8404,9 +8403,9 @@ var login = /*#__PURE__*/function () {
             });
 
           case 3:
-            _result = _context.sent;
+            result = _context.sent;
 
-            if (_result.data.status === 'success') {
+            if (result.data.status === 'success') {
               (0, _alert.showAlert)('success', 'Login successful');
               location.assign('/');
             }
@@ -8417,11 +8416,7 @@ var login = /*#__PURE__*/function () {
           case 7:
             _context.prev = 7;
             _context.t0 = _context["catch"](0);
-
-            if (result.data.status === 'fail') {
-              (0, _alert.showAlert)('error', _context.t0.response.data.message);
-              location.assign('/');
-            }
+            (0, _alert.showAlert)('error', _context.t0.response.data.message);
 
           case 10:
           case "end":
@@ -8455,16 +8450,15 @@ var logout = /*#__PURE__*/function () {
           case 3:
             res = _context2.sent;
             if (res.data.status === 'success') location.reload(true);
-            _context2.next = 11;
+            _context2.next = 10;
             break;
 
           case 7:
             _context2.prev = 7;
             _context2.t0 = _context2["catch"](0);
             (0, _alert.showAlert)('error', _context2.t0.response.data.message);
-            console.log(_context2.t0);
 
-          case 11:
+          case 10:
           case "end":
             return _context2.stop();
         }
@@ -8989,7 +8983,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62100" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56392" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

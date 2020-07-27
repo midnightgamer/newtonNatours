@@ -13,7 +13,13 @@ module.exports = class Email {
    newTransport() {
       if (process.env.NODE_ENV === 'production') {
          //   Sandgrid
-         return 1;
+         return nodemailer.createTransport({
+            service:'SandGrid',
+            auth:{
+               user: process.env.SANDGRID_USERNAME,
+               pas: process.env.SANDGRID_PASSWORD
+            }
+         })
       } else {
          //1) Create a transporter
          return nodemailer.createTransport({

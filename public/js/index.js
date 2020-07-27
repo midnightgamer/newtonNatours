@@ -15,7 +15,8 @@ const passwordForm = document.querySelector('.form-user-password');
 
 //Delegation
 if (mapBox) {
-   let { locations } = JSON.parse(mapBox.dataset);
+   let { locations } = mapBox.dataset;
+   locations = JSON.parse(locations);
    displayMap(locations);
 }
 

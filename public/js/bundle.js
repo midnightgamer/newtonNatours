@@ -8860,9 +8860,8 @@ var passwordForm = document.querySelector('.form-user-password'); //Values
 //Delegation
 
 if (mapBox) {
-  var _JSON$parse = JSON.parse(mapBox.dataset),
-      locations = _JSON$parse.locations;
-
+  var locations = mapBox.dataset.locations;
+  locations = JSON.parse(locations);
   (0, _mapBox.displayMap)(locations);
 }
 

@@ -1,24 +1,51 @@
 const nodemailer = require('nodemailer');
+const pug = require('pug')
+const htmlToText = require('html-to-text')
 
-const sendEmail = async (options) => {
-   //1) Create a transporter
-   const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
-      auth: {
-         user: process.env.EMAIL_USERNAME,
-         pass: process.env.EMAIL_PASSWORD,
-      },
-   });
-   //2) EMail Options
-   const mailOptions = {
-      from: 'Pankaj Jaiswal <test@test.com>',
-      to: options.email,
-      subject: options.subject,
-      text: options.message,
-   };
-   //3)Send the email
-   await transporter.sendMail(mailOptions);
-};
+module.exports = class Email {
+   constructor(user,url) {
+      this.to = user.email;
+      this.firstname = user.name.split(' ')[0];
+      this.url = url;
+      this.from = `Pankaj Jaiswal <${process.env.EMAIL_FROM}>`;
+   }
+   newTransport(){
+      if (process.env.NODE_ENV === 'production'){
+      //   Sandgrid
+         return 1
+      }
+      else{
+         //1) Create a transporter
+         return  nodemailer.createTransport({
+            host: process.env.EMAIL_HOST,
+            port: process.env.EMAIL_PORT,
+            auth: {
+               user: process.env.EMAIL_USERNAME,
+               pass: process.env.EMAIL_PASSWORD,
+            },
+         });
+      }
+   }
 
-module.exports = sendEmail;
+   async send(template,subject){
+   // 1 Render HTML based on pug template
+      const html = pug.renderFile(`${__dirname}/../views/emails/${template}.pug`,{
+         firstname:this.firstname,
+         url:this.url,
+         subject
+      })
+   // 2 Define email options
+      const mailOptions = {
+         from: this.from,
+         to: this.to,
+         subject: subject,
+         html,
+         text: htmlToText.fromString(html),
+      };
+   //    3 Create transport and send mail
+      await this.newTransport().sendMail(mailOptions)
+   }
+   async sendWelcome(){
+      await this.send('welcome','Welcome to Natours Family!')
+   }
+}

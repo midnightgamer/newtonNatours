@@ -41,9 +41,8 @@ exports.signup = catchAsync(async (req, res, next) => {
       passwordChangeAt: req.body.passwordChangeAt,
       role: this.role,
    });
-   const url = `${req.protocol}://${req.get('host')}/me`
-   console.log(url);
-   await new Email(newUser,url).sendWelcome();
+   const url = `${req.protocol}://${req.get('host')}/me`;
+   await new Email(newUser, url).sendWelcome();
    createAndSendToken(newUser, 201, res);
 });
 
@@ -184,7 +183,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
    // 3)Send reset token
    try {
       const resetURL = `${req.protocol}://${req.host}/api/v1/auth/resetPassword/${resetToken}`;
-      await new Email(user,resetURL).sendPasswordReset();
+      await new Email(user, resetURL).sendPasswordReset();
       res.status(200).json({
          status: 'success',
       });

@@ -1,3 +1,5 @@
+const multer = require('multer');
+const sharp = require('sharp');
 const Tour = require('../modals/tourModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -6,10 +8,8 @@ const {
    updateOne,
    createOne,
    getOne,
-   getAll
+   getAll,
 } = require('./factoryController');
-const multer = require('multer');
-const sharp = require('sharp');
 
 const multerStore = multer.memoryStorage();
 const multerFilter = (req, file, callback) => {
@@ -21,12 +21,12 @@ const multerFilter = (req, file, callback) => {
 };
 const upload = multer({
    storage: multerStore,
-   fileFilter: multerFilter
+   fileFilter: multerFilter,
 });
 
 exports.resizeTourImages = catchAsync(async (req, res, next) => {
    if (!req.files.imageCover || !req.files.images) return next();
-   //Cover image
+   // Cover image
    const imageCoverFileName = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
    await sharp(req.files.imageCover[0].buffer)
       .resize(2000, 1333)
@@ -35,11 +35,13 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
       .toFile(`public/img/tours/${imageCoverFileName}`);
    req.body.imageCover = imageCoverFileName;
 
-   //Images
+   // Images
    req.body.images = [];
    await Promise.all(
       req.files.images.map(async (file, index) => {
-         const fileName = `tour-${req.params.id}-${Date.now()}-${index + 1}.jpeg`;
+         const fileName = `tour-${req.params.id}-${Date.now()}-${
+            index + 1
+         }.jpeg`;
          await sharp(file.buffer)
             .resize(2000, 1333)
             .toFormat('jpeg')
@@ -52,16 +54,15 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
    next();
 });
 
-
 exports.uploadTourImages = upload.fields([
    {
       name: 'imageCover',
-      maxCount: 1
+      maxCount: 1,
    },
    {
       name: 'images',
-      maxCount: 3
-   }
+      maxCount: 3,
+   },
 ]);
 
 exports.aliasTopTours = catchAsync((req, res, next) => {
@@ -83,40 +84,40 @@ exports.getTourStats = catchAsync(async (req, res) => {
       {
          $match: {
             ratingsAverage: {
-               $gte: 4.5
-            }
-         }
+               $gte: 4.5,
+            },
+         },
       },
       {
          $group: {
             _id: {
-               $toUpper: '$difficulty'
+               $toUpper: '$difficulty',
             },
             numTours: {
-               $sum: 1
+               $sum: 1,
             },
             numRatings: {
-               $sum: '$ratingsQuantity'
+               $sum: '$ratingsQuantity',
             },
             avgRating: {
-               $avg: '$ratingsAverage'
+               $avg: '$ratingsAverage',
             },
             avgPrice: {
-               $avg: '$price'
+               $avg: '$price',
             },
             minPrice: {
-               $min: '$price'
+               $min: '$price',
             },
             maxPrice: {
-               $max: '$price'
-            }
-         }
+               $max: '$price',
+            },
+         },
       },
       {
          $sort: {
-            avgPrice: 1
-         }
-      }
+            avgPrice: 1,
+         },
+      },
       // {
       //   $match: { _id: { $ne: 'EASY' } }
       // }
@@ -125,8 +126,8 @@ exports.getTourStats = catchAsync(async (req, res) => {
    res.status(200).json({
       status: 'success',
       data: {
-         stats
-      }
+         stats,
+      },
    });
 });
 
@@ -135,54 +136,54 @@ exports.getMonthlyPlan = catchAsync(async (req, res) => {
 
    const plan = await Tour.aggregate([
       {
-         $unwind: '$startDates'
+         $unwind: '$startDates',
       },
       {
          $match: {
             startDates: {
                $gte: new Date(`${year}-01-01`),
-               $lte: new Date(`${year}-12-31`)
-            }
-         }
+               $lte: new Date(`${year}-12-31`),
+            },
+         },
       },
       {
          $group: {
             _id: {
-               $month: '$startDates'
+               $month: '$startDates',
             },
             numTourStarts: {
-               $sum: 1
+               $sum: 1,
             },
             tours: {
-               $push: '$name'
-            }
-         }
+               $push: '$name',
+            },
+         },
       },
       {
          $addFields: {
-            month: '$_id'
-         }
+            month: '$_id',
+         },
       },
       {
          $project: {
-            _id: 0
-         }
+            _id: 0,
+         },
       },
       {
          $sort: {
-            numTourStarts: -1
-         }
+            numTourStarts: -1,
+         },
       },
       {
-         $limit: 12
-      }
+         $limit: 12,
+      },
    ]);
 
    res.status(200).json({
       status: 'success',
       data: {
-         plan
-      }
+         plan,
+      },
    });
 });
 
@@ -194,16 +195,15 @@ exports.getToursWithin = catchAsync(async (req, res, next) => {
    if (!lat || !lng) {
       next(new AppError('Please provide valid location', 400));
    }
-   console.log(lat, lng, radius);
    const tours = await Tour.find({
-      startLocation: { $geoWithin: { $centerSphere: [[lat, lng], radius] } }
+      startLocation: { $geoWithin: { $centerSphere: [[lat, lng], radius] } },
    });
    res.status(200).json({
       status: 'success',
       results: tours.length,
       data: {
-         data: tours
-      }
+         data: tours,
+      },
    });
 });
 
@@ -219,23 +219,23 @@ exports.getDistance = catchAsync(async (req, res, next) => {
          $geoNear: {
             near: {
                type: 'Point',
-               coordinates: [lat * 1, lng * 1]
+               coordinates: [lat * 1, lng * 1],
             },
             distanceField: 'distance',
-            distanceMultiplier: multiplier
-         }
+            distanceMultiplier: multiplier,
+         },
       },
       {
          $project: {
             distance: 1,
-            name: 1
-         }
-      }
+            name: 1,
+         },
+      },
    ]);
    res.status(200).json({
       status: 'success',
       data: {
-         data: distances
-      }
+         data: distances,
+      },
    });
 });

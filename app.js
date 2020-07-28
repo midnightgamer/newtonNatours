@@ -60,7 +60,6 @@ app.use(
 );
 app.use(compression());
 app.use((req, res, next) => {
-   console.log('Hello from the middleware 👋');
    next();
 });
 

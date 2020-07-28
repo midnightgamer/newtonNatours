@@ -8,6 +8,8 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+cosnt cors = require('cors')
+
 const AppError = require('./utils/appError');
 const globalErrors = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoute');
@@ -46,6 +48,7 @@ app.use(mongoSanitize());
 // Data sanitization against xss
 app.use(xss());
 // Remove duplicate query strings
+app.use(cors())
 app.use(
    hpp({
       whitelist: [

@@ -49,6 +49,8 @@ app.use(mongoSanitize());
 app.use(xss());
 // Remove duplicate query strings
 app.use(cors())
+
+app.options('*', cors());
 app.use(
    hpp({
       whitelist: [

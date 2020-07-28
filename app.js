@@ -18,6 +18,7 @@ const authRouter = require('./routes/authRoute');
 const reviewRouter = require('./routes/reviewRoute');
 const viewRouter = require('./routes/viewRoutes');
 const bookingRouter = require('./routes/bookingRoute');
+const { webhookCheckout } = require('./controllers/bookingController');
 
 const app = express();
 app.enable('trust proxy');
@@ -36,10 +37,17 @@ const limiter = rateLimit({
    windowMs: 60 * 60 * 1000,
    message: 'Too many requests from this IP please try again later',
 });
+
 // Security HTTP HEADER
 app.use(helmet());
 // Limiting HTTP request
 app.use('/api', limiter);
+// This route should be before express.json cause request should be in raw form
+app.post(
+   '/webhook-checkout',
+   express.raw({ type: 'application/json' }),
+   webhookCheckout
+);
 // Body parser rading data from data.req
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());

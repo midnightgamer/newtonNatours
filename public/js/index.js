@@ -3,7 +3,7 @@ import '@babel/polyfill';
 import { login, logout } from './login';
 import { displayMap } from './mapBox';
 import { updateData } from './updateSettings';
-import {bookTour} from './stripe';
+import { bookTour } from './stripe';
 
 //DOM Elements
 const mapBox = document.getElementById('map');
@@ -11,7 +11,7 @@ const loginForm = document.querySelector('.form');
 const logoutButton = document.querySelector('.nav__el-logout');
 const settingsButton = document.querySelector('#save-data');
 const passwordForm = document.querySelector('.form-user-password');
-const bookButton = document.querySelector('#bookTour')
+const bookButton = document.querySelector('#bookTour');
 
 //Values
 
@@ -44,13 +44,11 @@ if (settingsButton) {
       document.querySelector('#save-data').innerHTML = 'Updating...';
       let form = new FormData();
 
-      form.append('name',document.getElementById('name').value)
-      form.append('email',document.getElementById('email').value)
-      form.append('photo',document.getElementById('photo').files[0])
+      form.append('name', document.getElementById('name').value);
+      form.append('email', document.getElementById('email').value);
+      form.append('photo', document.getElementById('photo').files[0]);
 
-      await updateData(
-         form
-      , 'data');
+      await updateData(form, 'data');
       document.querySelector('#save-data').innerHTML = 'save settings';
    });
 }
@@ -62,22 +60,26 @@ if (passwordForm) {
       const currentPassword = document.getElementById('password-current').value;
       const password = document.getElementById('password').value;
       const passwordConfirm = document.getElementById('password-confirm').value;
-      await updateData({
-         currentPassword,
-         password,
-         passwordConfirm
-      }, 'password');
+      await updateData(
+         {
+            currentPassword,
+            password,
+            passwordConfirm,
+         },
+         'password'
+      );
       document.getElementById('password-current').value = '';
       document.getElementById('password').value = '';
       document.getElementById('password-confirm').value = '';
-      document.querySelector('.btn--save-password').textContent = 'Save Password';
+      document.querySelector('.btn--save-password').textContent =
+         'Save Password';
    });
 }
 
-if (bookButton){
-   bookButton.addEventListener('click', async e=>{
-      e.target.textContent = 'Processing...'
+if (bookButton) {
+   bookButton.addEventListener('click', async (e) => {
+      e.target.textContent = 'Processing...';
       const { tourid } = e.target.dataset;
-      await bookTour(tourid)
-   })
+      await bookTour(tourid);
+   });
 }

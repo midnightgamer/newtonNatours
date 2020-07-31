@@ -1,10 +1,32 @@
 import React from 'react';
 import './header.css';
+import { connect } from 'react-redux';
 import userImage from '../../assets/img/users/user-1.jpg';
 import logoWhite from '../../assets/img/logo-white.png';
 import { Link } from 'react-router-dom';
 
-const Header = (props) => {
+const Header = ({ isAuthenticated }) => {
+   const authLinks = (
+      <nav className="nav nav--user">
+         <Link to="/my-tours" className="nav__el">
+            My bookings
+         </Link>
+         <Link to="/me" className="nav__el">
+            <img src={userImage} alt="User" className="nav__user-img" />
+            <span>Jonas</span>
+         </Link>
+      </nav>
+   );
+   const guestLinks = (
+      <nav className="nav nav--user">
+         <Link className="nav__el" to="/login">
+            Log in
+         </Link>
+         <Link className="nav__el nav__el--cta" to="/signup">
+            Sign up
+         </Link>
+      </nav>
+   );
    return (
       <header className="header">
          <nav className="nav nav--tours">
@@ -27,19 +49,11 @@ const Header = (props) => {
          <div className="header__logo">
             <img src={logoWhite} alt="Natours logo" />
          </div>
-         <nav className="nav nav--user">
-            <Link to="/my-tours" className="nav__el">
-               My bookings
-            </Link>
-            <Link to="/me" className="nav__el">
-               <img src={userImage} alt="User" className="nav__user-img" />
-               <span>Jonas</span>
-            </Link>
-            {/* <button class="nav__el">Log in</button>
-        <button class="nav__el nav__el--cta">Sign up</button> */}
-         </nav>
+         {isAuthenticated ? authLinks : guestLinks}
       </header>
    );
 };
-
-export default Header;
+const mapStateToProps = (state) => ({
+   isAuthenticated: state.auth.isAuthenticated,
+});
+export default connect(mapStateToProps)(Header);

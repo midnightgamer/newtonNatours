@@ -1,10 +1,13 @@
 import React from 'react';
 import './TourCard.css';
-import imageCover from '../../assets/img/tours/tour-6-1.jpg';
 import Buttons from '../Buttons/Buttons';
+import { connect } from 'react-redux';
+import { setSingleTour } from '../../store/action/tours';
 
-const TourCard = ({ tour }) => {
+const TourCard = (props) => {
+   const { tour, setSingleTour } = props;
    const {
+      id,
       name,
       slug,
       difficulty,
@@ -25,7 +28,7 @@ const TourCard = ({ tour }) => {
             <div className="card__picture">
                <div className="card__picture-overlay">&nbsp;</div>
                <img
-                  src={imageCover}
+                  src={`http://localhost:5000/img/tours/${imageCover}`}
                   alt="Tour 1"
                   className="card__picture-img"
                />
@@ -83,10 +86,12 @@ const TourCard = ({ tour }) => {
                   rating ({ratingsQuantity})
                </span>
             </p>
-            <Buttons to={`/tour/${slug}`}>Details</Buttons>
+            <Buttons onClick={() => setSingleTour(id)} to={`/tour/${slug}`}>
+               Details
+            </Buttons>
          </div>
       </div>
    );
 };
 
-export default TourCard;
+export default connect(null, { setSingleTour })(TourCard);

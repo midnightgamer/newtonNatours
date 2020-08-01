@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Priv } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import reduxStore from './store/store';
 
@@ -15,6 +15,7 @@ import ResetPassword from './components/auth/ResetPassword/ResetPassword';
 import ForgetPassword from './components/auth/ForgetPassword/ForgetPassword';
 
 import { loadTours } from './store/action/tours';
+import PrivateRoute from './routing';
 
 const App = () => {
    useEffect(() => {
@@ -26,12 +27,12 @@ const App = () => {
             <Alert />
             <Header />
             <Route exact path="/" component={Overview} />
-            <Route path="/tour/tour-name" component={Tour} />
-            <Route path="/me" component={Account} />
+            <Route path="/tour/" component={Tour} />
             <Route path="/login" component={Login} />
-            <Route path="/resetPassword" component={ResetPassword} />
-            <Route path="/forgetPassword" component={ForgetPassword} />
             <Route path="/signup" component={Signup} />
+            <PrivateRoute path="/me" component={Account} />
+            <PrivateRoute path="/resetPassword" component={ResetPassword} />
+            <PrivateRoute path="/forgetPassword" component={ForgetPassword} />
             <Footer />
          </BrowserRouter>
       </Provider>

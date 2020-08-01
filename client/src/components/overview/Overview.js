@@ -7,7 +7,7 @@ const Overview = ({ tours }) => {
    let tour = [];
    if (tours && tours.length > 0) {
       tour = tours.map((el) => {
-         return <TourCard tour={el} />;
+         return <TourCard tour={el} key={el.name} />;
       });
    }
    return (
@@ -17,6 +17,6 @@ const Overview = ({ tours }) => {
    );
 };
 const mapStateToProps = (state) => ({
-   tours: state.tours,
+   tours: state.tours.tours,
 });
 export default connect(mapStateToProps)(Overview);

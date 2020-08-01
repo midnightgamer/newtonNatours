@@ -29,7 +29,6 @@ export default produce((draft = initialState, action) => {
             ...draft,
             token: null,
             isAuthenticated: false,
-            loading: false,
          };
       default:
          return draft;

@@ -27,7 +27,7 @@ const App = () => {
             <Alert />
             <Header />
             <Route exact path="/" component={Overview} />
-            <Route path="/tour/" component={Tour} />
+            <Route path="/tour/:slug" component={Tour} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <PrivateRoute path="/me" component={Account} />

@@ -1,13 +1,10 @@
 import React from 'react';
 import './TourCard.css';
 import Buttons from '../Buttons/Buttons';
-import { connect } from 'react-redux';
-import { setSingleTour } from '../../store/action/tours';
 
 const TourCard = (props) => {
-   const { tour, setSingleTour } = props;
+   const { tour } = props;
    const {
-      id,
       name,
       slug,
       difficulty,
@@ -86,12 +83,10 @@ const TourCard = (props) => {
                   rating ({ratingsQuantity})
                </span>
             </p>
-            <Buttons onClick={() => setSingleTour(id)} to={`/tour/${slug}`}>
-               Details
-            </Buttons>
+            <Buttons to={`/tour/${slug}`}>Details</Buttons>
          </div>
       </div>
    );
 };
 
-export default connect(null, { setSingleTour })(TourCard);
+export default TourCard;

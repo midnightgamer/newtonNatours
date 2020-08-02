@@ -1,6 +1,5 @@
 import React from 'react';
 import './Account.css';
-import svgObj from '../../assets/img/icons.svg';
 
 const Account = (props) => (
    <main className="main">

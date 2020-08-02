@@ -1,4 +1,4 @@
-import { LOGIN_FAIL, LOGIN_SUCCESS, AUTH_ERROR, SET_ALERT } from './types';
+import { LOGIN_FAIL, LOGIN_SUCCESS } from './types';
 import axios from '../../axiosInstance';
 import { setAlert } from './alert';
 import { loadUser } from './profile';

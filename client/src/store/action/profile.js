@@ -1,4 +1,4 @@
-import { USER_LOADED, USER_DELETE } from './types';
+import { USER_LOADED } from './types';
 
 export const loadUser = (user) => (dispatch) => {
    dispatch({

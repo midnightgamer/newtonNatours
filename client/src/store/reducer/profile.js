@@ -1,4 +1,4 @@
-import { USER_DELETE, USER_LOADED } from '../action/types';
+import { USER_LOADED } from '../action/types';
 import produce from 'immer';
 
 const initialState = {

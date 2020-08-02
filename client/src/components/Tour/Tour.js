@@ -1,21 +1,21 @@
-import React, { Fragment, useEffect, useRef } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import './Tour.css';
 import { connect } from 'react-redux';
 import { setSingleTour } from '../../store/action/tours';
+import Starts from '../../shared/Starts';
 
-const Tour = ({ tour, loading, setSingleTour, match, mapContainer }) => {
+const Tour = (props) => {
+   const { tour, loading, setSingleTour, match } = props;
+
    useEffect(() => {
       const scriptTag = document.createElement('script');
       scriptTag.src = 'http://localhost:5000/js/mapBox.js';
       scriptTag.async = true;
       document.body.appendChild(scriptTag);
-   }, []);
-   useEffect(() => {
       setSingleTour(match.params.slug);
    }, [match.params.slug, setSingleTour]);
-
    return loading || tour === null ? (
-      <div>Loding...</div>
+      <div>Loading...</div>
    ) : (
       <Fragment>
          <section className="section-header">
@@ -23,7 +23,7 @@ const Tour = ({ tour, loading, setSingleTour, match, mapContainer }) => {
                <div className="header__hero-overlay">&nbsp;</div>
                <img
                   className="header__hero-img"
-                  src={`http://localhost:5000/img/tours/${tour.imageCover}`}
+                  src={`/img/tours/${tour.imageCover}`}
                   alt="The Sea Explorer"
                />
             </div>
@@ -34,7 +34,7 @@ const Tour = ({ tour, loading, setSingleTour, match, mapContainer }) => {
                <div className="heading-box__group">
                   <div className="heading-box__detail">
                      <svg className="heading-box__icon">
-                        <use xlinkHref="/img/icons.svg#icon-clock"></use>
+                        <use xlinkHref={'/img/icons.svg#icon-clock'} />
                      </svg>
                      <span className="heading-box__text">
                         {tour.duration} days
@@ -42,7 +42,7 @@ const Tour = ({ tour, loading, setSingleTour, match, mapContainer }) => {
                   </div>
                   <div className="heading-box__detail">
                      <svg className="heading-box__icon">
-                        <use xlinkHref="/img/icons.svg#icon-map-pin"></use>
+                        <use xlinkHref={`/img/icons.svg#icon-map-pin`} />
                      </svg>
                      <span className="heading-box__text">
                         {tour.startLocation.description}
@@ -59,7 +59,7 @@ const Tour = ({ tour, loading, setSingleTour, match, mapContainer }) => {
                      <h2 className="heading-secondary ma-bt-lg">Quick facts</h2>
                      <div className="overview-box__detail">
                         <svg className="overview-box__icon">
-                           <use xlinkHref="img/icons.svg#icon-calendar"></use>
+                           <use xlinkHref={`/img/icons.svg#icon-calendar`} />
                         </svg>
                         <span className="overview-box__label">Next date</span>
                         <span className="overview-box__text">
@@ -71,7 +71,7 @@ const Tour = ({ tour, loading, setSingleTour, match, mapContainer }) => {
                      </div>
                      <div className="overview-box__detail">
                         <svg className="overview-box__icon">
-                           <use xlinkHref="img/icons.svg#icon-trending-up"></use>
+                           <use xlinkHref={`/img/icons.svg#icon-trending-up`} />
                         </svg>
                         <span className="overview-box__label">Difficulty</span>
                         <span className="overview-box__text">
@@ -80,7 +80,7 @@ const Tour = ({ tour, loading, setSingleTour, match, mapContainer }) => {
                      </div>
                      <div className="overview-box__detail">
                         <svg className="overview-box__icon">
-                           <use xlinkHref="img/icons.svg#icon-user"></use>
+                           <use xlinkHref={'/img/icons.svg#icon-user'} />
                         </svg>
                         <span className="overview-box__label">
                            Participants
@@ -91,7 +91,7 @@ const Tour = ({ tour, loading, setSingleTour, match, mapContainer }) => {
                      </div>
                      <div className="overview-box__detail">
                         <svg className="overview-box__icon">
-                           <use xlinkHref="img/icons.svg#icon-star"></use>
+                           <use xlinkHref="/img/icons.svg#icon-star" />
                         </svg>
                         <span className="overview-box__label">Rating</span>
                         <span className="overview-box__text">
@@ -107,7 +107,7 @@ const Tour = ({ tour, loading, setSingleTour, match, mapContainer }) => {
                      {tour.guides.map((guide) => (
                         <div className="overview-box__detail" key={guide.name}>
                            <img
-                              src={`http://localhost:5000/img/users/${guide.photo}`}
+                              src={`/img/users/${guide.photo}`}
                               alt="Intern"
                               className="overview-box__img"
                            />
@@ -148,7 +148,7 @@ const Tour = ({ tour, loading, setSingleTour, match, mapContainer }) => {
                <div key={value} className="picture-box">
                   <img
                      className="picture-box__img picture-box__img--1"
-                     src={`http://localhost:5000/img/tours/${value}`}
+                     src={`/img/tours/${value}`}
                      alt="The Park Camper Tour 1"
                   />
                </div>
@@ -165,7 +165,7 @@ const Tour = ({ tour, loading, setSingleTour, match, mapContainer }) => {
                   <div key={review.user.name} className="reviews__card">
                      <div className="reviews__avatar">
                         <img
-                           src={`http://localhost:5000/img/users/${review.user.photo}`}
+                           src={`/img/users/${review.user.photo}`}
                            alt="Jim Brown"
                            className="reviews__avatar-img"
                         />
@@ -173,21 +173,7 @@ const Tour = ({ tour, loading, setSingleTour, match, mapContainer }) => {
                      </div>
                      <p className="reviews__text">{review.review}</p>
                      <div className="reviews__rating">
-                        <svg className="reviews__star reviews__star--active">
-                           <use xlinkHref="img/icons.svg#icon-star"></use>
-                        </svg>
-                        <svg className="reviews__star reviews__star--active">
-                           <use xlinkHref="img/icons.svg#icon-star"></use>
-                        </svg>
-                        <svg className="reviews__star reviews__star--active">
-                           <use xlinkHref="img/icons.svg#icon-star"></use>
-                        </svg>
-                        <svg className="reviews__star reviews__star--active">
-                           <use xlinkHref="img/icons.svg#icon-star"></use>
-                        </svg>
-                        <svg className="reviews__star reviews__star--active">
-                           <use xlinkHref="img/icons.svg#icon-star"></use>
-                        </svg>
+                        <Starts rating={review.rating} />
                      </div>
                   </div>
                ))}
@@ -198,7 +184,7 @@ const Tour = ({ tour, loading, setSingleTour, match, mapContainer }) => {
             <div className="cta">
                <div className="cta__img cta__img--logo">
                   <img
-                     src="http://localhost:5000/img/logo-white.png"
+                     src={` /img/logo-white.png`}
                      alt="Natours logo"
                      className=""
                   />
@@ -206,7 +192,7 @@ const Tour = ({ tour, loading, setSingleTour, match, mapContainer }) => {
                {tour.images.map((img) => (
                   <img
                      key={img}
-                     src={`http://localhost:5000/img/tours/${img}`}
+                     src={`${process.env.REACT_APP_API_ROUTE}/img/tours/${img}`}
                      alt=""
                      className="cta__img cta__img--1"
                   />

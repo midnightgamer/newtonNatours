@@ -13,7 +13,7 @@ const initialState = {
 };
 
 export default produce((draft = initialState, action) => {
-   const { type, payload } = action;
+   const { type } = action;
    switch (type) {
       case REGISTER_SUCCESS:
       case LOGIN_SUCCESS:

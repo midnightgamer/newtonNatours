@@ -1,6 +1,5 @@
-import { LOAD_SINGLE_TOUR, LOAD_TOURS, SET_ALERT } from './types';
+import { LOAD_SINGLE_TOUR, LOAD_TOURS } from './types';
 import axiosInstance from '../../axiosInstance';
-import { setAlert } from './alert';
 
 export const loadTours = () => async (dispatch) => {
    try {

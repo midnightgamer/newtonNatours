@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Route, Priv } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
+
 import reduxStore from './store/store';
 
 import Header from './shared/Header/Header';
@@ -14,13 +15,10 @@ import Alert from './shared/Alert/Alert';
 import ResetPassword from './components/auth/ResetPassword/ResetPassword';
 import ForgetPassword from './components/auth/ForgetPassword/ForgetPassword';
 
-import { loadTours } from './store/action/tours';
 import PrivateRoute from './routing';
+require('dotenv').config();
 
 const App = () => {
-   useEffect(() => {
-      reduxStore.dispatch(loadTours());
-   }, []);
    return (
       <Provider store={reduxStore}>
          <BrowserRouter>

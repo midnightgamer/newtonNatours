@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-
+import { withCookies } from 'react-cookie';
 import reduxStore from './store/store';
 
 import Header from './shared/Header/Header';
@@ -16,17 +16,21 @@ import ResetPassword from './components/auth/ResetPassword/ResetPassword';
 import ForgetPassword from './components/auth/ForgetPassword/ForgetPassword';
 
 import PrivateRoute from './routing';
+
 require('dotenv').config();
 
-const App = () => {
+const App = (props) => {
    return (
       <Provider store={reduxStore}>
          <BrowserRouter>
             <Alert />
-            <Header />
-            <Route exact path="/" component={Overview} />
+            <Header cookies={props.cookies} />
+            <Route exact path="/" render={() => <Overview />} />
             <Route path="/tour/:slug" component={Tour} />
-            <Route path="/login" component={Login} />
+            <Route
+               path="/login"
+               render={() => <Login cookies={props.cookies} />}
+            />
             <Route path="/signup" component={Signup} />
             <PrivateRoute path="/me" component={Account} />
             <PrivateRoute path="/resetPassword" component={ResetPassword} />
@@ -37,4 +41,4 @@ const App = () => {
    );
 };
 
-export default App;
+export default withCookies(App);

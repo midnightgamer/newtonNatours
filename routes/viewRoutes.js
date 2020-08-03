@@ -12,6 +12,11 @@ const {
 const { isLoggedIn, protect } = require('../controllers/authController.js');
 
 const router = express.Router();
+
+router.get('/img/icons.svg', function (req, res, next) {
+   res.status(200).send('/img/icons.svg');
+   next();
+});
 router.get('/', isLoggedIn, getOverview);
 router.get('/tour/:slug', isLoggedIn, getTour);
 router.get('/login', isLoggedIn, getLogin);

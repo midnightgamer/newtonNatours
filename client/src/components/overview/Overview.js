@@ -8,7 +8,6 @@ import { loadTours } from '../../store/action/tours';
 const Overview = ({ tours }) => {
    useEffect(() => {
       reduxStore.dispatch(loadTours());
-      console.count('hey');
    }, []);
 
    let tour = [];

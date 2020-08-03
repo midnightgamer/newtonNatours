@@ -59,6 +59,7 @@ app.use(xss());
 app.use(cors());
 
 app.options('*', cors());
+app.options('/img/icons.svg', cors());
 app.use(
    hpp({
       whitelist: [
@@ -71,6 +72,7 @@ app.use(
       ],
    })
 );
+
 app.use(compression());
 app.use((req, res, next) => {
    next();
@@ -82,7 +84,7 @@ app.use((req, res, next) => {
 });
 
 // 3) ROUTES
-app.use('/', viewRouter);
+app.use('/', cors(), viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/auth', authRouter);

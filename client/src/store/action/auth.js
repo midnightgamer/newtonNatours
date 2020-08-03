@@ -3,10 +3,11 @@ import axios from '../../axiosInstance';
 import { setAlert } from './alert';
 import { loadUser } from './profile';
 //Login User
-export const loginUser = (email, password) => async (dispatch) => {
+export const loginUser = (email, password, cookies) => async (dispatch) => {
    const config = {
       headers: {
          'Content-Type': 'application/json',
+         withCredentials: true,
       },
    };
 
@@ -16,6 +17,9 @@ export const loginUser = (email, password) => async (dispatch) => {
    });
    try {
       const res = await axios.post('/auth/login', body, config);
+      console.log(res);
+      /* cookies.set('jwt', res.data.token, { path: '/' });
+       console.log(cookies);*/
       dispatch({
          type: LOGIN_SUCCESS,
       });
@@ -25,6 +29,6 @@ export const loginUser = (email, password) => async (dispatch) => {
       dispatch({
          type: LOGIN_FAIL,
       });
-      dispatch(setAlert('error', e.response.data.message));
+      dispatch(setAlert('error', e.message));
    }
 };

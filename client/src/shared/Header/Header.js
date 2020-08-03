@@ -9,7 +9,7 @@ const Header = ({ isAuthenticated }) => {
    const authLinks = (
       <nav className="nav nav--user">
          <Link to="/my-tours" className="nav__el">
-            My bookings
+            Logout
          </Link>
          <Link to="/me" className="nav__el">
             <img src={userImage} alt="User" className="nav__user-img" />
@@ -53,7 +53,8 @@ const Header = ({ isAuthenticated }) => {
       </header>
    );
 };
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
    isAuthenticated: state.auth.isAuthenticated,
+   cookies: ownProps.cookies,
 });
 export default connect(mapStateToProps)(Header);

@@ -19,6 +19,9 @@ const createAndSendToken = (user, statusCode, req, res) => {
          Date.now() + process.env.JWT_COOKI_EXPIRES_IN * 24 * 60 * 60 * 1000
       ),
       httpOnly: true,
+      'access-control-expose-headers': 'Set-Cookie',
+      'Access-Control-Allow-Credentials': true,
+      'Access-Control-Allow-Origin': '*',
       // TODO enable when in production
       // secure: req.secure || req.headers('x-forward-proto') === 'https',
    };

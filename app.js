@@ -91,8 +91,8 @@ if (process.env.NODE_ENV) {
    );
 }
 
-// // 3) ROUTES
-app.use('/', cors(), viewRouter);
+// // // 3) ROUTES
+// app.use('/', cors(), viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/auth', authRouter);

@@ -12,14 +12,15 @@ const Account = (props) => {
       // Update the state
       setPhoto(event.target.files[0]);
    };
-   const updateSettings = (e) => {
+   const updateSettings = (e, type) => {
       e.preventDefault();
       // Create an object of formData
       const formData = new FormData();
       formData.append('name', name);
       formData.append('email', email);
       formData.append('photo', photo);
-      updateUser(formData);
+      console.log('exe');
+      updateUser(formData, type);
    };
 
    /*if (userEmail && userName) {
@@ -152,7 +153,7 @@ const Account = (props) => {
                      </div>
                      <div className="form__group right">
                         <button
-                           onClick={(e) => updateSettings(e)}
+                           onClick={(e) => updateSettings(e, 'data')}
                            className="btn btn--small btn--green"
                         >
                            Save settings

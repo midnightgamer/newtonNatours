@@ -1,11 +1,11 @@
 import { USER_LOAD_FAIL, USER_LOADED, USER_UPDATED } from './types';
 import axiosInstance from '../../axiosInstance';
 import { setAlert } from './alert';
+import axios from 'axios';
 
 export const loadCurrentUser = () => async (dispatch) => {
    try {
       const user = await axiosInstance.get('/users/me');
-      console.log(user);
       dispatch({
          type: USER_LOADED,
          payload: user.data.data.data,
@@ -15,14 +15,25 @@ export const loadCurrentUser = () => async (dispatch) => {
    }
 };
 
-export const updateUser = (body) => async (dispatch) => {
+export const updateUser = (body, type) => async (dispatch) => {
+   console.log(type);
    try {
-      const res = await axiosInstance.patch('/users/updateMe', body);
+      const url =
+         type === 'password' ? '/auth/changePassword' : '/users/updateMe';
+      const res = await axiosInstance({
+         method: 'PATCH',
+         url: url,
+         body,
+      });
       dispatch({
          type: USER_UPDATED,
          payload: res.data.data.user,
       });
-      dispatch(setAlert('success', 'Profile updated'));
+      if (type === 'password') {
+         dispatch(setAlert('success', 'Password updated'));
+      } else {
+         dispatch(setAlert('success', 'Profile updated'));
+      }
    } catch (e) {
       dispatch(setAlert('error', e));
    }

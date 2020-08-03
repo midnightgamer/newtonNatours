@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Account.css';
+import { Link } from 'react-router-dom';
 import { updateUser } from '../../store/action/profile';
 import { connect } from 'react-redux';
 
@@ -34,71 +35,64 @@ const Account = (props) => {
             <nav className="user-view__menu">
                <ul className="side-nav">
                   <li className="side-nav--active">
-                     <a href="#">
+                     <Link to={'/me'}>
                         <svg>
                            <use xlinkHref="/img/icons.svg#icon-settings" />
                         </svg>
                         Settings
-                     </a>
+                     </Link>
                   </li>
                   <li>
-                     <a href="#">
+                     <Link to={'/my-tours'}>
                         <svg>
                            <use xlinkHref="/img/icons.svg#icon-briefcase" />
                         </svg>
                         My bookings
-                     </a>
+                     </Link>
                   </li>
                   <li>
-                     <a href="#">
+                     <Link to={'/my-reviews'}>
                         <svg>
                            <use xlinkHref="/img/icons.svg#icon-star" />
                         </svg>
                         My reviews
-                     </a>
+                     </Link>
                   </li>
                   <li>
-                     <a href="#">
+                     <Link to={'/billings'}>
                         <svg>
                            <use xlinkHref="/img/icons.svg#icon-credit-card" />
                         </svg>
                         Billing
-                     </a>
+                     </Link>
                   </li>
                </ul>
                <div className="admin-nav">
                   <h5 className="admin-nav__heading">Admin</h5>
                   <ul className="side-nav">
                      <li>
-                        <a href="#">
+                        <Link to={'/tours'}>
                            <svg>
                               <use xlinkHref="/img/icons.svg#icon-map" />
                            </svg>
                            Manage tours
-                        </a>
+                        </Link>
                      </li>
                      <li>
-                        <a href="#">
+                        <Link to={'/users'}>
                            <svg>
                               <use xlinkHref="/img/icons.svg#icon-users" />
                            </svg>
                            Manage users
-                        </a>
+                        </Link>
                      </li>
                      <li>
-                        <a href="#">
+                        <Link to={'/reviews'}>
                            <svg>
                               <use xlinkHref="/img/icons.svg#icon-star" />
                            </svg>
                            Manage reviews
-                        </a>
-                     </li>
-                     <li>
-                        <a href="#">
-                           <svg>
-                              <use xlinkHref="/img/icons.svg#icon-briefcase" />
-                           </svg>
-                        </a>
+                        </Link>
                      </li>
                   </ul>
                </div>

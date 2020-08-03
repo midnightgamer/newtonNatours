@@ -1,10 +1,4 @@
-import {
-   LOADED,
-   LOADING,
-   USER_LOAD_FAIL,
-   USER_LOADED,
-   USER_UPDATED,
-} from '../action/types';
+import { USER_LOAD_FAIL, USER_LOADED, USER_UPDATED } from '../action/types';
 import produce from 'immer';
 
 const initialState = {

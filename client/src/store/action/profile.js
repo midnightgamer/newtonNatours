@@ -1,7 +1,6 @@
 import { USER_LOAD_FAIL, USER_LOADED, USER_UPDATED } from './types';
 import axiosInstance from '../../axiosInstance';
 import { setAlert } from './alert';
-import axios from 'axios';
 
 export const loadCurrentUser = () => async (dispatch) => {
    try {

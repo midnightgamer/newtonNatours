@@ -1,4 +1,4 @@
-import { LOAD_SINGLE_TOUR, LOAD_TOURS, LOADED, LOADING } from '../action/types';
+import { LOAD_SINGLE_TOUR, LOAD_TOURS } from '../action/types';
 import produce from 'immer';
 
 const initialState = {

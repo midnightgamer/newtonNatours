@@ -22,7 +22,8 @@ const Overview = ({ tours }) => {
       </main>
    );
 };
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
    tours: state.tours.tours,
+   cookies: ownProps.cookies,
 });
 export default connect(mapStateToProps, { loadTours })(Overview);

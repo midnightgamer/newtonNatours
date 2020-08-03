@@ -1,8 +1,15 @@
-import { USER_LOADED, USER_UPDATED } from '../action/types';
+import {
+   LOADED,
+   LOADING,
+   USER_LOAD_FAIL,
+   USER_LOADED,
+   USER_UPDATED,
+} from '../action/types';
 import produce from 'immer';
 
 const initialState = {
    users: null,
+   isLoading: true,
 };
 
 export default produce((draft = initialState, action) => {
@@ -11,6 +18,10 @@ export default produce((draft = initialState, action) => {
       case USER_LOADED:
       case USER_UPDATED:
          draft.users = payload;
+         draft.isLoading = false;
+         return draft;
+      case USER_LOAD_FAIL:
+         draft.user = null;
          return draft;
       default:
          return draft;

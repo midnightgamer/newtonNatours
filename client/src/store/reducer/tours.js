@@ -1,10 +1,10 @@
-import { LOAD_SINGLE_TOUR, LOAD_TOURS } from '../action/types';
+import { LOAD_SINGLE_TOUR, LOAD_TOURS, LOADED, LOADING } from '../action/types';
 import produce from 'immer';
 
 const initialState = {
    tours: [],
    tour: null,
-   loading: true,
+   isLoading: true,
 };
 
 export default produce((draft = initialState, action) => {
@@ -12,11 +12,11 @@ export default produce((draft = initialState, action) => {
    switch (type) {
       case LOAD_TOURS:
          draft.tours = payload;
-         draft.loading = false;
+         draft.isLoading = false;
          return draft;
       case LOAD_SINGLE_TOUR:
-         draft.loading = false;
          draft.tour = payload;
+         draft.isLoading = false;
          return draft;
       default:
          return draft;

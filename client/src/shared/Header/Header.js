@@ -1,22 +1,29 @@
 import React from 'react';
 import './header.css';
 import { connect } from 'react-redux';
-import userImage from '../../assets/img/users/user-1.jpg';
 import logoWhite from '../../assets/img/logo-white.png';
 import { Link } from 'react-router-dom';
 
-const Header = ({ isAuthenticated }) => {
-   const authLinks = (
-      <nav className="nav nav--user">
-         <Link to="/my-tours" className="nav__el">
-            Logout
-         </Link>
-         <Link to="/me" className="nav__el">
-            <img src={userImage} alt="User" className="nav__user-img" />
-            <span>Jonas</span>
-         </Link>
-      </nav>
-   );
+const Header = ({ isAuthenticated, user }) => {
+   let authLinks = '';
+   if (user) {
+      const { name, photo } = user;
+      authLinks = (
+         <nav className="nav nav--user">
+            <Link to="/my-tours" className="nav__el">
+               Logout
+            </Link>
+            <Link to="/me" className="nav__el">
+               <img
+                  src={`${process.env.REACT_APP_API_ROUTE}/img/users/${photo}`}
+                  alt="User"
+                  className="nav__user-img"
+               />
+               <span>{name.split(' ')[0]}</span>
+            </Link>
+         </nav>
+      );
+   }
    const guestLinks = (
       <nav className="nav nav--user">
          <Link className="nav__el" to="/login">
@@ -53,8 +60,8 @@ const Header = ({ isAuthenticated }) => {
       </header>
    );
 };
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state) => ({
    isAuthenticated: state.auth.isAuthenticated,
-   cookies: ownProps.cookies,
+   user: state.profile.users,
 });
 export default connect(mapStateToProps)(Header);

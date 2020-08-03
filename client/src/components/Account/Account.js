@@ -4,9 +4,9 @@ import { updateUser } from '../../store/action/profile';
 import { connect } from 'react-redux';
 
 const Account = (props) => {
-   const { updateUser } = props;
-   const [name, setName] = useState(props.user.user.name);
-   const [email, setEmail] = useState(props.user.user.email);
+   const { updateUser, user } = props;
+   const [name, setName] = useState(user.name);
+   const [email, setEmail] = useState(user.email);
 
    /*if (userEmail && userName) {
       setName(userName);
@@ -123,7 +123,7 @@ const Account = (props) => {
                      <div className="form__group form__photo-upload">
                         <img
                            className="form__user-photo"
-                           src="/img/user.jpg"
+                           src={`${process.env.REACT_APP_API_ROUTE}/img/users/${user.photo}`}
                            alt="User"
                         />
                         <a className="btn-text" href="">
@@ -210,6 +210,6 @@ const Account = (props) => {
    );
 };
 const mapStateToPro = (state) => ({
-   user: state.profile.users.data,
+   user: state.profile.users,
 });
 export default connect(mapStateToPro, { updateUser })(Account);

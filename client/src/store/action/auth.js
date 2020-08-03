@@ -1,7 +1,6 @@
 import { LOGIN_FAIL, LOGIN_SUCCESS } from './types';
 import axios from '../../axiosInstance';
 import { setAlert } from './alert';
-import { loadUser } from './profile';
 //Login User
 export const loginUser = (email, password) => async (dispatch) => {
    const config = {
@@ -16,15 +15,11 @@ export const loginUser = (email, password) => async (dispatch) => {
       password,
    });
    try {
-      const res = await axios.post('/auth/login', body, config);
-      console.log(res);
-      /* cookies.set('jwt', res.data.token, { path: '/' });
-       console.log(cookies);*/
+      await axios.post('/auth/login', body, config);
       dispatch({
          type: LOGIN_SUCCESS,
       });
-      dispatch(loadUser(res.data));
-      dispatch(setAlert('success', res.data.status));
+      dispatch(setAlert('success', 'Logged in successfully'));
    } catch (e) {
       dispatch({
          type: LOGIN_FAIL,

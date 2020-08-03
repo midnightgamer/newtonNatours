@@ -1,12 +1,18 @@
-import { USER_LOADED, USER_UPDATED } from './types';
+import { USER_LOAD_FAIL, USER_LOADED, USER_UPDATED } from './types';
 import axiosInstance from '../../axiosInstance';
 import { setAlert } from './alert';
 
-export const loadUser = (user) => (dispatch) => {
-   dispatch({
-      type: USER_LOADED,
-      payload: user,
-   });
+export const loadCurrentUser = () => async (dispatch) => {
+   try {
+      const user = await axiosInstance.get('/users/me');
+      console.log(user);
+      dispatch({
+         type: USER_LOADED,
+         payload: user.data.data.data,
+      });
+   } catch (e) {
+      dispatch({ type: USER_LOAD_FAIL });
+   }
 };
 
 export const updateUser = (body) => async (dispatch) => {

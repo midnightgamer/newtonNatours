@@ -92,7 +92,7 @@ app.use((req, res, next) => {
 } */
 //    set static assets folder
 app.use(express.static('public'));
-app.use(express.static(path.join(__dirname, 'client', 'build', 'index.html')));
+app.use(express.static(path.join(__dirname, '/client/build')));
 
 // // // 3) ROUTES
 // app.use('/', cors(), viewRouter);
@@ -102,10 +102,9 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/bookings', bookingRouter);
 
-app.get('*', (req, res) => {
-   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+app.get('/', (req, res) => {
+   res.sendFile(path.join(`${__dirname}/client/build/index.html`));
 });
-
 app.all('*', (req, res, next) => {
    next(new AppError(`Can't find ${req.originalUrl} not found`, 404));
 });

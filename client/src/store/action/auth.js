@@ -3,7 +3,7 @@ import axios from '../../axiosInstance';
 import { setAlert } from './alert';
 import { loadUser } from './profile';
 //Login User
-export const loginUser = (email, password, cookies) => async (dispatch) => {
+export const loginUser = (email, password) => async (dispatch) => {
    const config = {
       headers: {
          'Content-Type': 'application/json',

@@ -3,7 +3,10 @@ import axiosInstance from '../../axiosInstance';
 
 export const loadTours = () => async (dispatch) => {
    try {
-      const tours = await axiosInstance.get('/tours');
+      const tours = await axiosInstance.get('/tours', {
+         withCredentials: true,
+      });
+      console.log(tours);
       dispatch({
          type: LOAD_TOURS,
          payload: tours.data.data.data,

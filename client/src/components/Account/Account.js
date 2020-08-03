@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Account.css';
+import { updateUser } from '../../store/action/profile';
 import { connect } from 'react-redux';
 
-const Account = ({ user }) => {
-   const { email } = user.user;
-   console.log(email);
+const Account = (props) => {
+   const { updateUser } = props;
+   const [name, setName] = useState(props.user.user.name);
+   const [email, setEmail] = useState(props.user.user.email);
+
+   /*if (userEmail && userName) {
+      setName(userName);
+      setEmail(userEmail);
+      console.log(userEmail,userEmail);
+   }*/
    return (
       <main className="main">
          <div className="user-view">
@@ -94,7 +102,8 @@ const Account = ({ user }) => {
                            className="form__input"
                            id="name"
                            type="text"
-                           value="Jonas Schmedtmann"
+                           value={name}
+                           onChange={(e) => setName(e.target.value)}
                            required="required"
                         />
                      </div>
@@ -106,7 +115,8 @@ const Account = ({ user }) => {
                            className="form__input"
                            id="email"
                            type="email"
-                           value="admin@natours.io"
+                           value={email}
+                           onChange={(e) => setEmail(e.target.value)}
                            required="required"
                         />
                      </div>
@@ -121,7 +131,16 @@ const Account = ({ user }) => {
                         </a>
                      </div>
                      <div className="form__group right">
-                        <button className="btn btn--small btn--green">
+                        <button
+                           onClick={(e) => {
+                              e.preventDefault();
+                              updateUser({
+                                 name,
+                                 email,
+                              });
+                           }}
+                           className="btn btn--small btn--green"
+                        >
                            Save settings
                         </button>
                      </div>
@@ -193,4 +212,4 @@ const Account = ({ user }) => {
 const mapStateToPro = (state) => ({
    user: state.profile.users.data,
 });
-export default connect(mapStateToPro)(Account);
+export default connect(mapStateToPro, { updateUser })(Account);

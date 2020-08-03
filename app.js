@@ -83,17 +83,16 @@ app.use((req, res, next) => {
    next();
 });
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV) {
    //    set static assets folder
-   app.use(express.static(`${__dirname}/public`));
-
-   app.get('*', (req, res) => {
-      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-   });
+   app.use('/', express.static('public'));
+   app.use(
+      express.static(path.join(__dirname, 'client', 'build', 'index.html'))
+   );
 }
 
 // // 3) ROUTES
-// app.use('/', cors(), viewRouter);
+app.use('/', cors(), viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/auth', authRouter);

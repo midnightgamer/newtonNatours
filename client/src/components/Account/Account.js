@@ -7,6 +7,20 @@ const Account = (props) => {
    const { updateUser, user } = props;
    const [name, setName] = useState(user.name);
    const [email, setEmail] = useState(user.email);
+   const [photo, setPhoto] = useState(null);
+   const onFileChange = (event) => {
+      // Update the state
+      setPhoto(event.target.files[0]);
+   };
+   const updateSettings = (e) => {
+      e.preventDefault();
+      // Create an object of formData
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('photo', photo);
+      updateUser(formData);
+   };
 
    /*if (userEmail && userName) {
       setName(userName);
@@ -124,21 +138,21 @@ const Account = (props) => {
                         <img
                            className="form__user-photo"
                            src={`${process.env.REACT_APP_API_ROUTE}/img/users/${user.photo}`}
-                           alt="User"
+                           alt="User "
                         />
-                        <a className="btn-text" href="">
-                           Choose new photo
-                        </a>
+                        <input
+                           className="form__upload"
+                           type="file"
+                           accept="image/*"
+                           id="photo"
+                           onChange={(e) => onFileChange(e)}
+                           name="photo"
+                        />
+                        <label htmlFor="photo">Choose new photo</label>
                      </div>
                      <div className="form__group right">
                         <button
-                           onClick={(e) => {
-                              e.preventDefault();
-                              updateUser({
-                                 name,
-                                 email,
-                              });
-                           }}
+                           onClick={(e) => updateSettings(e)}
                            className="btn btn--small btn--green"
                         >
                            Save settings

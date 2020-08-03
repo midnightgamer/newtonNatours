@@ -18,10 +18,9 @@ export const loadCurrentUser = () => async (dispatch) => {
 export const updateUser = (body) => async (dispatch) => {
    try {
       const res = await axiosInstance.patch('/users/updateMe', body);
-      console.log(res);
       dispatch({
          type: USER_UPDATED,
-         payload: res.data,
+         payload: res.data.data.user,
       });
       dispatch(setAlert('success', 'Profile updated'));
    } catch (e) {

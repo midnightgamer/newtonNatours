@@ -90,14 +90,12 @@ app.use((req, res, next) => {
       express.static(path.join(__dirname, 'client', 'build', 'index.html'))
    );
 } */
-if (process.env.NODE_ENV === 'production') {
-   //    set static assets folder
-   app.use('/', express.static('public'));
-   app.use(express.static(path.join(__dirname, 'client/build')));
-   app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, 'client/build/index.html'));
-   });
-}
+//    set static assets folder
+app.use('/', express.static('public'));
+app.use(express.static(path.join(__dirname, 'client/build')));
+app.get('*', (req, res) => {
+   res.sendFile(path.join(__dirname, 'client/build/index.html'));
+});
 
 // // // 3) ROUTES
 // app.use('/', cors(), viewRouter);

@@ -25,7 +25,7 @@ app.enable('trust proxy');
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 // Static file serving
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 // 1) MIDDLEWARES
 if (process.env.NODE_ENV === 'development') {
@@ -83,7 +83,7 @@ app.use((req, res, next) => {
    next();
 });
 
-if (process.env.NODE_ENV) {
+if (process.env.NODE_ENV === 'production') {
    //    set static assets folder
    app.use('/', express.static('public'));
    app.use(

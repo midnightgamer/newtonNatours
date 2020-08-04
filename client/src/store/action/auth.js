@@ -20,7 +20,7 @@ export const loginUser = (email, password) => async (dispatch) => {
       dispatch({
          type: LOGIN_SUCCESS,
       });
-      dispatch(logoutUser());
+      dispatch(loadCurrentUser());
       dispatch(setAlert('success', 'Logged in successfully'));
    } catch (e) {
       dispatch({

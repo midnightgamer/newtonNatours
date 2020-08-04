@@ -4,7 +4,7 @@ import { BOOK_TOUR } from './types';
 import Stripe from 'stripe';
 
 export const bookTour = (tourId) => async (dispatch) => {
-   const stripe = Stripe(
+   const stripe = new Stripe(
       'pk_test_51H9VXXH8UAzj9LgCkkEB00ENpsyq4FedxIEdJMbVpcKAx7nvWkNnTz2cUWWPDavI1DSqZXQBpBVTnVLWxB73Ri3q00T6V5FT4x'
    );
    try {

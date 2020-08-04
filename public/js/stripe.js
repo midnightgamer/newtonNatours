@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { showAlert } from './alert';
-
-const stripe = Stripe(
+const stripe = stripe(
    'pk_test_51H9VXXH8UAzj9LgCkkEB00ENpsyq4FedxIEdJMbVpcKAx7nvWkNnTz2cUWWPDavI1DSqZXQBpBVTnVLWxB73Ri3q00T6V5FT4x'
 );
 

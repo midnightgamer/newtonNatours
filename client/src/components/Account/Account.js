@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './Account.css';
-import { Link } from 'react-router-dom';
 import { updateUser } from '../../store/action/profile';
 import { connect } from 'react-redux';
+import Sidenav from '../../shared/Sidenav/Sidenav';
 
 const Account = (props) => {
    const { updateUser, user } = props;
@@ -37,80 +37,10 @@ const Account = (props) => {
          await updateUser(formData, type);
       }
    };
-
-   /*if (userEmail && userName) {
-      setName(userName);
-      setEmail(userEmail);
-      console.log(userEmail,userEmail);
-   }*/
    return (
       <main className="main">
          <div className="user-view">
-            <nav className="user-view__menu">
-               <ul className="side-nav">
-                  <li className="side-nav--active">
-                     <Link to={'/me'}>
-                        <svg>
-                           <use xlinkHref="/img/icons.svg#icon-settings" />
-                        </svg>
-                        Settings
-                     </Link>
-                  </li>
-                  <li>
-                     <Link to={'/my-tours'}>
-                        <svg>
-                           <use xlinkHref="/img/icons.svg#icon-briefcase" />
-                        </svg>
-                        My bookings
-                     </Link>
-                  </li>
-                  <li>
-                     <Link to={'/my-reviews'}>
-                        <svg>
-                           <use xlinkHref="/img/icons.svg#icon-star" />
-                        </svg>
-                        My reviews
-                     </Link>
-                  </li>
-                  <li>
-                     <Link to={'/billings'}>
-                        <svg>
-                           <use xlinkHref="/img/icons.svg#icon-credit-card" />
-                        </svg>
-                        Billing
-                     </Link>
-                  </li>
-               </ul>
-               <div className="admin-nav">
-                  <h5 className="admin-nav__heading">Admin</h5>
-                  <ul className="side-nav">
-                     <li>
-                        <Link to={'/tours'}>
-                           <svg>
-                              <use xlinkHref="/img/icons.svg#icon-map" />
-                           </svg>
-                           Manage tours
-                        </Link>
-                     </li>
-                     <li>
-                        <Link to={'/users'}>
-                           <svg>
-                              <use xlinkHref="/img/icons.svg#icon-users" />
-                           </svg>
-                           Manage users
-                        </Link>
-                     </li>
-                     <li>
-                        <Link to={'/reviews'}>
-                           <svg>
-                              <use xlinkHref="/img/icons.svg#icon-star" />
-                           </svg>
-                           Manage reviews
-                        </Link>
-                     </li>
-                  </ul>
-               </div>
-            </nav>
+            <Sidenav />
             <div className="user-view__content">
                <div className="user-view__form-container">
                   <h2 className="heading-secondary ma-bt-md">

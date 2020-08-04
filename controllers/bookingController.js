@@ -3,7 +3,7 @@ const Tour = require('../modals/tourModel');
 const User = require('../modals/userModal');
 const Booking = require('../modals/bookingModal');
 const catchAsync = require('../utils/catchAsync');
-// const AppError = require('../utils/appError');
+const AppError = require('../utils/appError');
 // eslint-disable-next-line import/order
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
@@ -34,6 +34,12 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       ],
    });
    //    3 Send to client
+   if (!session) {
+      res.status(200).json({
+         status: 'fail',
+         session,
+      });
+   }
    res.status(200).json({
       status: 'success',
       session,
@@ -68,6 +74,20 @@ exports.webhookCheckout = (req, res, next) => {
    }
    res.status(200).json({ received: true });
 };
+exports.getUserAllBooking = catchAsync(async (req, res, next) => {
+   const bookings = await Booking.find({ user: req.params.id });
+   console.log(bookings);
+   if (!bookings.length) {
+      next(new AppError(204, 'No Booking Found'));
+   }
+   res.status(200).json({
+      status: 'success',
+      results: bookings.length,
+      data: {
+         data: bookings,
+      },
+   });
+});
 exports.createBooking = factory.createOne(Booking);
 exports.getBooking = factory.getOne(Booking);
 exports.getAllBooking = factory.getAll(Booking);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import TourCard from '../../shared/TourCard/TourCard';
 import { connect } from 'react-redux';
 import './Overview.css';
@@ -8,6 +8,7 @@ import { loadTours } from '../../store/action/tours';
 const Overview = ({ tours }) => {
    useEffect(() => {
       reduxStore.dispatch(loadTours());
+      console.count('');
    }, []);
 
    let tour = [];
@@ -22,8 +23,7 @@ const Overview = ({ tours }) => {
       </main>
    );
 };
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state) => ({
    tours: state.tours.tours,
-   cookies: ownProps.cookies,
 });
 export default connect(mapStateToProps, { loadTours })(Overview);

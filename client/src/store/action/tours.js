@@ -1,5 +1,6 @@
-import { LOAD_SINGLE_TOUR, LOAD_TOURS } from './types';
+import { GET_BOOKED_TOURS, LOAD_SINGLE_TOUR, LOAD_TOURS } from './types';
 import axiosInstance from '../../axiosInstance';
+import { setAlert } from './alert';
 
 export const loadTours = () => async (dispatch) => {
    try {
@@ -14,7 +15,20 @@ export const loadTours = () => async (dispatch) => {
       console.log(e);
    }
 };
-
+export const loadBookedTours = (userId) => async (dispatch) => {
+   try {
+      const bookedTours = await axiosInstance.get(
+         `/bookings/my-bookings/${userId}`
+      );
+      console.log(bookedTours);
+      dispatch({
+         type: GET_BOOKED_TOURS,
+         payload: bookedTours.data.data.data,
+      });
+   } catch (e) {
+      setAlert('error', e.response.data.message);
+   }
+};
 export const setSingleTour = (slug) => async (dispatch) => {
    try {
       const tour = await axiosInstance.get(`/tours/${slug}`);
@@ -26,5 +40,3 @@ export const setSingleTour = (slug) => async (dispatch) => {
       console.log(e);
    }
 };
-
-export const clearSingleTour = () => async (dispatch) => {};

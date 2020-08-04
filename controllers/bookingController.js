@@ -8,6 +8,7 @@ const catchAsync = require('../utils/catchAsync');
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
+   console.log('session checkout crea');
    //   Get currently booked tour
    const tour = await Tour.findById(req.params.tourID);
    //    2 Create Checkout session
@@ -50,6 +51,7 @@ exports.createBookingCheckout = catchAsync(async (req, res, next) => {
    res.redirect(req.originalUrl.split('?')[0]);
 }); */
 const createBookingCheckout = async (sessionData) => {
+   console.log('session checkout');
    const tour = sessionData.client_reference_id;
    const user = (await User.findOne({ email: sessionData.customer_email })).id;
    const price = sessionData.display_items[0].amount / 100;
@@ -60,6 +62,7 @@ const createBookingCheckout = async (sessionData) => {
    });
 };
 exports.webhookCheckout = (req, res, next) => {
+   console.log('webhook');
    const signature = req.headers['stripe-signature'];
    let event;
    try {

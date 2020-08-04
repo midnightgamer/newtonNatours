@@ -105,6 +105,9 @@ app.use('/api/v1/bookings', bookingRouter);
 app.get('/', (req, res) => {
    res.sendFile(path.join(`${__dirname}/client/build/index.html`));
 });
+app.use((err, req, res, next) => {
+   next(new AppError(err, err));
+});
 app.all('*', (req, res, next) => {
    next(new AppError(`Can't find ${req.originalUrl} not found`, 404));
 });

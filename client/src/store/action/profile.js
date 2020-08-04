@@ -14,15 +14,14 @@ export const loadCurrentUser = () => async (dispatch) => {
    }
 };
 
-export const updateUser = (body, type) => async (dispatch) => {
-   console.log(type);
+export const updateUser = (data, type) => async (dispatch) => {
    try {
       const url =
          type === 'password' ? '/auth/changePassword' : '/users/updateMe';
       const res = await axiosInstance({
          method: 'PATCH',
          url: url,
-         body,
+         data,
       });
       dispatch({
          type: USER_UPDATED,
@@ -34,6 +33,6 @@ export const updateUser = (body, type) => async (dispatch) => {
          dispatch(setAlert('success', 'Profile updated'));
       }
    } catch (e) {
-      dispatch(setAlert('error', e));
+      dispatch(setAlert('error', e.response.data.message));
    }
 };

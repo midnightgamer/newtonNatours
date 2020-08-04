@@ -21,9 +21,15 @@ export const loginUser = (email, password) => async (dispatch) => {
       });
       dispatch(setAlert('success', 'Logged in successfully'));
    } catch (e) {
+      console.log(e.response);
       dispatch({
          type: LOGIN_FAIL,
       });
       dispatch(setAlert('error', e.message));
    }
+};
+export const logoutUser = () => async (dispatch) => {
+   try {
+      await axios.get('/auth/logout');
+   } catch (e) {}
 };

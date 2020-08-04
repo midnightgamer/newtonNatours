@@ -9,19 +9,33 @@ const Account = (props) => {
    const [name, setName] = useState(user.name);
    const [email, setEmail] = useState(user.email);
    const [photo, setPhoto] = useState(null);
+   const [currentPassword, setCurrentPassword] = useState('');
+   const [password, setPassword] = useState('');
+   const [passwordConfirm, setPasswordConfirm] = useState('');
+   const formData = new FormData();
+
    const onFileChange = (event) => {
       // Update the state
       setPhoto(event.target.files[0]);
    };
-   const updateSettings = (e, type) => {
+   const updateSettings = async (e, type) => {
       e.preventDefault();
       // Create an object of formData
-      const formData = new FormData();
-      formData.append('name', name);
-      formData.append('email', email);
-      formData.append('photo', photo);
-      console.log('exe');
-      updateUser(formData, type);
+      if (type === 'password') {
+         await updateUser(
+            {
+               currentPassword,
+               password,
+               passwordConfirm,
+            },
+            type
+         );
+      } else {
+         formData.append('name', name);
+         formData.append('email', email);
+         formData.append('photo', photo);
+         await updateUser(formData, type);
+      }
    };
 
    /*if (userEmail && userName) {
@@ -112,7 +126,10 @@ const Account = (props) => {
                            id="name"
                            type="text"
                            value={name}
-                           onChange={(e) => setName(e.target.value)}
+                           onChange={(e) => {
+                              setName(e.target.value);
+                              formData.append('name', e.target.value);
+                           }}
                            required="required"
                         />
                      </div>
@@ -132,7 +149,7 @@ const Account = (props) => {
                      <div className="form__group form__photo-upload">
                         <img
                            className="form__user-photo"
-                           src={`${process.env.REACT_APP_API_ROUTE}/img/users/${user.photo}`}
+                           src={`/img/users/${user.photo}`}
                            alt="User "
                         />
                         <input
@@ -173,6 +190,7 @@ const Account = (props) => {
                            id="password-current"
                            type="password"
                            placeholder="••••••••"
+                           onChange={(e) => setCurrentPassword(e.target.value)}
                            required="required"
                            minLength="8"
                         />
@@ -185,6 +203,7 @@ const Account = (props) => {
                            className="form__input"
                            id="password"
                            type="password"
+                           onChange={(e) => setPassword(e.target.value)}
                            placeholder="••••••••"
                            required="required"
                            minLength="8"
@@ -201,13 +220,17 @@ const Account = (props) => {
                            className="form__input"
                            id="password-confirm"
                            type="password"
+                           onChange={(e) => setPasswordConfirm(e.target.value)}
                            placeholder="••••••••"
                            required="required"
                            minLength="8"
                         />
                      </div>
                      <div className="form__group right">
-                        <button className="btn btn--small btn--green">
+                        <button
+                           className="btn btn--small btn--green"
+                           onClick={(e) => updateSettings(e, 'password')}
+                        >
                            Save password
                         </button>
                      </div>

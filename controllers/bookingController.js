@@ -4,6 +4,7 @@ const User = require('../modals/userModal');
 const Booking = require('../modals/bookingModal');
 const catchAsync = require('../utils/catchAsync');
 // const AppError = require('../utils/appError');
+// eslint-disable-next-line import/order
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {

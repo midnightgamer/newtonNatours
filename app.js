@@ -17,6 +17,7 @@ const userRouter = require('./routes/userRoute');
 const authRouter = require('./routes/authRoute');
 const reviewRouter = require('./routes/reviewRoute');
 const viewRouter = require('./routes/viewRoutes');
+const { createBookingCheckout } = require('./controllers/bookingController');
 const bookingRouter = require('./routes/bookingRoute');
 const { webhookCheckout } = require('./controllers/bookingController');
 
@@ -95,7 +96,7 @@ app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, '/client/build')));
 
 // // // 3) ROUTES
-// app.use('/', cors(), viewRouter);
+app.use('/', cors(), viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/auth', authRouter);

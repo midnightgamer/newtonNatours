@@ -16,3 +16,5 @@ export const USER_DELETE = 'USER_DELETE';
 export const USER_UPDATED = 'USER_UPDATED';
 export const USER_LOAD_FAIL = 'USER_LOAD_FAIL';
 export const USER_LOADED = 'USER_LOADED';
+
+export const BOOK_TOUR = 'BOOK_TOUR';

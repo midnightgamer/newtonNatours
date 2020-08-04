@@ -2,16 +2,27 @@ import React, { Fragment, useEffect } from 'react';
 import './Tour.css';
 import { connect } from 'react-redux';
 import { setSingleTour } from '../../store/action/tours';
+import { bookTour } from '../../store/action/booking';
 import Starts from '../../shared/Starts';
+import { Link } from 'react-router-dom';
 
 const Tour = (props) => {
-   const { tour, loading, setSingleTour, match } = props;
+   const {
+      tour,
+      loading,
+      setSingleTour,
+      match,
+      isAuthenticated,
+      bookTour,
+   } = props;
 
    useEffect(() => {
       const scriptTag = document.createElement('script');
-      scriptTag.src = 'http://localhost:5000/js/mapBox.js';
+      scriptTag.src = '/js/mapBox.js';
       scriptTag.async = true;
       document.body.appendChild(scriptTag);
+      const stripe = document.createElement('script');
+      //Load tour by slug
       setSingleTour(match.params.slug);
    }, [match.params.slug, setSingleTour]);
    return loading || tour === null ? (
@@ -205,9 +216,22 @@ const Tour = (props) => {
                      {tour.duration} days. 1 adventure. Infinite memories. Make
                      it yours today!
                   </p>
-                  <button className="btn btn--green span-all-rows">
-                     Book tour now!
-                  </button>
+                  {isAuthenticated ? (
+                     <button
+                        id="bookTour"
+                        className="btn btn--green span-all-rows"
+                        onClick={() => bookTour(tour.id)}
+                     >
+                        Book tour now!
+                     </button>
+                  ) : (
+                     <Link
+                        to={'/login'}
+                        className="btn btn--green span-all-rows"
+                     >
+                        Login to book tour now!
+                     </Link>
+                  )}
                </div>
             </div>
          </section>
@@ -215,7 +239,8 @@ const Tour = (props) => {
    );
 };
 const mapStateToProps = (state) => ({
+   isAuthenticated: state.auth.isAuthenticated,
    tour: state.tours.tour,
    loading: state.tours.loading,
 });
-export default connect(mapStateToProps, { setSingleTour })(Tour);
+export default connect(mapStateToProps, { setSingleTour, bookTour })(Tour);

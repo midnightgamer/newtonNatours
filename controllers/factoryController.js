@@ -48,6 +48,7 @@ exports.createOne = (Model) => {
 };
 
 exports.getOne = (Model, populateOptions) => {
+   console.log('fac');
    return catchAsync(async (req, res, next) => {
       let query = Model.findById(req.params.id);
       if (populateOptions) query = query.populate(populateOptions);

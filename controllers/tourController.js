@@ -74,11 +74,6 @@ exports.aliasTopTours = catchAsync((req, res, next) => {
 
 exports.getAllTours = getAll(Tour);
 
-exports.getTour = getOne(Tour, { path: 'reviews' });
-exports.createTour = createOne(Tour);
-exports.updateTour = updateOne(Tour);
-exports.deleteTour = deleteOne(Tour);
-
 exports.getTourBySlug = catchAsync(async (req, res, next) => {
    const tour = await Tour.findOne({ slug: req.params.slug }).populate({
       path: 'reviews',
@@ -94,6 +89,12 @@ exports.getTourBySlug = catchAsync(async (req, res, next) => {
       },
    });
 });
+
+exports.getTour = getOne(Tour, { path: 'reviews' });
+exports.createTour = createOne(Tour);
+exports.updateTour = updateOne(Tour);
+exports.deleteTour = deleteOne(Tour);
+
 exports.getTourStats = catchAsync(async (req, res) => {
    const stats = await Tour.aggregate([
       {

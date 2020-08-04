@@ -17,9 +17,7 @@ export const loadTours = () => async (dispatch) => {
 
 export const setSingleTour = (slug) => async (dispatch) => {
    try {
-      const tour = await axiosInstance.get(`/tours/${slug}`, {
-         withCredentials: true,
-      });
+      const tour = await axiosInstance.get(`/tours/${slug}`);
       dispatch({
          type: LOAD_SINGLE_TOUR,
          payload: tour.data.data.tour,

@@ -1,4 +1,9 @@
-import { USER_LOAD_FAIL, USER_LOADED, USER_UPDATED } from '../action/types';
+import {
+   LOGOUT,
+   USER_LOAD_FAIL,
+   USER_LOADED,
+   USER_UPDATED,
+} from '../action/types';
 import produce from 'immer';
 
 const initialState = {
@@ -15,6 +20,7 @@ export default produce((draft = initialState, action) => {
          draft.isLoading = false;
          return draft;
       case USER_LOAD_FAIL:
+      case LOGOUT:
          draft.user = null;
          return draft;
       default:

@@ -2,20 +2,21 @@ import React from 'react';
 import './header.css';
 import { connect } from 'react-redux';
 import logoWhite from '../../assets/img/logo-white.png';
+import { logoutUser } from '../../store/action/auth';
 import { Link } from 'react-router-dom';
 
-const Header = ({ isAuthenticated, user }) => {
+const Header = ({ isAuthenticated, user, logoutUser }) => {
    let authLinks = '';
    if (user) {
       const { name, photo } = user;
       authLinks = (
          <nav className="nav nav--user">
-            <Link to="/my-tours" className="nav__el">
+            <Link to="/" onClick={logoutUser} className="nav__el">
                Logout
             </Link>
             <Link to="/me" className="nav__el">
                <img
-                  src={`${process.env.REACT_APP_API_ROUTE}/img/users/${photo}`}
+                  src={`/img/users/${photo}`}
                   alt="User"
                   className="nav__user-img"
                />
@@ -64,4 +65,4 @@ const mapStateToProps = (state) => ({
    isAuthenticated: state.auth.isAuthenticated,
    user: state.profile.users,
 });
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, { logoutUser })(Header);

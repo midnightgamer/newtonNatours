@@ -76,7 +76,6 @@ exports.logout = catchAsync(async (req, res, next) => {
    });
 });
 exports.protect = catchAsync(async (req, res, next) => {
-   console.log('protect request');
    // Get Token
    let token;
    if (

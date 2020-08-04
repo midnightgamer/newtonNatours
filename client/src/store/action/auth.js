@@ -1,4 +1,4 @@
-import { LOGIN_FAIL, LOGIN_SUCCESS } from './types';
+import { LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT } from './types';
 import axios from '../../axiosInstance';
 import { setAlert } from './alert';
 //Login User
@@ -21,15 +21,18 @@ export const loginUser = (email, password) => async (dispatch) => {
       });
       dispatch(setAlert('success', 'Logged in successfully'));
    } catch (e) {
-      console.log(e.response);
       dispatch({
          type: LOGIN_FAIL,
       });
-      dispatch(setAlert('error', e.message));
+      setAlert('error', e.response.data.message);
    }
 };
 export const logoutUser = () => async (dispatch) => {
    try {
       await axios.get('/auth/logout');
-   } catch (e) {}
+      dispatch({ type: LOGOUT });
+      setAlert('success', 'Logout Successfully');
+   } catch (e) {
+      setAlert('error', e.response.data.message);
+   }
 };

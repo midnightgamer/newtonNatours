@@ -1,6 +1,7 @@
 import { LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT } from './types';
 import axios from '../../axiosInstance';
 import { setAlert } from './alert';
+import { loadCurrentUser } from './profile';
 //Login User
 export const loginUser = (email, password) => async (dispatch) => {
    const config = {
@@ -19,6 +20,7 @@ export const loginUser = (email, password) => async (dispatch) => {
       dispatch({
          type: LOGIN_SUCCESS,
       });
+      dispatch(logoutUser());
       dispatch(setAlert('success', 'Logged in successfully'));
    } catch (e) {
       dispatch({

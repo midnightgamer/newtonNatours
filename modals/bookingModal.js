@@ -30,7 +30,7 @@ bookingSchema.pre(/^find/, function (next) {
          'imageCover',
          'ratingsAverage',
          'ratingsQuantity',
-         'slig',
+         'slug',
       ],
    });
    next();

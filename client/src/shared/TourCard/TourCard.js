@@ -32,13 +32,7 @@ const TourCard = (props) => {
             </div>
 
             <div className="card__details">
-               <h4 className="card__sub-heading">
-                  Booked At-{' '}
-                  {createdAt[0].toLocaleString('en-un', {
-                     month: 'long',
-                     year: 'numeric',
-                  })}
-               </h4>
+               <h4 className="card__sub-heading">Booked At- {createdAt}</h4>
                <p className="card__text">{paid ? 'Payment Success' : ''}</p>
             </div>
 

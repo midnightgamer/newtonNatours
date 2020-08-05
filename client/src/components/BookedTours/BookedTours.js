@@ -10,7 +10,7 @@ const BookedTours = ({ tours, user, loadBookedTours, bookedTours }) => {
    let tour = [];
    if (bookedTours && bookedTours.length > 0) {
       tour = bookedTours.map((el) => {
-         return <TourCard tour={el} key={el.name} type={'booked'} />;
+         return <TourCard tour={el} key={el.createdAt} type={'booked'} />;
       });
    }
    return (

@@ -79,7 +79,7 @@ const Login = (props) => {
    };
    const onSubmit = (e) => {
       e.preventDefault();
-      loginUser(email, password, cookies);
+      loginUser(email, password);
    };
 
    return login;

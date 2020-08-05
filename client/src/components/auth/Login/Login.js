@@ -56,7 +56,7 @@ const Login = (props) => {
                   </button>
                </div>
                <div className="form__group ">
-                  <Buttons to={'/resetPassword'} type={'text'}>
+                  <Buttons to={'/forgetPassword'} type={'text'}>
                      Forget password ? Reset
                   </Buttons>
                   <Buttons to={'/signup'} type={'text'}>

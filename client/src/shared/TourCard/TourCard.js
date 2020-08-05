@@ -35,7 +35,6 @@ const TourCard = (props) => {
                <h4 className="card__sub-heading">Booked At- {createdAt}</h4>
                <p className="card__text">{paid ? 'Payment Success' : ''}</p>
             </div>
-
             <div className="card__footer">
                <p>
                   <span className="card__footer-value">$ {price}</span>
@@ -47,7 +46,7 @@ const TourCard = (props) => {
                      rating ({ratingsQuantity})
                   </span>
                </p>
-               <Buttons to={`/tour/${slug}`}>Buy Again</Buttons>
+               <Buttons to={`/tour/${slug}`}>Add Review</Buttons>
             </div>
          </div>
       );

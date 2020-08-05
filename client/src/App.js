@@ -33,10 +33,10 @@ const App = (props) => {
             <Route path="/tour/:slug" component={Tour} />
             <Route path="/login" render={() => <Login />} />
             <Route path="/signup" component={Signup} />
+            <Route path="/resetPassword" component={ResetPassword} />
+            <Route path="/forgetPassword" component={ForgetPassword} />
             <PrivateRoute path="/my-bookings" component={BookedTours} />
             <PrivateRoute path="/me" component={Account} />
-            <PrivateRoute path="/resetPassword" component={ResetPassword} />
-            <PrivateRoute path="/forgetPassword" component={ForgetPassword} />
             <Footer />
          </BrowserRouter>
       </Provider>

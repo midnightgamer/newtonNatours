@@ -11,12 +11,10 @@ import { loadCurrentUser } from './profile';
 //Register user
 export const registerUser = (body) => async (dispatch) => {
    try {
-      const res = await axios.post('/auth/signup', body);
+      await axios.post('/auth/signup', body);
       dispatch({ type: REGISTER_SUCCESS });
-      console.log(res);
       dispatch(loadCurrentUser());
    } catch (e) {
-      console.log(e);
       dispatch({ type: REGISTER_FAIL });
    }
 };
@@ -55,5 +53,31 @@ export const logoutUser = () => async (dispatch) => {
       setAlert('success', 'Logout Successfully');
    } catch (e) {
       setAlert('error', e.response.data.message);
+   }
+};
+
+//ForgetPassword
+export const forgetPassword = (body) => async (dispatch) => {
+   try {
+      await axios.post('/auth/forgetPassword', { email: body });
+      dispatch(setAlert('success', 'Verification link sent to your mail'));
+   } catch (e) {
+      dispatch(setAlert('error', e.response.data.message));
+   }
+};
+
+//ResetPassword
+export const resetPassword = (props) => async (dispatch) => {
+   try {
+      const { path, password, passwordConfirm } = props;
+      console.log(props);
+      await axios.patch(`/auth${path}`, {
+         password,
+         passwordConfirm,
+      });
+      dispatch(setAlert('success', 'Password reset successfully'));
+   } catch (e) {
+      console.log(e);
+      dispatch(setAlert('error', e.response.data.message));
    }
 };

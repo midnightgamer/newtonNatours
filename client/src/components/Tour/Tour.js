@@ -1,8 +1,9 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import './Tour.css';
 import { connect } from 'react-redux';
 import { setSingleTour } from '../../store/action/tours';
 import { bookTour } from '../../store/action/booking';
+import { addNewReview } from '../../store/action/tours';
 import Starts from '../../shared/Starts';
 import { Link } from 'react-router-dom';
 
@@ -12,10 +13,13 @@ const Tour = (props) => {
       loading,
       setSingleTour,
       match,
+      user,
       isAuthenticated,
       bookTour,
+      addNewReview,
    } = props;
-
+   const [rating, setRating] = useState(0);
+   const [comment, setComment] = useState('');
    useEffect(() => {
       const scriptTag = document.createElement('script');
       scriptTag.src = '/js/mapBox.js';
@@ -25,6 +29,18 @@ const Tour = (props) => {
       //Load tour by slug
       setSingleTour(match.params.slug);
    }, [match.params.slug, setSingleTour]);
+
+   const onSubmit = (e) => {
+      e.preventDefault();
+      const data = {
+         review: comment,
+         rating,
+         tour: tour._id,
+         user: user._id,
+      };
+      addNewReview(data);
+   };
+
    return loading || tour === null ? (
       <div>Loading...</div>
    ) : (
@@ -176,7 +192,9 @@ const Tour = (props) => {
                   <div key={review.user.name} className="reviews__card">
                      <div className="reviews__avatar">
                         <img
-                           src={`/img/users/${review.user.photo}`}
+                           src={`/img/users/${
+                              review.user.photo ? review.user.photo : user.photo
+                           }`}
                            alt="Jim Brown"
                            className="reviews__avatar-img"
                         />
@@ -235,12 +253,53 @@ const Tour = (props) => {
                </div>
             </div>
          </section>
+         <section className="section-review">
+            <div className="container">
+               <div className="login-form">
+                  <h2 className="heading-secondary ma-bt-lg">Add Review</h2>
+                  <form className="form">
+                     <div className="form__group reviews-star">
+                        <Starts
+                           type="add-review"
+                           addRating={(i) => setRating(i)}
+                        />
+                     </div>
+                     <div className="form__group ma-bt-md">
+                        <label className="form__label" htmlFor="comment">
+                           Your Comment
+                        </label>
+                        <textarea
+                           className="form__input"
+                           id="comment"
+                           onChange={(e) => setComment(e.target.value)}
+                           required="required"
+                           minLength="8"
+                        />
+                     </div>
+                     <div className="form__group">
+                        <button
+                           type="submit"
+                           onClick={(e) => onSubmit(e)}
+                           className="btn btn--green"
+                        >
+                           Add Review
+                        </button>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </section>
       </Fragment>
    );
 };
 const mapStateToProps = (state) => ({
    isAuthenticated: state.auth.isAuthenticated,
    tour: state.tours.tour,
+   user: state.profile.users,
    loading: state.tours.loading,
 });
-export default connect(mapStateToProps, { setSingleTour, bookTour })(Tour);
+export default connect(mapStateToProps, {
+   setSingleTour,
+   bookTour,
+   addNewReview,
+})(Tour);

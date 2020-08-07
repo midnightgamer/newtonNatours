@@ -1,4 +1,5 @@
 import {
+   ADD_REVIEW,
    GET_BOOKED_TOURS,
    LOAD_SINGLE_TOUR,
    LOAD_TOURS,
@@ -6,7 +7,6 @@ import {
 import produce from 'immer';
 
 const initialState = {
-   tours: [],
    bookedTours: [],
    tour: null,
    isLoading: true,
@@ -22,6 +22,9 @@ export default produce((draft = initialState, action) => {
       case GET_BOOKED_TOURS:
          draft.bookedTours = payload;
          draft.isLoading = false;
+         return draft;
+      case ADD_REVIEW:
+         draft.tour.reviews.push(payload);
          return draft;
       case LOAD_SINGLE_TOUR:
          draft.tour = payload;

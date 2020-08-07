@@ -1,7 +1,13 @@
-import { GET_BOOKED_TOURS, LOAD_SINGLE_TOUR, LOAD_TOURS } from './types';
+import {
+   ADD_REVIEW,
+   GET_BOOKED_TOURS,
+   LOAD_SINGLE_TOUR,
+   LOAD_TOURS,
+} from './types';
 import axiosInstance from '../../axiosInstance';
 import { setAlert } from './alert';
 
+//Load All tours
 export const loadTours = () => async (dispatch) => {
    try {
       const tours = await axiosInstance.get('/tours', {
@@ -15,6 +21,8 @@ export const loadTours = () => async (dispatch) => {
       console.log(e);
    }
 };
+
+//Load tours booked by logged in user
 export const loadBookedTours = (userId) => async (dispatch) => {
    try {
       const bookedTours = await axiosInstance.get(
@@ -29,6 +37,8 @@ export const loadBookedTours = (userId) => async (dispatch) => {
       setAlert('error', e.response.data.message);
    }
 };
+
+//Load single tour that is being clicked
 export const setSingleTour = (slug) => async (dispatch) => {
    try {
       const tour = await axiosInstance.get(`/tours/${slug}`);
@@ -38,5 +48,20 @@ export const setSingleTour = (slug) => async (dispatch) => {
       });
    } catch (e) {
       console.log(e);
+   }
+};
+
+//Add new Review to tour
+export const addNewReview = (data) => async (dispatch) => {
+   try {
+      const res = await axiosInstance.post('/reviews', { ...data });
+      dispatch({
+         type: ADD_REVIEW,
+         payload: res.data.data.data,
+      });
+      dispatch(setAlert('success', 'Review Added'));
+   } catch (e) {
+      console.log(e);
+      dispatch(setAlert('error', e));
    }
 };

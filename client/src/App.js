@@ -13,10 +13,11 @@ import Account from './components/Account/Account';
 import Alert from './shared/Alert/Alert';
 import ResetPassword from './components/auth/ResetPassword/ResetPassword';
 import ForgetPassword from './components/auth/ForgetPassword/ForgetPassword';
+import BookedTours from './components/BookedTours/BookedTours';
+
 import { loadCurrentUser } from './store/action/profile';
 
 import PrivateRoute from './routing';
-import BookedTours from './components/BookedTours/BookedTours';
 
 require('dotenv').config();
 
@@ -30,7 +31,7 @@ const App = (props) => {
             <Alert />
             <Header />
             <Route exact path="/" render={() => <Overview />} />
-            <Route path="/tour/:slug" component={Tour} />
+            <Route exact path="/tour/:slug" component={Tour} />
             <Route path="/login" render={() => <Login />} />
             <Route path="/signup" component={Signup} />
             <Route path="/resetPassword" component={ResetPassword} />

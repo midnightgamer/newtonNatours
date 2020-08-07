@@ -46,7 +46,7 @@ const TourCard = (props) => {
                      rating ({ratingsQuantity})
                   </span>
                </p>
-               <Buttons to={`/tour/${slug}`}>Add Review</Buttons>
+               <Buttons to={`/tour/${slug}/add-review`}>Add Review</Buttons>
             </div>
          </div>
       );

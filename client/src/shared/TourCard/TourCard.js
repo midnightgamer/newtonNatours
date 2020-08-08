@@ -1,6 +1,7 @@
 import React from 'react';
 import './TourCard.css';
 import Buttons from '../Buttons/Buttons';
+import { HashLink as Link } from 'react-router-hash-link';
 
 const TourCard = (props) => {
    const { tour, type } = props;
@@ -46,7 +47,17 @@ const TourCard = (props) => {
                      rating ({ratingsQuantity})
                   </span>
                </p>
-               <Buttons to={`/tour/${slug}/add-review`}>Add Review</Buttons>
+               <Link
+                  to={`/tour/${slug}#add-review`}
+                  scroll={(el) => {
+                     el.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'end',
+                     });
+                  }}
+               >
+                  <button className={'btn btn--green'}>Add Review</button>
+               </Link>
             </div>
          </div>
       );

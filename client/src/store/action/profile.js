@@ -9,6 +9,7 @@ export const loadCurrentUser = () => async (dispatch) => {
          type: USER_LOADED,
          payload: user.data.data.data,
       });
+      return user.data.data.data._id;
    } catch (e) {
       dispatch({ type: USER_LOAD_FAIL });
    }

@@ -18,13 +18,23 @@ import BookedTours from './components/BookedTours/BookedTours';
 import { loadCurrentUser } from './store/action/profile';
 
 import PrivateRoute from './routing';
+import { loadBookedTours, loadTours } from './store/action/tours';
 
 require('dotenv').config();
 
 const App = (props) => {
    useEffect(() => {
-      reduxStore.dispatch(loadCurrentUser());
+      let user = null;
+      (async () => {
+         user = await fetchUser();
+         reduxStore.dispatch(loadBookedTours(user));
+      })();
+      reduxStore.dispatch(loadTours());
    }, []);
+   const fetchUser = () => {
+      const user = reduxStore.dispatch(loadCurrentUser());
+      return user;
+   };
    return (
       <Provider store={reduxStore}>
          <BrowserRouter>

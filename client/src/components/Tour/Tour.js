@@ -16,10 +16,21 @@ const Tour = (props) => {
       user,
       isAuthenticated,
       bookTour,
+      bookedTours,
       addNewReview,
    } = props;
    const [rating, setRating] = useState(0);
    const [comment, setComment] = useState('');
+   let isBooked = false;
+   if (bookedTours && bookedTours.length > 0) {
+      const isTourBooked = () => {
+         bookedTours.forEach((el) => {
+            let res = el.tour._id === tour._id ? (isBooked = true) : '';
+         });
+      };
+      isTourBooked();
+   }
+
    useEffect(() => {
       const scriptTag = document.createElement('script');
       scriptTag.src = '/js/mapBox.js';
@@ -251,42 +262,46 @@ const Tour = (props) => {
                </div>
             </div>
          </section>
-         <section className="section-review">
-            <div className="container">
-               <div className="login-form">
-                  <h2 className="heading-secondary ma-bt-lg">Add Review</h2>
-                  <form className="form">
-                     <div className="form__group reviews-star">
-                        <Starts
-                           type="add-review"
-                           addRating={(i) => setRating(i)}
-                        />
-                     </div>
-                     <div className="form__group ma-bt-md">
-                        <label className="form__label" htmlFor="comment">
-                           Your Comment
-                        </label>
-                        <textarea
-                           className="form__input"
-                           id="comment"
-                           onChange={(e) => setComment(e.target.value)}
-                           required="required"
-                           minLength="8"
-                        />
-                     </div>
-                     <div className="form__group">
-                        <button
-                           type="submit"
-                           onClick={(e) => onSubmit(e)}
-                           className="btn btn--green"
-                        >
-                           Add Review
-                        </button>
-                     </div>
-                  </form>
+         {isBooked ? (
+            <section className="section-review" id="add-review">
+               <div className="container">
+                  <div className="login-form">
+                     <h2 className="heading-secondary ma-bt-lg">Add Review</h2>
+                     <form className="form">
+                        <div className="form__group reviews-star">
+                           <Starts
+                              type="add-review"
+                              addRating={(i) => setRating(i)}
+                           />
+                        </div>
+                        <div className="form__group ma-bt-md">
+                           <label className="form__label" htmlFor="comment">
+                              Your Comment
+                           </label>
+                           <textarea
+                              className="form__input"
+                              id="comment"
+                              onChange={(e) => setComment(e.target.value)}
+                              required="required"
+                              minLength="8"
+                           />
+                        </div>
+                        <div className="form__group">
+                           <button
+                              type="submit"
+                              onClick={(e) => onSubmit(e)}
+                              className="btn btn--green"
+                           >
+                              Add Review
+                           </button>
+                        </div>
+                     </form>
+                  </div>
                </div>
-            </div>
-         </section>
+            </section>
+         ) : (
+            ''
+         )}
       </Fragment>
    );
 };
@@ -295,9 +310,9 @@ const mapStateToProps = (state) => ({
    tour: state.tours.tour,
    user: state.profile.users,
    loading: state.tours.loading,
+   bookedTours: state.tours.bookedTours,
 });
 export default connect(mapStateToProps, {
    setSingleTour,
-   bookTour,
    addNewReview,
 })(Tour);

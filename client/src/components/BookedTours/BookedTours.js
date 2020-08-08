@@ -4,9 +4,6 @@ import { loadBookedTours } from '../../store/action/tours';
 import { connect } from 'react-redux';
 
 const BookedTours = ({ tours, user, loadBookedTours, bookedTours }) => {
-   useEffect(() => {
-      loadBookedTours(user);
-   }, [loadBookedTours, user]);
    let tour = [];
    if (bookedTours && bookedTours.length > 0) {
       tour = bookedTours.map((el) => {

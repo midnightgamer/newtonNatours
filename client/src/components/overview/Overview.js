@@ -6,11 +6,6 @@ import reduxStore from '../../store/store';
 import { loadTours } from '../../store/action/tours';
 
 const Overview = ({ tours }) => {
-   useEffect(() => {
-      reduxStore.dispatch(loadTours());
-      console.count('');
-   }, []);
-
    let tour = [];
    if (tours && tours.length > 0) {
       tour = tours.map((el) => {

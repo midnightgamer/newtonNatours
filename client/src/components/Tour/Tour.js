@@ -101,10 +101,13 @@ const Tour = (props) => {
                         </svg>
                         <span className="overview-box__label">Next date</span>
                         <span className="overview-box__text">
-                           {tour.startDates[0].toLocaleString('en-un', {
-                              month: 'long',
-                              year: 'numeric',
-                           })}
+                           {new Date(tour.startDates[0]).toLocaleString(
+                              'en-un',
+                              {
+                                 month: 'long',
+                                 year: 'numeric',
+                              }
+                           )}
                         </span>
                      </div>
                      <div className="overview-box__detail">

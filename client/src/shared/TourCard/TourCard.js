@@ -33,7 +33,13 @@ const TourCard = (props) => {
             </div>
 
             <div className="card__details">
-               <h4 className="card__sub-heading">Booked At- {createdAt}</h4>
+               <h4 className="card__sub-heading">
+                  Booked At-{' '}
+                  {new Date(createdAt).toLocaleString('en-un', {
+                     month: 'long',
+                     year: 'numeric',
+                  })}
+               </h4>
                <p className="card__text">{paid ? 'Payment Success' : ''}</p>
             </div>
             <div className="card__footer">
@@ -110,7 +116,7 @@ const TourCard = (props) => {
                      {/*<use xlink:href="img/icons.svg#icon-calendar"></use>*/}
                   </svg>
                   <span>
-                     {startDates[0].toLocaleString('en-un', {
+                     {new Date(startDates[0]).toLocaleString('en-un', {
                         month: 'long',
                         year: 'numeric',
                      })}

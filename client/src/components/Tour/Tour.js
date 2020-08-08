@@ -192,9 +192,7 @@ const Tour = (props) => {
                   <div key={review.user.name} className="reviews__card">
                      <div className="reviews__avatar">
                         <img
-                           src={`/img/users/${
-                              review.user.photo ? review.user.photo : user.photo
-                           }`}
+                           src={`/img/users/${review.user.photo}`}
                            alt="Jim Brown"
                            className="reviews__avatar-img"
                         />

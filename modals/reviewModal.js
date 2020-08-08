@@ -55,7 +55,7 @@ reviewSchema.statics.calcAverageRating = async function (tourId) {
       });
    }
 };
-// TODO: Check this implementation after a day, it should not allow user to post multiple comment
+
 reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
 
 reviewSchema.pre(/^find/, function () {
@@ -73,8 +73,14 @@ reviewSchema.pre(/^find/, function () {
    });
 });
 
-reviewSchema.post('save', function () {
+reviewSchema.post('save', function (doc, next) {
    this.constructor.calcAverageRating(this.tour);
+   doc.populate({ path: 'user', select: 'name photo' }).execPopulate(
+      function () {
+         next();
+      }
+   );
+   console.log(this);
 });
 
 reviewSchema.pre(/findOneAnd/, async function (next) {

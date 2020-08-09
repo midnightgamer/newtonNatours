@@ -13,9 +13,11 @@ export const registerUser = (body) => async (dispatch) => {
    try {
       await axios.post('/auth/signup', body);
       dispatch({ type: REGISTER_SUCCESS });
+      dispatch(setAlert('success', 'Account created successfully'));
       dispatch(loadCurrentUser());
    } catch (e) {
       dispatch({ type: REGISTER_FAIL });
+      dispatch(setAlert('error', e.response.data.message));
    }
 };
 //Login User

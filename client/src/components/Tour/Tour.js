@@ -2,8 +2,11 @@ import React, { Fragment, useEffect, useState } from 'react';
 import './Tour.css';
 import { connect } from 'react-redux';
 import { setSingleTour } from '../../store/action/tours';
-import { bookTour } from '../../store/action/booking';
-import { addNewReview } from '../../store/action/tours';
+import {
+   addNewReview,
+   updateReview,
+   deleteReview,
+} from '../../store/action/review';
 import Starts from '../../shared/Starts';
 import { Link } from 'react-router-dom';
 
@@ -18,11 +21,14 @@ const Tour = (props) => {
       bookTour,
       bookedTours,
       addNewReview,
+      updateReview,
+      deleteReview,
    } = props;
    const [rating, setRating] = useState(0);
    const [comment, setComment] = useState('');
+   const [haveReview, setHaveReview] = useState(null);
    let isBooked = false;
-   if (bookedTours && bookedTours.length > 0) {
+   if (bookedTours && bookedTours.length > 0 && tour) {
       const isTourBooked = () => {
          bookedTours.forEach((el) => {
             let res = el.tour._id === tour._id ? (isBooked = true) : '';
@@ -41,17 +47,42 @@ const Tour = (props) => {
       setSingleTour(match.params.slug);
    }, [match.params.slug, setSingleTour]);
 
-   const onSubmit = (e) => {
+   useEffect(() => {
+      if (tour && user) {
+         tour.reviews.some((e) => {
+            if (e.user._id === user._id) {
+               setHaveReview(e);
+               setComment(e.review);
+               setRating(e.rating);
+            } else {
+               setHaveReview(null);
+            }
+            return e.user._id === user._id;
+         });
+      }
+   }, [tour, user]);
+   const onSubmit = (e, type) => {
       e.preventDefault();
-      const data = {
-         review: comment,
-         rating,
-         tour: tour._id,
-         user: user._id,
-      };
-      addNewReview(data);
+      if (type === 'create') {
+         const data = {
+            review: comment,
+            rating,
+            tour: tour._id,
+            user: user._id,
+         };
+         addNewReview(data);
+      } else if (type === 'delete') {
+         deleteReview(haveReview.id);
+         setRating(0);
+         setComment('');
+      } else if (type === 'update') {
+         const data = {
+            review: comment,
+            rating,
+         };
+         updateReview(data, haveReview.id);
+      }
    };
-
    return loading || tour === null ? (
       <div>Loading...</div>
    ) : (
@@ -266,42 +297,96 @@ const Tour = (props) => {
             </div>
          </section>
          {isBooked ? (
-            <section className="section-review" id="add-review">
-               <div className="container">
-                  <div className="login-form">
-                     <h2 className="heading-secondary ma-bt-lg">Add Review</h2>
-                     <form className="form">
-                        <div className="form__group reviews-star">
-                           <Starts
-                              type="add-review"
-                              addRating={(i) => setRating(i)}
-                           />
-                        </div>
-                        <div className="form__group ma-bt-md">
-                           <label className="form__label" htmlFor="comment">
-                              Your Comment
-                           </label>
-                           <textarea
-                              className="form__input"
-                              id="comment"
-                              onChange={(e) => setComment(e.target.value)}
-                              required="required"
-                              minLength="8"
-                           />
-                        </div>
-                        <div className="form__group">
-                           <button
-                              type="submit"
-                              onClick={(e) => onSubmit(e)}
-                              className="btn btn--green"
-                           >
-                              Add Review
-                           </button>
-                        </div>
-                     </form>
+            haveReview ? (
+               <section className="section-review" id="add-review">
+                  <div className="container">
+                     <div className="login-form">
+                        <h2 className="heading-secondary ma-bt-lg">
+                           Add Review
+                        </h2>
+                        <form className="form">
+                           <div className="form__group reviews-star">
+                              <Starts
+                                 type="add-review"
+                                 rating={rating}
+                                 addRating={(i) => setRating(i)}
+                              />
+                           </div>
+                           <div className="form__group ma-bt-md">
+                              <label className="form__label" htmlFor="comment">
+                                 Your Comment
+                              </label>
+                              <textarea
+                                 className="form__input"
+                                 id="comment"
+                                 onChange={(e) => setComment(e.target.value)}
+                                 required="required"
+                                 minLength="8"
+                                 value={comment}
+                              />
+                           </div>
+                           <div className="form__group">
+                              <button
+                                 type="submit"
+                                 onClick={(e) => onSubmit(e, 'update')}
+                                 className="btn btn--green btn-tiny"
+                              >
+                                 Update Review
+                              </button>
+                              &nbsp;
+                              <button
+                                 type="submit"
+                                 onClick={(e) => onSubmit(e, 'delete')}
+                                 className="btn btn--red btn-tiny"
+                              >
+                                 Delete Review
+                              </button>
+                           </div>
+                        </form>
+                     </div>
                   </div>
-               </div>
-            </section>
+               </section>
+            ) : (
+               <section className="section-review" id="add-review">
+                  <div className="container">
+                     <div className="login-form">
+                        <h2 className="heading-secondary ma-bt-lg">
+                           Add Review
+                        </h2>
+                        <form className="form">
+                           <div className="form__group reviews-star">
+                              <Starts
+                                 type="add-review"
+                                 rating={rating}
+                                 addRating={(i) => setRating(i)}
+                              />
+                           </div>
+                           <div className="form__group ma-bt-md">
+                              <label className="form__label" htmlFor="comment">
+                                 Your Comment
+                              </label>
+                              <textarea
+                                 className="form__input"
+                                 id="comment"
+                                 onChange={(e) => setComment(e.target.value)}
+                                 required="required"
+                                 minLength="8"
+                              />
+                           </div>
+                           <div className="form__group">
+                              <button
+                                 type="submit"
+                                 onClick={(e) => onSubmit(e, 'create')}
+                                 className="btn btn--green"
+                              >
+                                 Add Review
+                              </button>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </section>
+            )
          ) : (
             ''
          )}
@@ -311,6 +396,7 @@ const Tour = (props) => {
 const mapStateToProps = (state) => ({
    isAuthenticated: state.auth.isAuthenticated,
    tour: state.tours.tour,
+   tours: state.tours,
    user: state.profile.users,
    loading: state.tours.loading,
    bookedTours: state.tours.bookedTours,
@@ -318,4 +404,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
    setSingleTour,
    addNewReview,
+   updateReview,
+   deleteReview,
 })(Tour);

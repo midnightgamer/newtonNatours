@@ -20,4 +20,6 @@ export const GET_BOOKED_TOURS = 'GET_BOOKED_TOURS';
 export const BOOK_TOUR = 'BOOK_TOUR';
 
 export const ADD_REVIEW = 'ADD_REVIEW';
+export const UPDATE_REVIEW = 'UPDATE_REVIEW';
+export const DELETE_REVIEW = 'DELETE_REVIEW';
 // export const BOOK_TOUR = 'BOOK_TOUR';

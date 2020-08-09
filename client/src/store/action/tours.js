@@ -50,18 +50,3 @@ export const setSingleTour = (slug) => async (dispatch) => {
       console.log(e);
    }
 };
-
-//Add new Review to tour
-export const addNewReview = (data) => async (dispatch) => {
-   try {
-      const res = await axiosInstance.post('/reviews', { ...data });
-      dispatch({
-         type: ADD_REVIEW,
-         payload: res.data.data.data,
-      });
-      dispatch(setAlert('success', 'Review Added'));
-   } catch (e) {
-      console.log(e);
-      dispatch(setAlert('error', e));
-   }
-};

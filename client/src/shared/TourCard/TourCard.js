@@ -53,6 +53,8 @@ const TourCard = (props) => {
                      rating ({ratingsQuantity})
                   </span>
                </p>
+            </div>
+            <div className="card__footer">
                <Link
                   to={`/tour/${slug}#add-review`}
                   scroll={(el) => {
@@ -62,7 +64,9 @@ const TourCard = (props) => {
                      });
                   }}
                >
-                  <button className={'btn btn--green'}>Add Review</button>
+                  <button className={'btn btn--green btn-small'}>
+                     Add Review
+                  </button>
                </Link>
             </div>
          </div>

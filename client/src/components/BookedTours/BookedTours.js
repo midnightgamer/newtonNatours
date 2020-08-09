@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 
 const BookedTours = ({ tours, user, loadBookedTours, bookedTours }) => {
    let tour = [];
+   console.log(tours);
    if (bookedTours && bookedTours.length > 0) {
       tour = bookedTours.map((el) => {
-         return <TourCard tour={el} key={el.createdAt} type={'booked'} />;
+         return <TourCard tour={el} key={el._id} type={'booked'} />;
       });
    }
    return (

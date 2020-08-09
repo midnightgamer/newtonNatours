@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const Starts = ({ rating, type, addRating }) => {
-   const [reviewStar, setReviewStar] = useState(0);
+   const [reviewStar, setReviewStar] = useState(rating);
    let starUI = [];
    const setStar = (i) => {
       setReviewStar(i + 1);

@@ -470,3 +470,12 @@
    padding-top: calc(15rem + var(--section-rotate));
    background-color: #f7f7f7;
 }
+
+.btn--red {
+   background-color: salmon;
+}
+
+.btn-tiny {
+   padding: 1rem 2.5rem !important;
+   font-size: 1.4rem !important;
+}

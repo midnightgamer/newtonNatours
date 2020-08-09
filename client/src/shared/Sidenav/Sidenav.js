@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
-const Sidenav = (props) => (
+const Sidenav = ({ role }) => (
    <nav className="user-view__menu">
       <ul className="side-nav">
          <li>
@@ -29,36 +30,42 @@ const Sidenav = (props) => (
             </NavLink>
          </li>
       </ul>
-      <div className="admin-nav">
-         <h5 className="admin-nav__heading">Admin</h5>
-         <ul className="side-nav">
-            <li>
-               <NavLink to={'/all-tours'}>
-                  <svg>
-                     <use xlinkHref="/img/icons.svg#icon-map" />
-                  </svg>
-                  Manage tours
-               </NavLink>
-            </li>
-            <li>
-               <NavLink to={'/all-users'}>
-                  <svg>
-                     <use xlinkHref="/img/icons.svg#icon-users" />
-                  </svg>
-                  Manage users
-               </NavLink>
-            </li>
-            <li>
-               <NavLink to={'/all-reviews'}>
-                  <svg>
-                     <use xlinkHref="/img/icons.svg#icon-star" />
-                  </svg>
-                  Manage reviews
-               </NavLink>
-            </li>
-         </ul>
-      </div>
+      {role === 'admin' ? (
+         <div className="admin-nav">
+            <h5 className="admin-nav__heading">Admin</h5>
+            <ul className="side-nav">
+               <li>
+                  <NavLink to={'/all-tours'}>
+                     <svg>
+                        <use xlinkHref="/img/icons.svg#icon-map" />
+                     </svg>
+                     Manage tours
+                  </NavLink>
+               </li>
+               <li>
+                  <NavLink to={'/all-users'}>
+                     <svg>
+                        <use xlinkHref="/img/icons.svg#icon-users" />
+                     </svg>
+                     Manage users
+                  </NavLink>
+               </li>
+               <li>
+                  <NavLink to={'/all-reviews'}>
+                     <svg>
+                        <use xlinkHref="/img/icons.svg#icon-star" />
+                     </svg>
+                     Manage reviews
+                  </NavLink>
+               </li>
+            </ul>
+         </div>
+      ) : (
+         ''
+      )}
    </nav>
 );
-
-export default Sidenav;
+const mapStateToProps = (state) => ({
+   role: state.profile.users.role,
+});
+export default connect(mapStateToProps)(Sidenav);

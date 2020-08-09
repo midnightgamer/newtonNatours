@@ -70,6 +70,9 @@ reviewSchema.pre(/^find/, function () {
    this.populate({
       path: 'user',
       select: 'name photo',
+   }).populate({
+      path: 'tour',
+      select: 'slug',
    });
 });
 
@@ -80,7 +83,6 @@ reviewSchema.post('save', function (doc, next) {
          next();
       }
    );
-   console.log(this);
 });
 
 reviewSchema.pre(/findOneAnd/, async function (next) {

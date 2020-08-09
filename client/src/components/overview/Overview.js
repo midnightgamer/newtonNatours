@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import TourCard from '../../shared/TourCard/TourCard';
 import { connect } from 'react-redux';
 import './Overview.css';
-import reduxStore from '../../store/store';
 import { loadTours } from '../../store/action/tours';
 
 const Overview = ({ tours }) => {

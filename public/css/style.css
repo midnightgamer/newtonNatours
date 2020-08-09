@@ -248,14 +248,18 @@ body {
    padding: 1.25rem 3rem !important;
    font-size: 1.4rem !important;
 }
+.btn--tiny {
+   padding: 1rem 2.5rem !important;
+   font-size: 1rem !important;
+}
 
 .btn-small,
 .btn-small:link,
 .btn-small:visited {
    background-color: #55c57a;
    color: #fff;
-   font-size: 1.4rem;
-   padding: 1.25rem 3rem;
+   font-size: 1rem;
+   padding: 1rem 2rem;
    border-radius: 10rem;
    text-transform: uppercase;
    position: relative;
@@ -298,6 +302,9 @@ body {
    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
+.btn--red {
+   background-color: salmon;
+}
 .btn-text:focus {
    outline: none;
    outline: 3px solid #55c57a;

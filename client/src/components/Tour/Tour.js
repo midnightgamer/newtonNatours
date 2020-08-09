@@ -9,6 +9,7 @@ import {
 } from '../../store/action/review';
 import Starts from '../../shared/Starts';
 import { Link } from 'react-router-dom';
+import ReviewCard from '../../shared/ReviewCard/ReviewCard';
 
 const Tour = (props) => {
    const {
@@ -42,11 +43,11 @@ const Tour = (props) => {
       scriptTag.src = '/js/mapBox.js';
       scriptTag.async = true;
       document.body.appendChild(scriptTag);
-      const stripe = document.createElement('script');
       //Load tour by slug
+   }, []);
+   useEffect(() => {
       setSingleTour(match.params.slug);
    }, [match.params.slug, setSingleTour]);
-
    useEffect(() => {
       if (tour && user) {
          tour.reviews.some((e) => {
@@ -234,20 +235,7 @@ const Tour = (props) => {
          <section className="section-reviews">
             <div className="reviews">
                {tour.reviews.map((review) => (
-                  <div key={review.user.name} className="reviews__card">
-                     <div className="reviews__avatar">
-                        <img
-                           src={`/img/users/${review.user.photo}`}
-                           alt="Jim Brown"
-                           className="reviews__avatar-img"
-                        />
-                        <h6 className="reviews__user">{review.user.name}</h6>
-                     </div>
-                     <p className="reviews__text">{review.review}</p>
-                     <div className="reviews__rating">
-                        <Starts rating={review.rating} />
-                     </div>
-                  </div>
+                  <ReviewCard review={review} key={review._id} />
                ))}
             </div>
          </section>
@@ -377,7 +365,7 @@ const Tour = (props) => {
                               <button
                                  type="submit"
                                  onClick={(e) => onSubmit(e, 'create')}
-                                 className="btn btn--green"
+                                 className="btn btn--green btn-tiny"
                               >
                                  Add Review
                               </button>

@@ -1,9 +1,4 @@
-import {
-   ADD_REVIEW,
-   GET_BOOKED_TOURS,
-   LOAD_SINGLE_TOUR,
-   LOAD_TOURS,
-} from './types';
+import { GET_BOOKED_TOURS, LOAD_SINGLE_TOUR, LOAD_TOURS } from './types';
 import axiosInstance from '../../axiosInstance';
 import { setAlert } from './alert';
 
@@ -28,7 +23,6 @@ export const loadBookedTours = (userId) => async (dispatch) => {
       const bookedTours = await axiosInstance.get(
          `/bookings/my-bookings/${userId}`
       );
-      console.log(bookedTours);
       dispatch({
          type: GET_BOOKED_TOURS,
          payload: bookedTours.data.data.data,

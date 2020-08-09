@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 import Buttons from '../../../shared/Buttons/Buttons';
 
 const Login = (props) => {
-   const { isAuthenticated, loginUser, cookies } = props;
+   const { isAuthenticated, loginUser } = props;
    const [formData, setFormData] = useState({
       email: '',
       password: '',

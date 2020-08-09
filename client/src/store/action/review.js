@@ -1,8 +1,22 @@
 //Add new Review to tour
 import axiosInstance from '../../axiosInstance';
-import { ADD_REVIEW, DELETE_REVIEW, UPDATE_REVIEW } from './types';
+import {
+   ADD_REVIEW,
+   DELETE_REVIEW,
+   GET_ALL_REVIEW,
+   UPDATE_REVIEW,
+} from './types';
 import { setAlert } from './alert';
 
+export const getAllReviewByUser = () => async (dispatch) => {
+   try {
+      const res = await axiosInstance.get('/users/reviews');
+      dispatch({ type: GET_ALL_REVIEW, payload: res.data.data.data });
+   } catch (e) {
+      console.log(e);
+      dispatch(setAlert('error', e.response.data.message));
+   }
+};
 export const addNewReview = (data) => async (dispatch) => {
    try {
       const res = await axiosInstance.post('/reviews', { ...data });

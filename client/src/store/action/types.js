@@ -19,6 +19,7 @@ export const USER_LOADED = 'USER_LOADED';
 export const GET_BOOKED_TOURS = 'GET_BOOKED_TOURS';
 export const BOOK_TOUR = 'BOOK_TOUR';
 
+export const GET_ALL_REVIEW = 'GET_ALL_REVIEW';
 export const ADD_REVIEW = 'ADD_REVIEW';
 export const UPDATE_REVIEW = 'UPDATE_REVIEW';
 export const DELETE_REVIEW = 'DELETE_REVIEW';

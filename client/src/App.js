@@ -19,6 +19,7 @@ import { loadCurrentUser } from './store/action/profile';
 
 import PrivateRoute from './routing';
 import { loadBookedTours, loadTours } from './store/action/tours';
+import Reviews from './components/Account/Reviews/Reviews';
 
 require('dotenv').config();
 
@@ -47,6 +48,7 @@ const App = (props) => {
             <Route path="/resetPassword" component={ResetPassword} />
             <Route path="/forgetPassword" component={ForgetPassword} />
             <PrivateRoute path="/my-bookings" component={BookedTours} />
+            <PrivateRoute path="/reviews" component={Reviews} />
             <PrivateRoute path="/me" component={Account} />
             <Footer />
          </BrowserRouter>

@@ -1,6 +1,7 @@
 const multer = require('multer');
 const sharp = require('sharp');
 const User = require('../modals/userModal');
+const Reviews = require('../modals/reviewModal');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const {
@@ -99,5 +100,18 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
    await User.findByIdAndUpdate(req.user.id, { active: false });
    res.status(204).json({
       status: 'success',
+   });
+});
+
+exports.getUserReviews = catchAsync(async (req, res, next) => {
+   const reviews = await Reviews.find({ user: req.user._id });
+   if (!reviews || reviews.length === 0)
+      return next(new AppError('No review found', 404));
+   res.status(200).json({
+      status: 'success',
+      data: {
+         results: reviews.length,
+         data: reviews,
+      },
    });
 });

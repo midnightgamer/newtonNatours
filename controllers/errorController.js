@@ -38,7 +38,7 @@ const sendErrorDev = (err, req, res) => {
    }
 
    // B) RENDERED WEBSITE
-   console.error('ERROR 💥 Dev', err);
+   console.error('ERROR 💥', err);
    return res.status(err.statusCode).render('error', {
       title: 'Something went wrong!',
       msg: err.message,
@@ -49,7 +49,7 @@ const sendErrorProd = (err, req, res) => {
    // A) API
    if (req.originalUrl.startsWith('/api')) {
       // A) Operational, trusted error: send message to client
-      if (err.isOperatinal) {
+      if (err.isOperational) {
          return res.status(err.statusCode).json({
             status: err.status,
             message: err.message,
@@ -57,7 +57,7 @@ const sendErrorProd = (err, req, res) => {
       }
       // B) Programming or other unknown error: don't leak error details
       // 1) Log error
-      console.error('ERROR 💥 prod', err);
+      console.error('ERROR 💥', err);
       // 2) Send generic message
       return res.status(500).json({
          status: 'error',

@@ -1,25 +1,31 @@
 const nodemailer = require('nodemailer');
 const pug = require('pug');
 const htmlToText = require('html-to-text');
+const nodemailerSendgrid = require('nodemailer-sendgrid');
 
 module.exports = class Email {
    constructor(user, url) {
       this.to = user.email;
       this.firstname = user.name.split(' ')[0];
       this.url = url;
-      this.from = `Pankaj Jaiswal <${process.env.EMAIL_FROM}>`;
+      this.from = process.env.EMAIL_FROM;
    }
 
    newTransport() {
-      if (process.env.NODE_ENV === 'production') {
-         //   Sandgrid
-         return nodemailer.createTransport({
-            service: 'SandGrid',
+      if (process.env.NODE_ENV === 'development') {
+         // Sendgrid
+         /* const options = {
+            service: 'SendGrid',
             auth: {
                user: process.env.SANDGRID_USERNAME,
-               pas: process.env.SANDGRID_PASSWORD,
+               pass: process.env.SANDGRID_PASSWORD,
             },
-         });
+         }; */
+         return nodemailer.createTransport(
+            nodemailerSendgrid({
+               apiKey: process.env.SANDGRID_PASSWORD,
+            })
+         );
       }
       // 1) Create a transporter
       return nodemailer.createTransport({

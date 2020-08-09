@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import './Tour.css';
 import { connect } from 'react-redux';
 import { setSingleTour } from '../../store/action/tours';
+import { bookTour } from '../../store/action/booking';
 import {
    addNewReview,
    updateReview,
@@ -269,7 +270,7 @@ const Tour = (props) => {
                      <button
                         id="bookTour"
                         className="btn btn--green span-all-rows"
-                        onClick={() => bookTour(tour.id)}
+                        onClick={() => bookTour(tour._id)}
                      >
                         Book tour now!
                      </button>
@@ -394,4 +395,5 @@ export default connect(mapStateToProps, {
    addNewReview,
    updateReview,
    deleteReview,
+   bookTour,
 })(Tour);

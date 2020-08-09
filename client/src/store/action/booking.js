@@ -1,18 +1,21 @@
 import axiosInstance from '../../axiosInstance';
 import { setAlert } from './alert';
 import { BOOK_TOUR } from './types';
-import stripe from 'stripe';
+import { loadStripe } from '@stripe/stripe-js';
+
 export const bookTour = (tourId) => async (dispatch) => {
    try {
-      const Strip = stripe(
-         'sk_test_51H9VXXH8UAzj9LgCu81692Nlh1DYWonHKF8swHNf6b8H0voxPNNpuLkfTQ4urLTboqQ57j3a2NgaYKZrctjXMrLk00hPMqwZ8z'
+      const promise = loadStripe(
+         'pk_test_51H9VXXH8UAzj9LgCkkEB00ENpsyq4FedxIEdJMbVpcKAx7nvWkNnTz2cUWWPDavI1DSqZXQBpBVTnVLWxB73Ri3q00T6V5FT4x'
       );
+      const stripe = await promise;
+
       //   1) Get checkout session from the server
       const session = await axiosInstance(
          `/bookings/checkout-session/${tourId}`
       );
       //   2) Create Checkout session + charge CC
-      await Strip.redirectToCheckout({
+      await stripe.redirectToCheckout({
          sessionId: session.data.session.id,
       });
       dispatch({

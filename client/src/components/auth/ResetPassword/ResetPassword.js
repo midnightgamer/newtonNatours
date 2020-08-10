@@ -8,7 +8,7 @@ const ResetPassword = (props) => {
       passwordConfirm: '',
       password: '',
    });
-   const { resetPassword, history } = props;
+   const { resetPassword, history, isLoading } = props;
 
    const { passwordConfirm, password } = formData;
    const path = history.location.pathname;
@@ -64,8 +64,7 @@ const ResetPassword = (props) => {
                      onClick={(e) => onSubmit(e)}
                      className="btn btn--green"
                   >
-                     {' '}
-                     Reset Password
+                     {isLoading ? 'Reset Password...' : 'Reset Password'}
                   </button>
                </div>
             </form>
@@ -73,5 +72,7 @@ const ResetPassword = (props) => {
       </main>
    );
 };
-
-export default connect(null, { resetPassword })(ResetPassword);
+const mapStateToProps = (state) => ({
+   isLoading: state.auth.isLoading,
+});
+export default connect(mapStateToProps, { resetPassword })(ResetPassword);

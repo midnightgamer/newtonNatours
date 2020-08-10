@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { forgetPassword } from '../../../store/action/auth';
 import { Redirect } from 'react-router-dom';
 
-const ForgetPassword = ({ isAuthenticated, forgetPassword }) => {
+const ForgetPassword = ({ isAuthenticated, forgetPassword, isLoading }) => {
    const [eamil, setEmail] = useState('');
    const onSubmit = (e) => {
       e.preventDefault();
@@ -37,7 +37,7 @@ const ForgetPassword = ({ isAuthenticated, forgetPassword }) => {
                         className="btn btn--green"
                         onClick={(e) => onSubmit(e)}
                      >
-                        Send Mail
+                        {isLoading ? 'Send Mail...' : 'Send Mail'}
                      </button>
                   </div>
                </form>
@@ -49,5 +49,6 @@ const ForgetPassword = ({ isAuthenticated, forgetPassword }) => {
 };
 const mapStateToProps = (state) => ({
    isAuthenticated: state.auth.isAuthenticated,
+   isLoading: state.auth.isLoading,
 });
 export default connect(mapStateToProps, { forgetPassword })(ForgetPassword);

@@ -6,12 +6,11 @@ import { Redirect } from 'react-router-dom';
 import Buttons from '../../../shared/Buttons/Buttons';
 
 const Login = (props) => {
-   const { isAuthenticated, loginUser } = props;
+   const { isAuthenticated, loginUser, isLoading } = props;
    const [formData, setFormData] = useState({
       email: '',
       password: '',
    });
-   const [isLoading, setIsLoading] = useState(false);
    const { email, password } = formData;
    let login = (
       <main className="main">
@@ -79,16 +78,15 @@ const Login = (props) => {
       });
    };
    const onSubmit = (e) => {
-      setIsLoading(true);
       e.preventDefault();
       loginUser(email, password);
-      setIsLoading(false);
    };
 
    return login;
 };
 const mapStateToProps = (state, ownProps) => ({
    isAuthenticated: state.auth.isAuthenticated,
+   isLoading: state.auth.isLoading,
    cookies: ownProps.cookies,
 });
 export default connect(mapStateToProps, {

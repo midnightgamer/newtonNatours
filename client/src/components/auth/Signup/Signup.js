@@ -4,7 +4,7 @@ import { registerUser } from '../../../store/action/auth';
 import Buttons from '../../../shared/Buttons/Buttons';
 import { Redirect } from 'react-router-dom';
 
-const Signup = ({ registerUser, isAuthenticated, history }) => {
+const Signup = ({ registerUser, isAuthenticated, isLoading }) => {
    const [formData, setFormData] = useState({
       name: '',
       email: '',
@@ -93,7 +93,9 @@ const Signup = ({ registerUser, isAuthenticated, history }) => {
                      />
                   </div>
                   <div className="form__group">
-                     <Buttons onClick={(e) => onSubmit(e)}>Sing up</Buttons>
+                     <Buttons onClick={(e) => onSubmit(e)}>
+                        {isLoading ? 'Sing up...' : 'Sing up'}
+                     </Buttons>
                   </div>
                   <div className="form__group">
                      <Buttons to={'/login'} type={'text'}>
@@ -110,5 +112,6 @@ const Signup = ({ registerUser, isAuthenticated, history }) => {
 };
 const mapStatesToProps = (state) => ({
    isAuthenticated: state.auth.isAuthenticated,
+   isLoading: state.auth.isLoading,
 });
 export default connect(mapStatesToProps, { registerUser })(Signup);

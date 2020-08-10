@@ -12,7 +12,7 @@ const Overview = ({ tours, loading }) => {
          return <TourCard tour={el} key={el.name} />;
       });
    }
-   return loading || tour.length <= 0 ? (
+   return loading ? (
       <Spinner />
    ) : (
       <main className={'main'}>

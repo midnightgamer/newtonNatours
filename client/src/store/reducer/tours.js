@@ -1,11 +1,12 @@
 import {
-   ADD_REVIEW,
+   ADD_REVIEW_SUCCESS,
    CLEAR_SINGLE_TOUR,
-   DELETE_REVIEW,
-   GET_BOOKED_TOURS,
-   LOAD_SINGLE_TOUR,
-   LOAD_TOURS,
-   UPDATE_REVIEW,
+   DELETE_REVIEW_SUCCESS,
+   GET_BOOKED_TOURS_SUCCESS,
+   LOAD_SINGLE_TOUR_SUCCESS,
+   LOAD_TOURS_SUCCESS,
+   LOGOUT,
+   UPDATE_REVIEW_SUCCESS,
 } from '../action/types';
 import produce from 'immer';
 
@@ -18,22 +19,22 @@ const initialState = {
 export default produce((draft = initialState, action) => {
    const { type, payload } = action;
    switch (type) {
-      case LOAD_TOURS:
+      case LOAD_TOURS_SUCCESS:
          draft.tours = payload;
          draft.isLoading = false;
          return draft;
-      case GET_BOOKED_TOURS:
+      case GET_BOOKED_TOURS_SUCCESS:
          draft.bookedTours = payload;
          draft.isLoading = false;
          return draft;
-      case LOAD_SINGLE_TOUR:
+      case LOAD_SINGLE_TOUR_SUCCESS:
          draft.tour = payload;
          draft.isLoading = false;
          return draft;
-      case ADD_REVIEW:
+      case ADD_REVIEW_SUCCESS:
          draft.tour.reviews.push(payload);
          return draft;
-      case UPDATE_REVIEW:
+      case UPDATE_REVIEW_SUCCESS:
          draft.tour.reviews.some((e, i) => {
             if (e._id === payload.id) {
                draft.tour.reviews[i] = payload.res;
@@ -41,8 +42,7 @@ export default produce((draft = initialState, action) => {
             return e._id === payload.id;
          });
          return draft;
-      case DELETE_REVIEW:
-         console.log(payload);
+      case DELETE_REVIEW_SUCCESS:
          const filterDraft = draft.tour.reviews.filter(
             (el) => el._id !== payload
          );
@@ -51,6 +51,9 @@ export default produce((draft = initialState, action) => {
       case CLEAR_SINGLE_TOUR:
          draft.tour = null;
          draft.isLoading = true;
+         return draft;
+      case LOGOUT:
+         draft.bookedTours = null;
          return draft;
       default:
          return draft;

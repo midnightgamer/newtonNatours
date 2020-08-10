@@ -76,7 +76,7 @@ exports.webhookCheckout = (req, res, next) => {
 };
 exports.getUserAllBooking = catchAsync(async (req, res, next) => {
    const bookings = await Booking.find({ user: req.params.id });
-   if (!bookings.length) {
+   if (bookings.length <= 0) {
       next(new AppError(204, 'No Booking Found'));
    }
    res.status(200).json({

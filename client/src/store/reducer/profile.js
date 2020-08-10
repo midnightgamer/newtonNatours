@@ -1,9 +1,9 @@
 import {
-   GET_ALL_REVIEW,
+   GET_ALL_REVIEW_SUCCESS,
    LOGOUT,
    USER_LOAD_FAIL,
-   USER_LOADED,
-   USER_UPDATED,
+   USER_LOAD_SUCCESS,
+   USER_UPDATE_SUCCESS,
 } from '../action/types';
 import produce from 'immer';
 
@@ -16,12 +16,12 @@ const initialState = {
 export default produce((draft = initialState, action) => {
    const { type, payload } = action;
    switch (type) {
-      case USER_LOADED:
-      case USER_UPDATED:
+      case USER_LOAD_SUCCESS:
+      case USER_UPDATE_SUCCESS:
          draft.users = payload;
          draft.isLoading = false;
          return draft;
-      case GET_ALL_REVIEW:
+      case GET_ALL_REVIEW_SUCCESS:
          draft.userReviews = payload;
          return draft;
       case USER_LOAD_FAIL:

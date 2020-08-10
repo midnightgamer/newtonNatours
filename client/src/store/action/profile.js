@@ -1,12 +1,20 @@
-import { USER_LOAD_FAIL, USER_LOADED, USER_UPDATED } from './types';
+import {
+   USER_LOAD_FAIL,
+   USER_LOAD_INIT,
+   USER_LOAD_SUCCESS,
+   USER_UPDATE_FAIL,
+   USER_UPDATE_INIT,
+   USER_UPDATE_SUCCESS,
+} from './types';
 import axiosInstance from '../../axiosInstance';
 import { setAlert } from './alert';
 
 export const loadCurrentUser = () => async (dispatch) => {
    try {
+      dispatch({ type: USER_LOAD_INIT });
       const user = await axiosInstance.get('/users/me');
       dispatch({
-         type: USER_LOADED,
+         type: USER_LOAD_SUCCESS,
          payload: user.data.data.data,
       });
       return user.data.data.data._id;
@@ -17,6 +25,7 @@ export const loadCurrentUser = () => async (dispatch) => {
 
 export const updateUser = (data, type) => async (dispatch) => {
    try {
+      dispatch({ type: USER_UPDATE_INIT });
       const url =
          type === 'password' ? '/auth/changePassword' : '/users/updateMe';
       const res = await axiosInstance({
@@ -25,7 +34,7 @@ export const updateUser = (data, type) => async (dispatch) => {
          data,
       });
       dispatch({
-         type: USER_UPDATED,
+         type: USER_UPDATE_SUCCESS,
          payload: res.data.data.user,
       });
       if (type === 'password') {
@@ -34,6 +43,7 @@ export const updateUser = (data, type) => async (dispatch) => {
          dispatch(setAlert('success', 'Profile updated'));
       }
    } catch (e) {
+      dispatch({ type: USER_UPDATE_FAIL });
       dispatch(setAlert('error', e.response.data.message));
    }
 };

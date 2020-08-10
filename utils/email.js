@@ -67,4 +67,8 @@ module.exports = class Email {
    async sendPasswordReset() {
       await this.send('passwordReset', 'Reset your password!');
    }
+
+   /* async sendBookingConfirmation() {
+      await this.send('passwordReset', 'Booking Confirmation');
+   } */
 };

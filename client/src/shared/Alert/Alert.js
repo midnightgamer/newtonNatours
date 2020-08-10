@@ -9,6 +9,8 @@ const Alert = ({ alert }) => {
             {alert[0].msg.toString()}
          </div>
       );
+   } else {
+      return '';
    }
 };
 

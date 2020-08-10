@@ -108,6 +108,12 @@ app.get('/', (req, res) => {
 });
 
 app.all('*', (req, res, next) => {
+   res.status(404).json({
+      status: 'error',
+      data: {
+         message: `Can't find ${req.originalUrl} not found`,
+      },
+   });
    next(new AppError(`Can't find ${req.originalUrl} not found`, 404));
 });
 

@@ -5,7 +5,6 @@ import Buttons from '../../../shared/Buttons/Buttons';
 import { Redirect } from 'react-router-dom';
 
 const Signup = ({ registerUser, isAuthenticated, history }) => {
-   console.log(history);
    const [formData, setFormData] = useState({
       name: '',
       email: '',

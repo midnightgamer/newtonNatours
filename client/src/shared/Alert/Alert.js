@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import './Alert.css';
 
 const Alert = ({ alert }) => {
-   console.log(alert);
    return (
       alert !== null &&
       alert.length > 0 && (

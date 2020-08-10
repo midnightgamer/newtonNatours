@@ -54,7 +54,7 @@ const App = (props) => {
                <PrivateRoute path="/my-bookings" component={BookedTours} />
                <PrivateRoute path="/reviews" component={Reviews} />
                <PrivateRoute path="/me" component={Account} />
-               <Route component={NotFound} />
+               <Route path="*" component={NotFound} />
             </Switch>
             <Footer />
          </BrowserRouter>

@@ -69,7 +69,7 @@ const sendErrorProd = (err, req, res) => {
 
    // B) RENDERED WEBSITE
    // A) Operational, trusted error: send message to client
-   if (err.isOperatinal) {
+   /* if (err.isOperatinal) {
       console.log(err);
       return res.status(err.statusCode).render('error', {
          title: 'Something went wrong!',
@@ -83,7 +83,7 @@ const sendErrorProd = (err, req, res) => {
    return res.status(err.statusCode).render('error', {
       title: 'Something went wrong!',
       msg: 'Please try again later.',
-   });
+   }); */
 };
 
 module.exports = (err, req, res, next) => {

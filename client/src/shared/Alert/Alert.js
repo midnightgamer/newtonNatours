@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import './Alert.css';
 
 const Alert = ({ alert }) => {
+   console.log(alert);
    if (alert !== null && alert.length > 0) {
       return (
          <div key={alert[0]} className={`alert alert--${alert[0].type}`}>
-            {alert[0].msg.toString()}
+            {alert[0].msg ? alert[0].msg.toString() : 'Something went wrong'}
          </div>
       );
    } else {

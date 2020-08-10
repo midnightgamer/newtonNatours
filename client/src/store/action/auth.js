@@ -16,6 +16,7 @@ export const registerUser = (body) => async (dispatch) => {
       dispatch(setAlert('success', 'Account created successfully'));
       dispatch(loadCurrentUser());
    } catch (e) {
+      console.log(e);
       dispatch({ type: REGISTER_FAIL });
       dispatch(setAlert('error', e.response.data.message));
    }

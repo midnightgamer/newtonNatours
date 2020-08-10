@@ -39,13 +39,13 @@ export const loginUser = (email, password) => async (dispatch) => {
       dispatch({
          type: LOGIN_SUCCESS,
       });
-      dispatch(loadCurrentUser());
       dispatch(setAlert('success', 'Logged in successfully'));
+      dispatch(loadCurrentUser());
    } catch (e) {
-      setAlert('error', e.response.data.message);
       dispatch({
          type: LOGIN_FAIL,
       });
+      dispatch(setAlert('error', e.response.data.message));
    }
 };
 //Logout user

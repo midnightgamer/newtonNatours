@@ -1,4 +1,9 @@
-import { GET_BOOKED_TOURS, LOAD_SINGLE_TOUR, LOAD_TOURS } from './types';
+import {
+   CLEAR_SINGLE_TOUR,
+   GET_BOOKED_TOURS,
+   LOAD_SINGLE_TOUR,
+   LOAD_TOURS,
+} from './types';
 import axiosInstance from '../../axiosInstance';
 import { setAlert } from './alert';
 
@@ -35,6 +40,7 @@ export const loadBookedTours = (userId) => async (dispatch) => {
 //Load single tour that is being clicked
 export const setSingleTour = (slug) => async (dispatch) => {
    try {
+      dispatch({ type: CLEAR_SINGLE_TOUR });
       const tour = await axiosInstance.get(`/tours/${slug}`);
       dispatch({
          type: LOAD_SINGLE_TOUR,

@@ -11,6 +11,7 @@ import {
 import Starts from '../../shared/Starts';
 import { Link } from 'react-router-dom';
 import ReviewCard from '../../shared/ReviewCard/ReviewCard';
+import Spinner from '../../shared/Spinner/Spinner';
 
 const Tour = (props) => {
    const {
@@ -86,7 +87,7 @@ const Tour = (props) => {
       }
    };
    return loading || tour === null ? (
-      <div>Loading...</div>
+      <Spinner />
    ) : (
       <Fragment>
          <section className="section-header">
@@ -199,7 +200,7 @@ const Tour = (props) => {
 
             <div className="description-box">
                <h2 className="heading-secondary ma-bt-lg">
-                  About the park camper tour
+                  About the {tour.name}
                </h2>
                {tour.description.split('\n').map((el, i) => {
                   return (

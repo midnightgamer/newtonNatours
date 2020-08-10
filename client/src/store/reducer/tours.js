@@ -1,5 +1,6 @@
 import {
    ADD_REVIEW,
+   CLEAR_SINGLE_TOUR,
    DELETE_REVIEW,
    GET_BOOKED_TOURS,
    LOAD_SINGLE_TOUR,
@@ -46,6 +47,10 @@ export default produce((draft = initialState, action) => {
             (el) => el._id !== payload
          );
          draft.tour.reviews = filterDraft;
+         return draft;
+      case CLEAR_SINGLE_TOUR:
+         draft.tour = null;
+         draft.isLoading = true;
          return draft;
       default:
          return draft;

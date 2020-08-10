@@ -11,6 +11,7 @@ const Login = (props) => {
       email: '',
       password: '',
    });
+   const [isLoading, setIsLoading] = useState(false);
    const { email, password } = formData;
    let login = (
       <main className="main">
@@ -52,7 +53,7 @@ const Login = (props) => {
                      onClick={(e) => onSubmit(e)}
                      className="btn btn--green"
                   >
-                     Login
+                     {isLoading ? 'Login . . .' : 'Login'}
                   </button>
                </div>
                <div className="form__group ">
@@ -78,8 +79,10 @@ const Login = (props) => {
       });
    };
    const onSubmit = (e) => {
+      setIsLoading(true);
       e.preventDefault();
       loginUser(email, password);
+      setIsLoading(false);
    };
 
    return login;

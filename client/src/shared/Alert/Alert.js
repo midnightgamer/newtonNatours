@@ -3,14 +3,13 @@ import { connect } from 'react-redux';
 import './Alert.css';
 
 const Alert = ({ alert }) => {
-   return (
-      alert !== null &&
-      alert.length > 0 && (
+   if (alert !== null && alert.length > 0) {
+      return (
          <div key={alert[0]} className={`alert alert--${alert[0].type}`}>
             {alert[0].msg.toString()}
          </div>
-      )
-   );
+      );
+   }
 };
 
 const mapStateToProps = (state) => ({

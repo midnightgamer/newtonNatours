@@ -28,7 +28,9 @@ const App = (props) => {
       let user = null;
       (async () => {
          user = await fetchUser();
-         reduxStore.dispatch(loadBookedTours(user));
+         if (user) {
+            reduxStore.dispatch(loadBookedTours(user));
+         }
       })();
       reduxStore.dispatch(loadTours());
    }, []);

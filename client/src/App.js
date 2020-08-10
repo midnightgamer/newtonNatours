@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Switch, BrowserRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import reduxStore from './store/store';
 
@@ -20,6 +20,7 @@ import { loadCurrentUser } from './store/action/profile';
 import PrivateRoute from './routing';
 import { loadBookedTours, loadTours } from './store/action/tours';
 import Reviews from './components/Account/Reviews/Reviews';
+import NotFound from './shared/404/404';
 
 require('dotenv').config();
 
@@ -43,15 +44,18 @@ const App = (props) => {
          <BrowserRouter>
             <Alert />
             <Header />
-            <Route exact path="/" render={() => <Overview />} />
-            <Route exact path="/tour/:slug" component={Tour} />
-            <Route path="/login" render={() => <Login />} />
-            <Route path="/signup" component={Signup} />
-            <Route path="/resetPassword" component={ResetPassword} />
-            <Route path="/forgetPassword" component={ForgetPassword} />
-            <PrivateRoute path="/my-bookings" component={BookedTours} />
-            <PrivateRoute path="/reviews" component={Reviews} />
-            <PrivateRoute path="/me" component={Account} />
+            <Switch>
+               <Route exact path="/" render={() => <Overview />} />
+               <Route exact path="/tour/:slug" component={Tour} />
+               <Route exact path="/login" render={() => <Login />} />
+               <Route exact path="/signup" component={Signup} />
+               <Route exact path="/resetPassword" component={ResetPassword} />
+               <Route exact path="/forgetPassword" component={ForgetPassword} />
+               <PrivateRoute path="/my-bookings" component={BookedTours} />
+               <PrivateRoute path="/reviews" component={Reviews} />
+               <PrivateRoute path="/me" component={Account} />
+               <Route component={NotFound} />
+            </Switch>
             <Footer />
          </BrowserRouter>
       </Provider>

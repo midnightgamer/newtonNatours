@@ -5,11 +5,11 @@ import './Overview.css';
 import { loadTours } from '../../store/action/tours';
 import Spinner from '../../shared/Spinner/Spinner';
 
-const Overview = ({ tours, loading }) => {
+const Overview = ({ tours, loading, user }) => {
    let tour = [];
    if (tours && tours.length > 0) {
       tour = tours.map((el) => {
-         return <TourCard tour={el} key={el.name} />;
+         return <TourCard userRole={user.role} tour={el} key={el.name} />;
       });
    }
    return loading ? (
@@ -23,6 +23,7 @@ const Overview = ({ tours, loading }) => {
 const mapStateToProps = (state) => ({
    tours: state.tours.tours,
    loading: state.tours.loading,
+   user: state.profile.users,
 });
 
 export default connect(mapStateToProps, { loadTours })(Overview);

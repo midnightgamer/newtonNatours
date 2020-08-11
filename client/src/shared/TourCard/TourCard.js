@@ -4,7 +4,7 @@ import Buttons from '../Buttons/Buttons';
 import { HashLink as Link } from 'react-router-hash-link';
 
 const TourCard = (props) => {
-   const { tour, type } = props;
+   const { tour, type, userRole } = props;
    let card = null;
    if (type === 'booked') {
       const { createdAt, paid, price } = tour;
@@ -151,7 +151,9 @@ const TourCard = (props) => {
                      rating ({ratingsQuantity})
                   </span>
                </p>
-               <Buttons to={`/tour/${slug}`}>Details</Buttons>
+               <Buttons to={`/tour/${slug}`}>
+                  {userRole === 'admin' ? 'Edit' : 'Details'}
+               </Buttons>
             </div>
          </div>
       );

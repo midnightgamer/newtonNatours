@@ -1,0 +1,15 @@
+.css-t0fuvl {
+   background-color: #f2f2f2 !important;
+   box-shadow: none !important;
+   padding: 1.25rem 1.75rem !important;
+   font-family: 'Lato', sans-serif;
+}
+
+.side-by-side {
+   width: calc((100% - 20px) / 2);
+   display: inline-block;
+}
+
+.starLocation {
+   margin-right: 20px;
+}

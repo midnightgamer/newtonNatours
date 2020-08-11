@@ -103,7 +103,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/bookings', bookingRouter);
 
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
    res.sendFile(path.join(`${__dirname}/client/build/index.html`));
 });
 

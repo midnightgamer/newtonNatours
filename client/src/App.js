@@ -49,7 +49,11 @@ const App = (props) => {
                <Route exact path="/tour/:slug" component={Tour} />
                <Route exact path="/login" render={() => <Login />} />
                <Route exact path="/signup" component={Signup} />
-               <Route exact path="/resetPassword" component={ResetPassword} />
+               <Route
+                  exact
+                  path="/resetPassword/:token"
+                  component={ResetPassword}
+               />
                <Route exact path="/forgetPassword" component={ForgetPassword} />
                <PrivateRoute path="/my-bookings" component={BookedTours} />
                <PrivateRoute path="/reviews" component={Reviews} />

@@ -13,3 +13,7 @@
 .starLocation {
    margin-right: 20px;
 }
+
+.form__upload + label {
+   font-size: 14px;
+}

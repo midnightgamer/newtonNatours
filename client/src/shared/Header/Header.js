@@ -44,7 +44,7 @@ const Header = ({ isAuthenticated, user, logoutUser }) => {
             <form className="nav__search">
                <button className="nav__search-btn">
                   <svg>
-                     <use xlinkHref="img/icons.svg#icon-search" />
+                     <use xlinkHref="/img/icons.svg#icon-search" />
                   </svg>
                </button>
                <input

@@ -9,7 +9,7 @@ const Overview = ({ tours, loading, user }) => {
    let tour = [];
    if (tours && tours.length > 0) {
       tour = tours.map((el) => {
-         return <TourCard userRole={user.role} tour={el} key={el.name} />;
+         return <TourCard tour={el} key={el.name} />;
       });
    }
    return loading ? (

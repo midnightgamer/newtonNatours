@@ -37,7 +37,9 @@ exports.createOne = (Model) => {
    return catchAsync(async (req, res) => {
       // const newTour = new Tour({})
       // newTour.save()
+      console.log(req.body.guides);
       const newDoc = await Model.create(req.body);
+
       res.status(201).json({
          status: 'success',
          data: {
@@ -48,7 +50,6 @@ exports.createOne = (Model) => {
 };
 
 exports.getOne = (Model, populateOptions) => {
-   console.log('fac');
    return catchAsync(async (req, res, next) => {
       let query = Model.findById(req.params.id);
       if (populateOptions) query = query.populate(populateOptions);

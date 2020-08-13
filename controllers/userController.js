@@ -115,3 +115,16 @@ exports.getUserReviews = catchAsync(async (req, res, next) => {
       },
    });
 });
+
+exports.getAllGuides = catchAsync(async (req, res, next) => {
+   const guides = await User.find({ role: /guide/i }, 'name role');
+   if (!guides || guides.length === 0)
+      return next(new AppError('No guides found', 404));
+   res.status(200).json({
+      status: 'success',
+      data: {
+         results: guides.length,
+         data: guides,
+      },
+   });
+});

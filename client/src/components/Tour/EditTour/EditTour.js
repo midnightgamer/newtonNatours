@@ -3,7 +3,6 @@ import './EditTour.css';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import Buttons from '../../../shared/Buttons/Buttons';
 import axiosInstance from '../../../axiosInstance';
-const FormDataa = require('form-data');
 
 const EditTour = (props) => {
    const [inputLocationItem, setInputLocationItem] = useState([1]);
@@ -18,14 +17,13 @@ const EditTour = (props) => {
    const [startDates, setStartDates] = useState('');
    const [guides, setGuides] = useState([]);
    const [startLocation, setStartLocation] = useState({
+      type: 'Point',
       description: '',
       coordinates: [],
    });
    const [locations, setLocations] = useState([]);
-   const [imageCover, setImageCover] = useState(null);
-   const [images, setImages] = useState([]);
-
-   let formData = new FormDataa();
+   const [imageCover, setImageCover] = useState('');
+   const [images, setImages] = useState('');
 
    useEffect(() => {
       const inputs = document.getElementsByClassName('searchTextField');
@@ -45,7 +43,6 @@ const EditTour = (props) => {
                ).value = place.geometry.location.lng();*/
                el.setAttribute('data-lng', `${place.geometry.location.lng()}`);
                el.setAttribute('data-lat', `${place.geometry.location.lat()}`);
-               console.log(place);
             }
          );
       }
@@ -69,48 +66,47 @@ const EditTour = (props) => {
             leadgudiesArr.push({ label: el.name, value: el._id });
          }
       });
-   const showFrom = async (e) => {
-      e.preventDefault();
-      await formData.set('name', `${name}`);
-      await formData.set('duration', duration);
-      await formData.set('maxGroupSize', maxGroupSize);
-      await formData.set('difficulty', difficulty);
-      await formData.set('price', price);
-      await formData.set('summary', summary);
-      await formData.set('description', description);
-      await formData.append('imageCover', imageCover);
-      await formData.append('images', images);
-      await formData.set('startDates', startDates);
-      await formData.set('startLocation', startLocation);
-      await formData.set('locations', locations);
-      await formData.set('guides', guides);
 
-      console.log({
-         locations,
+   const handleDetails = async (e) => {
+      const guideIDs = guides.map((e) => {
+         return [e.value];
+      });
+      e.preventDefault();
+
+      const formData = {
          name,
          description,
-         startLocation,
-         setImages,
-         setImageCover,
-         setStartDates,
-         guides,
-         duration,
-         maxGroupSize,
-         difficulty,
-         price,
          summary,
-      });
+         price,
+         maxGroupSize,
+         duration,
+         difficulty,
+         startDates,
+         startLocation,
+         locations,
+         guides: guideIDs,
+      };
+      const res = await axiosInstance.post('/tours', formData);
+      console.log(res.data.data.data._id);
+      return res.data.data.data.id;
+   };
 
-      const res = await axiosInstance.post('/tours', formData, {
-         headers: {
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data',
-         },
+   const handleImages = async (e, tourId) => {
+      const formData = new FormData();
+      formData.append('imageCover', imageCover);
+
+      Object.keys(images).forEach(function (key) {
+         formData.append('images', images[key]);
       });
-      console.log(res);
+      await axiosInstance.patch(`/tours/${tourId}`, formData);
+   };
+   const creatTour = async (e) => {
+      const responseId = await handleDetails(e);
+      await handleImages(e, responseId);
    };
    const locationNameHandler = (e, i) => {
       const location = {
+         type: 'Point',
          description: e.target.value,
          coordinates: [],
       };
@@ -120,11 +116,14 @@ const EditTour = (props) => {
    };
    const locationLatLngHandler = (e, i) => {
       const oldLocations = locations;
+      let lat = e.target.dataset.lat;
+      let lng = e.target.dataset.lng;
+      lat = Number(lat);
+      lng = Number(lng);
       const location = {
          ...oldLocations[i],
-         coordinates: [e.target.dataset.lat, e.target.dataset.lng],
+         coordinates: [lat, lng],
       };
-
       oldLocations[i] = location;
       setLocations(oldLocations);
    };
@@ -369,18 +368,17 @@ const EditTour = (props) => {
                      multiple
                      accept="image/*"
                      id="picture"
-                     onChange={(e) => setImages([...images, e.target.files])}
+                     onChange={(e) => setImages(e.target.files)}
                      // onChange={(e) => onFileChange(e)}
                      name="pictures"
                   />
                   <label htmlFor="picture">Choose new photo</label>
                </div>
-
                <div className="form__group">
                   <button
                      type="submit"
                      className="btn btn--green"
-                     onClick={(e) => showFrom(e)}
+                     onClick={(e) => creatTour(e)}
                   >
                      Update
                   </button>

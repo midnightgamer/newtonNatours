@@ -25,9 +25,17 @@ const upload = multer({
 });
 
 exports.resizeTourImages = catchAsync(async (req, res, next) => {
+   console.log(req.files);
+   console.log(req.files.imageCover);
+   console.log(req.files.images);
+
    if (!req.files.imageCover || !req.files.images) return next();
    // Cover image
-   const imageCoverFileName = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
+
+   console.log('fromCoverImageFound');
+   const imageCoverFileName = `tour-${
+      req.params.id || req.body.name.split(' ').join('-')
+   }-${Date.now()}-cover.jpeg`;
    await sharp(req.files.imageCover[0].buffer)
       .resize(2000, 1333)
       .toFormat('jpeg')
@@ -39,9 +47,9 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
    req.body.images = [];
    await Promise.all(
       req.files.images.map(async (file, index) => {
-         const fileName = `tour-${req.params.id}-${Date.now()}-${
-            index + 1
-         }.jpeg`;
+         const fileName = `tour-${
+            req.params.id || req.body.name.split(' ').join('-')
+         }-${Date.now()}-${index + 1}.jpeg`;
          await sharp(file.buffer)
             .resize(2000, 1333)
             .toFormat('jpeg')

@@ -17,7 +17,7 @@ import BookedTours from './components/BookedTours/BookedTours';
 
 import { loadCurrentUser } from './store/action/profile';
 
-import PrivateRoute from './routing';
+import { PrivateRoute, RestrictedRoute } from './routing';
 import { loadBookedTours, loadTours } from './store/action/tours';
 import Reviews from './components/Account/Reviews/Reviews';
 import NotFound from './shared/404/404';
@@ -56,7 +56,7 @@ const App = (props) => {
                   component={ResetPassword}
                />
                <Route exact path="/forgetPassword" component={ForgetPassword} />
-               <PrivateRoute
+               <RestrictedRoute
                   exact
                   path="/tour/:slug/editTour"
                   component={EditTour}

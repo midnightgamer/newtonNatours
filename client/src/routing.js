@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const PrivateRoute = ({
+const privateRoute = ({
    component: Component,
    auth: { isAuthenticated, loading },
    ...rest
@@ -23,4 +23,22 @@ const mapStateToProps = (state) => ({
    auth: state.auth,
 });
 
-export default connect(mapStateToProps)(PrivateRoute);
+export const PrivateRoute = connect(mapStateToProps)(privateRoute);
+
+const restrictedRoute = ({ component: Component, user, ...rest }) => (
+   <Route
+      {...rest}
+      render={(props) => {
+         if (!(user.role === 'admin')) {
+            return <Redirect to="/login" />;
+         } else {
+            return <Component {...props} />;
+         }
+      }}
+   />
+);
+const mapStateToProps2 = (state) => ({
+   auth: state.auth,
+   user: state.profile.users,
+});
+export const RestrictedRoute = connect(mapStateToProps2)(restrictedRoute);

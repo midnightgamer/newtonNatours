@@ -6,10 +6,9 @@ import Spinner from '../../../shared/Spinner/Spinner';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import Buttons from '../../../shared/Buttons/Buttons';
 import axiosInstance from '../../../axiosInstance';
-
 const EditTour = (props) => {
-   const { match } = props;
-   const [inputLocationItem, setInputLocationItem] = useState([1]);
+   const { match, setSingleTour, tour } = props;
+   const [inputLocationItem, setInputLocationItem] = useState(1);
    const [fetchedGudies, setFetchedGudies] = useState(null);
    const [name, setName] = useState('');
    const [summary, setSummary] = useState('');
@@ -26,9 +25,10 @@ const EditTour = (props) => {
       coordinates: [],
    });
    const [locations, setLocations] = useState([]);
-   const [imageCover, setImageCover] = useState('');
+   const [imageCover, setImageCover] = useState(null);
    const [images, setImages] = useState('');
 
+   //Autocomplete for locations
    useEffect(() => {
       const inputs = document.getElementsByClassName('searchTextField');
       for (let el of inputs) {
@@ -51,18 +51,39 @@ const EditTour = (props) => {
          );
       }
    }, [inputLocationItem]);
+
+   //Set Current tour to state
+   useEffect(() => {
+      setSingleTour(match.params.slug);
+   }, [match.params.slug, setSingleTour]);
+   //Fetch All guides
    const fetchGuides = async () => {
       const fetchedGuides = await axiosInstance.get('/users/guides');
       setFetchedGudies(fetchedGuides.data.data.data);
    };
-
-   useEffect(() => {
-      setSingleTour(match.params.slug);
-   }, [match.params.slug]);
-
    useEffect(() => {
       fetchGuides();
    }, []);
+
+   //Set all values for current TOur
+   useEffect(() => {
+      if (tour) {
+         setPrice(tour.price);
+         setName(tour.name);
+         setSummary(tour.summary);
+         setDescription(tour.description);
+         setDifficulty(tour.difficulty);
+         setLocations(tour.locations);
+         setStartLocation(tour.startLocation);
+         setStartDates(tour.startDates);
+         setDuration(tour.duration);
+         setMaxGroupSize(tour.maxGroupSize);
+         setInputLocationItem(tour.locations.length);
+         setGuides(tour.guides);
+      }
+   }, [inputLocationItem, tour]);
+
+   //Filter guide and Lead gudie
    const leadgudiesArr = [];
    const gudiesArr = [];
    const filte =
@@ -75,9 +96,14 @@ const EditTour = (props) => {
          }
       });
 
+   //Handle input filed values
    const handleDetails = async (e) => {
       const guideIDs = guides.map((e) => {
-         return [e.value];
+         if (e.value) {
+            return [e.value];
+         } else if (e._id) {
+            return [e._id];
+         }
       });
       e.preventDefault();
 
@@ -94,12 +120,13 @@ const EditTour = (props) => {
          locations,
          guides: guideIDs,
       };
-      const res = await axiosInstance.post('/tours', formData);
+      const res = await axiosInstance.patch(`/tours/${tour._id}`, formData);
       console.log(res.data.data.data._id);
       return res.data.data.data.id;
    };
-
+   //Handle Images
    const handleImages = async (e, tourId) => {
+      console.log('img handler');
       const formData = new FormData();
       formData.append('imageCover', imageCover);
 
@@ -108,10 +135,16 @@ const EditTour = (props) => {
       });
       await axiosInstance.patch(`/tours/${tourId}`, formData);
    };
-   const creatTour = async (e) => {
+
+   //Creating a new tour
+   const updateTour = async (e) => {
       const responseId = await handleDetails(e);
-      await handleImages(e, responseId);
+      if (imageCover) {
+         await handleImages(e, responseId);
+      }
    };
+
+   //Handle location Names
    const locationNameHandler = (e, i) => {
       const location = {
          type: 'Point',
@@ -122,6 +155,8 @@ const EditTour = (props) => {
       oldLocations[i] = location;
       setLocations(oldLocations);
    };
+
+   //Handler location coordinates
    const locationLatLngHandler = (e, i) => {
       const oldLocations = locations;
       let lat = e.target.dataset.lat;
@@ -135,9 +170,12 @@ const EditTour = (props) => {
       oldLocations[i] = location;
       setLocations(oldLocations);
    };
-   const locationArray = () => {
-      const maped = inputLocationItem.map((el, i) => {
-         return (
+
+   //Render number of locations
+   const locationArray = (itemNumber) => {
+      const maped = [];
+      for (let i = 0; i < itemNumber; i++) {
+         maped.push(
             <div className={`location-${i}`} key={i}>
                <div className="form__group ma-bt-md side-by-side starLocation">
                   <label className="form__label" htmlFor="locations">
@@ -149,6 +187,7 @@ const EditTour = (props) => {
                      type="text"
                      placeholder="Delhi,India"
                      required="required"
+                     value={tour.locations[i].description}
                      onChange={(e) => locationNameHandler(e, i)}
                   />
                </div>
@@ -160,6 +199,7 @@ const EditTour = (props) => {
                      className="form__input searchTextField"
                      id="locationsSelect"
                      type="text"
+                     value={tour.locations[i].coordinates}
                      placeholder="Taj Mahal"
                      required="required"
                      onBlur={(e) => locationLatLngHandler(e, i)}
@@ -167,10 +207,10 @@ const EditTour = (props) => {
                </div>
             </div>
          );
-      });
+      }
       return maped;
    };
-   return (
+   return tour ? (
       <div className={'main'}>
          <div className="container">
             <h2 className="heading-secondary ma-bt-lg">Edit Forest Hiker</h2>
@@ -185,6 +225,7 @@ const EditTour = (props) => {
                      type="text"
                      placeholder="The Forest Hiker"
                      required="required"
+                     value={name}
                      onChange={(e) => setName(e.target.value)}
                   />
                </div>
@@ -198,6 +239,7 @@ const EditTour = (props) => {
                      type="text"
                      placeholder="497"
                      required="required"
+                     value={price}
                      onChange={(e) => setPrice(e.target.value)}
                   />
                </div>
@@ -212,6 +254,7 @@ const EditTour = (props) => {
                      type="text"
                      placeholder="Summary of tour"
                      required="required"
+                     value={summary}
                      onChange={(e) => setSummary(e.target.value)}
                   />
                </div>
@@ -225,6 +268,7 @@ const EditTour = (props) => {
                      id="description"
                      placeholder="Description of tour"
                      required="required"
+                     value={description}
                      onChange={(e) => setDescription(e.target.value)}
                   />
                </div>
@@ -239,6 +283,7 @@ const EditTour = (props) => {
                      type="number"
                      placeholder="10"
                      required="required"
+                     value={duration}
                      onChange={(e) => setDuration(e.target.value)}
                   />
                </div>
@@ -251,6 +296,7 @@ const EditTour = (props) => {
                      className="form__input"
                      id="maxGroupSize"
                      type="number"
+                     value={maxGroupSize}
                      placeholder="15"
                      onChange={(e) => setMaxGroupSize(e.target.value)}
                      required="required"
@@ -265,11 +311,12 @@ const EditTour = (props) => {
                      className="form__input"
                      id="difficulty"
                      required="required"
+                     value={difficulty}
                      onChange={(e) => setDifficulty(e.target.value)}
                   >
                      <option value="easy">Easy</option>
                      <option value="medium">Medium</option>
-                     <option value="hard">Difficult</option>
+                     <option value="difficult">Difficult</option>
                   </select>
                </div>
 
@@ -293,6 +340,7 @@ const EditTour = (props) => {
                   <ReactMultiSelectCheckboxes
                      className="form__input"
                      options={gudiesArr}
+                     value={tour.guides}
                      onChange={(option) => setGuides((guides[0] = option))}
                      width={'100%'}
                   />
@@ -321,6 +369,7 @@ const EditTour = (props) => {
                      type="text"
                      placeholder="Delhi,India"
                      required="required"
+                     value={tour.startLocation.description}
                      onChange={(e) =>
                         setStartLocation({
                            ...startLocation,
@@ -339,6 +388,7 @@ const EditTour = (props) => {
                      type="text"
                      placeholder="Taj Mahal"
                      required="required"
+                     value={tour.startLocation.coordinates}
                      onBlur={(e) =>
                         setStartLocation({
                            ...startLocation,
@@ -352,13 +402,11 @@ const EditTour = (props) => {
                </div>
 
                <div id="locationArray" style={{ marginBottom: 20 + 'px' }}>
-                  {locationArray()}
+                  {locationArray(inputLocationItem)}
                   <Buttons
-                     to={'/editTour'}
+                     to={`/tour/${tour.slug}/editTour`}
                      type={'text'}
-                     onClick={() =>
-                        setInputLocationItem([...inputLocationItem, 2])
-                     }
+                     onClick={() => setInputLocationItem(inputLocationItem + 1)}
                   >
                      + Add more locations
                   </Buttons>
@@ -399,7 +447,7 @@ const EditTour = (props) => {
                   <button
                      type="submit"
                      className="btn btn--green"
-                     onClick={(e) => creatTour(e)}
+                     onClick={(e) => updateTour(e)}
                   >
                      Update
                   </button>
@@ -407,7 +455,12 @@ const EditTour = (props) => {
             </form>
          </div>
       </div>
+   ) : (
+      <Spinner />
    );
 };
 
-export default EditTour;
+const mapStateToProps = (state) => ({
+   tour: state.tours.tour,
+});
+export default connect(mapStateToProps, { setSingleTour })(EditTour);

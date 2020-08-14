@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TourCard from '../../shared/TourCard/TourCard';
 import { connect } from 'react-redux';
 import './Overview.css';
@@ -6,6 +6,8 @@ import { loadTours } from '../../store/action/tours';
 import Spinner from '../../shared/Spinner/Spinner';
 
 const Overview = ({ tours, loading, user }) => {
+   let role = 'user';
+
    let tour = [];
    if (tours && tours.length > 0) {
       tour = tours.map((el) => {

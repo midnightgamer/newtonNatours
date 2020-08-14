@@ -25,14 +25,10 @@ const upload = multer({
 });
 
 exports.resizeTourImages = catchAsync(async (req, res, next) => {
-   console.log(req.files);
-   console.log(req.files.imageCover);
-   console.log(req.files.images);
-
+   if (!req.files) return next();
    if (!req.files.imageCover || !req.files.images) return next();
    // Cover image
 
-   console.log('fromCoverImageFound');
    const imageCoverFileName = `tour-${
       req.params.id || req.body.name.split(' ').join('-')
    }-${Date.now()}-cover.jpeg`;

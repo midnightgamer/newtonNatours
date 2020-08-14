@@ -2,9 +2,10 @@ import React from 'react';
 import './TourCard.css';
 import Buttons from '../Buttons/Buttons';
 import { HashLink as Link } from 'react-router-hash-link';
+import { connect } from 'react-redux';
 
 const TourCard = (props) => {
-   const { tour, type, userRole } = props;
+   const { tour, type, user } = props;
    let card = null;
    if (type === 'booked') {
       const { createdAt, paid, price } = tour;
@@ -151,9 +152,11 @@ const TourCard = (props) => {
                      rating ({ratingsQuantity})
                   </span>
                </p>
-               <Buttons to={`/tour/${slug}`}>
-                  {userRole === 'admin' ? 'Edit' : 'Details'}
-               </Buttons>
+               {user && user.role === 'admin' ? (
+                  <Buttons to={`/tour/${slug}/editTour`}>Edit</Buttons>
+               ) : (
+                  <Buttons to={`/tour/${slug}`}>Details</Buttons>
+               )}
             </div>
          </div>
       );
@@ -161,4 +164,7 @@ const TourCard = (props) => {
    return card;
 };
 
-export default TourCard;
+const mapStateToProps = (state) => ({
+   user: state.profile.users,
+});
+export default connect(mapStateToProps)(TourCard);

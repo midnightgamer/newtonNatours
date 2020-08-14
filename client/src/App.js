@@ -56,7 +56,11 @@ const App = (props) => {
                   component={ResetPassword}
                />
                <Route exact path="/forgetPassword" component={ForgetPassword} />
-               <Route exact path="/editTour" component={EditTour} />
+               <PrivateRoute
+                  exact
+                  path="/tour/:slug/editTour"
+                  component={EditTour}
+               />
                <PrivateRoute path="/my-bookings" component={BookedTours} />
                <PrivateRoute path="/reviews" component={Reviews} />
                <PrivateRoute path="/me" component={Account} />

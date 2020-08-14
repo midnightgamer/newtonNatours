@@ -35,7 +35,7 @@ const Sidenav = ({ role }) => (
             <h5 className="admin-nav__heading">Admin</h5>
             <ul className="side-nav">
                <li>
-                  <NavLink to={'/all-tours'}>
+                  <NavLink to={'/'}>
                      <svg>
                         <use xlinkHref="/img/icons.svg#icon-map" />
                      </svg>

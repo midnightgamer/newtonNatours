@@ -11,6 +11,11 @@ const Header = ({ isAuthenticated, user, logoutUser }) => {
       const { name, photo } = user;
       authLinks = (
          <nav className="nav nav--user">
+            {user.role === 'admin' ? (
+               <Link to="tour/createTour" className="nav__el">
+                  Create a Tour
+               </Link>
+            ) : null}
             <Link to="/" onClick={logoutUser} className="nav__el">
                Logout
             </Link>

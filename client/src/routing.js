@@ -29,7 +29,7 @@ const restrictedRoute = ({ component: Component, user, ...rest }) => (
    <Route
       {...rest}
       render={(props) => {
-         if (!(user.role === 'admin')) {
+         if (!(user.role === 'admin' || user.role === 'lead-guide')) {
             return <Redirect to="/login" />;
          } else {
             return <Component {...props} />;

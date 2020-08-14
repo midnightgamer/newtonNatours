@@ -22,6 +22,7 @@ import { loadBookedTours, loadTours } from './store/action/tours';
 import Reviews from './components/Account/Reviews/Reviews';
 import NotFound from './shared/404/404';
 import EditTour from './components/Tour/EditTour/EditTour';
+import CreateTour from './components/Tour/CreateTour/CreateTour';
 
 require('dotenv').config();
 
@@ -47,6 +48,11 @@ const App = (props) => {
             <Header />
             <Switch>
                <Route exact path="/" render={() => <Overview />} />
+               <RestrictedRoute
+                  exact
+                  path="/tour/createTour"
+                  component={CreateTour}
+               />
                <Route exact path="/tour/:slug" component={Tour} />
                <Route exact path="/login" render={() => <Login />} />
                <Route exact path="/signup" component={Signup} />

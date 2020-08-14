@@ -8,7 +8,7 @@ import {
 import produce from 'immer';
 
 const initialState = {
-   users: null,
+   users: '',
    isLoading: true,
    userReviews: [],
 };

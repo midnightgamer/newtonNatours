@@ -7,7 +7,6 @@ import Spinner from '../../shared/Spinner/Spinner';
 
 const Overview = ({ tours, loading, user }) => {
    let role = 'user';
-
    let tour = [];
    if (tours && tours.length > 0) {
       tour = tours.map((el) => {

@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './EditTour.css';
+import { connect } from 'react-redux';
+import { setSingleTour } from '../../../store/action/tours';
+import Spinner from '../../../shared/Spinner/Spinner';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import Buttons from '../../../shared/Buttons/Buttons';
 import axiosInstance from '../../../axiosInstance';
 
 const EditTour = (props) => {
+   const { match } = props;
    const [inputLocationItem, setInputLocationItem] = useState([1]);
    const [fetchedGudies, setFetchedGudies] = useState(null);
    const [name, setName] = useState('');
@@ -51,6 +55,10 @@ const EditTour = (props) => {
       const fetchedGuides = await axiosInstance.get('/users/guides');
       setFetchedGudies(fetchedGuides.data.data.data);
    };
+
+   useEffect(() => {
+      setSingleTour(match.params.slug);
+   }, [match.params.slug]);
 
    useEffect(() => {
       fetchGuides();
@@ -130,7 +138,7 @@ const EditTour = (props) => {
    const locationArray = () => {
       const maped = inputLocationItem.map((el, i) => {
          return (
-            <div className={`location-${i}`}>
+            <div className={`location-${i}`} key={i}>
                <div className="form__group ma-bt-md side-by-side starLocation">
                   <label className="form__label" htmlFor="locations">
                      Location Name
@@ -174,10 +182,23 @@ const EditTour = (props) => {
                   <input
                      className="form__input"
                      id="name"
-                     type="name"
+                     type="text"
                      placeholder="The Forest Hiker"
                      required="required"
                      onChange={(e) => setName(e.target.value)}
+                  />
+               </div>
+               <div className="form__group">
+                  <label className="form__label" htmlFor="price">
+                     Price per person
+                  </label>
+                  <input
+                     className="form__input"
+                     id="price"
+                     type="text"
+                     placeholder="497"
+                     required="required"
+                     onChange={(e) => setPrice(e.target.value)}
                   />
                </div>
 

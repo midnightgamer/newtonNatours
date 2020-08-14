@@ -6,9 +6,17 @@ import Spinner from '../../../shared/Spinner/Spinner';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import Buttons from '../../../shared/Buttons/Buttons';
 import axiosInstance from '../../../axiosInstance';
+import { updateImages, updateTour } from '../../../store/action/tours';
+
 const EditTour = (props) => {
-   const { match, setSingleTour, tour } = props;
-   const [inputLocationItem, setInputLocationItem] = useState(1);
+   const {
+      match,
+      setSingleTour,
+      tour,
+      updateImages,
+      updateTour,
+      history,
+   } = props;
    const [fetchedGudies, setFetchedGudies] = useState(null);
    const [name, setName] = useState('');
    const [summary, setSummary] = useState('');
@@ -24,7 +32,14 @@ const EditTour = (props) => {
       description: '',
       coordinates: [],
    });
-   const [locations, setLocations] = useState([]);
+   const [locations, setLocations] = useState([
+      {
+         type: 'Point',
+         description: '',
+         coordinates: [],
+         day: 0,
+      },
+   ]);
    const [imageCover, setImageCover] = useState(null);
    const [images, setImages] = useState('');
 
@@ -38,19 +53,12 @@ const EditTour = (props) => {
             'place_changed',
             function () {
                var place = autocomplete.getPlace();
-               /*    document.getElementById('city2').value = place.name;
-               document.getElementById(
-                  'cityLat'
-               ).value = place.geometry.location.lat();
-               document.getElementById(
-                  'cityLng'
-               ).value = place.geometry.location.lng();*/
                el.setAttribute('data-lng', `${place.geometry.location.lng()}`);
                el.setAttribute('data-lat', `${place.geometry.location.lat()}`);
             }
          );
       }
-   }, [inputLocationItem]);
+   }, [locations]);
 
    //Set Current tour to state
    useEffect(() => {
@@ -78,10 +86,9 @@ const EditTour = (props) => {
          setStartDates(tour.startDates);
          setDuration(tour.duration);
          setMaxGroupSize(tour.maxGroupSize);
-         setInputLocationItem(tour.locations.length);
          setGuides(tour.guides);
       }
-   }, [inputLocationItem, tour]);
+   }, [tour]);
 
    //Filter guide and Lead gudie
    const leadgudiesArr = [];
@@ -90,9 +97,15 @@ const EditTour = (props) => {
       fetchedGudies &&
       fetchedGudies.map((el) => {
          if (el.role === 'guide') {
-            gudiesArr.push({ label: el.name, value: el._id });
+            gudiesArr.push({
+               label: el.name,
+               value: el._id,
+            });
          } else {
-            leadgudiesArr.push({ label: el.name, value: el._id });
+            leadgudiesArr.push({
+               label: el.name,
+               value: el._id,
+            });
          }
       });
 
@@ -120,24 +133,27 @@ const EditTour = (props) => {
          locations,
          guides: guideIDs,
       };
-      const res = await axiosInstance.patch(`/tours/${tour._id}`, formData);
-      console.log(res.data.data.data._id);
-      return res.data.data.data.id;
+      const res = await updateTour(tour._id, formData);
+      if (res) {
+         setTimeout(() => {
+            history.push(`/tour/${tour.slug}`);
+         }, 1500);
+      }
+      return res;
    };
    //Handle Images
    const handleImages = async (e, tourId) => {
-      console.log('img handler');
       const formData = new FormData();
       formData.append('imageCover', imageCover);
-
       Object.keys(images).forEach(function (key) {
          formData.append('images', images[key]);
       });
-      await axiosInstance.patch(`/tours/${tourId}`, formData);
+
+      await updateImages(tourId, formData);
    };
 
    //Creating a new tour
-   const updateTour = async (e) => {
+   const updateTourHandler = async (e) => {
       const responseId = await handleDetails(e);
       if (imageCover) {
          await handleImages(e, responseId);
@@ -146,35 +162,38 @@ const EditTour = (props) => {
 
    //Handle location Names
    const locationNameHandler = (e, i) => {
-      const location = {
-         type: 'Point',
-         description: e.target.value,
-         coordinates: [],
-      };
-      const oldLocations = locations;
-      oldLocations[i] = location;
-      setLocations(oldLocations);
+      const { value } = e.target;
+      const locationsList = [...locations];
+      locationsList[i]['description'] = value;
+      delete locationsList._id;
+      setLocations(locationsList);
+   };
+   //Handle location Names
+   const locationDayHandler = (e, i) => {
+      const { value } = e.target;
+      const locationsList = [...locations];
+      locationsList[i]['day'] = value;
+      delete locationsList._id;
+      setLocations(locationsList);
    };
 
    //Handler location coordinates
    const locationLatLngHandler = (e, i) => {
-      const oldLocations = locations;
+      const locationsList = [...locations];
       let lat = e.target.dataset.lat;
       let lng = e.target.dataset.lng;
+      console.log(locationsList, i);
       lat = Number(lat);
       lng = Number(lng);
-      const location = {
-         ...oldLocations[i],
-         coordinates: [lat, lng],
-      };
-      oldLocations[i] = location;
-      setLocations(oldLocations);
+      locationsList[i]['coordinates'] = [lng, lat];
+      delete locationsList._id;
+      setLocations(locationsList);
    };
 
    //Render number of locations
-   const locationArray = (itemNumber) => {
+   const locationArray = () => {
       const maped = [];
-      for (let i = 0; i < itemNumber; i++) {
+      for (let i = 0; i < locations.length; i++) {
          maped.push(
             <div className={`location-${i}`} key={i}>
                <div className="form__group ma-bt-md side-by-side starLocation">
@@ -187,7 +206,7 @@ const EditTour = (props) => {
                      type="text"
                      placeholder="Delhi,India"
                      required="required"
-                     value={tour.locations[i].description}
+                     value={locations[i].description}
                      onChange={(e) => locationNameHandler(e, i)}
                   />
                </div>
@@ -199,10 +218,22 @@ const EditTour = (props) => {
                      className="form__input searchTextField"
                      id="locationsSelect"
                      type="text"
-                     value={tour.locations[i].coordinates}
-                     placeholder="Taj Mahal"
+                     placeholder={locations[i].coordinates}
                      required="required"
                      onBlur={(e) => locationLatLngHandler(e, i)}
+                  />
+               </div>
+               <div className="form__group ma-bt-md side-by-side">
+                  <label className="form__label" htmlFor="day">
+                     Day
+                  </label>
+                  <input
+                     className="form__input"
+                     id="day"
+                     type="text"
+                     placeholder={locations[i].day}
+                     required="required"
+                     onChange={(e) => locationDayHandler(e, i)}
                   />
                </div>
             </div>
@@ -402,11 +433,20 @@ const EditTour = (props) => {
                </div>
 
                <div id="locationArray" style={{ marginBottom: 20 + 'px' }}>
-                  {locationArray(inputLocationItem)}
+                  {locationArray()}
                   <Buttons
                      to={`/tour/${tour.slug}/editTour`}
                      type={'text'}
-                     onClick={() => setInputLocationItem(inputLocationItem + 1)}
+                     onClick={() =>
+                        setLocations([
+                           ...locations,
+                           {
+                              type: 'Point',
+                              description: '',
+                              coordinates: [],
+                           },
+                        ])
+                     }
                   >
                      + Add more locations
                   </Buttons>
@@ -447,7 +487,7 @@ const EditTour = (props) => {
                   <button
                      type="submit"
                      className="btn btn--green"
-                     onClick={(e) => updateTour(e)}
+                     onClick={(e) => updateTourHandler(e)}
                   >
                      Update
                   </button>
@@ -463,4 +503,8 @@ const EditTour = (props) => {
 const mapStateToProps = (state) => ({
    tour: state.tours.tour,
 });
-export default connect(mapStateToProps, { setSingleTour })(EditTour);
+export default connect(mapStateToProps, {
+   setSingleTour,
+   updateImages,
+   updateTour,
+})(EditTour);

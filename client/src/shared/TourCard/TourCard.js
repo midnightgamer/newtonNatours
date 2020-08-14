@@ -94,7 +94,7 @@ const TourCard = (props) => {
                <div className="card__picture">
                   <div className="card__picture-overlay">&nbsp;</div>
                   <img
-                     src={`http://localhost:5000/img/tours/${imageCover}`}
+                     src={`/img/tours/${imageCover}`}
                      alt="Tour 1"
                      className="card__picture-img"
                   />
@@ -112,13 +112,13 @@ const TourCard = (props) => {
                <p className="card__text">{summary}</p>
                <div className="card__data">
                   <svg className="card__icon">
-                     {/*<use xlink:href="img/icons.svg#icon-map-pin"></use>*/}
+                     <use xlinkHref="/img/icons.svg#icon-map-pin" />
                   </svg>
                   <span>{startLocation.description}</span>
                </div>
                <div className="card__data">
                   <svg className="card__icon">
-                     {/*<use xlink:href="img/icons.svg#icon-calendar"></use>*/}
+                     <use xlinkHref="/img/icons.svg#icon-calendar" />
                   </svg>
                   <span>
                      {new Date(startDates[0]).toLocaleString('en-un', {
@@ -129,13 +129,13 @@ const TourCard = (props) => {
                </div>
                <div className="card__data">
                   <svg className="card__icon">
-                     {/*<use xlink:href="img/icons.svg#icon-flag"></use>*/}
+                     <use xlinkHref="/img/icons.svg#icon-flag" />
                   </svg>
                   <span>{locations.length} stops</span>
                </div>
                <div className="card__data">
                   <svg className="card__icon">
-                     {/*<use xlink:href="img/icons.svg#icon-user"></use>*/}
+                     <use xlinkHref="/img/icons.svg#icon-user" />
                   </svg>
                   <span>`{maxGroupSize} people`</span>
                </div>

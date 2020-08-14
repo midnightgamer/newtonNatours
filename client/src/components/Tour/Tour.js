@@ -52,16 +52,17 @@ const Tour = (props) => {
    }, [match.params.slug, setSingleTour]);
    useEffect(() => {
       if (tour && user) {
-         tour.reviews.some((e) => {
-            if (e.user._id === user._id) {
-               setHaveReview(e);
-               setComment(e.review);
-               setRating(e.rating);
-            } else {
-               setHaveReview(null);
-            }
-            return e.user._id === user._id;
-         });
+         tour.reviews &&
+            tour.reviews.some((e) => {
+               if (e.user._id === user._id) {
+                  setHaveReview(e);
+                  setComment(e.review);
+                  setRating(e.rating);
+               } else {
+                  setHaveReview(null);
+               }
+               return e.user._id === user._id;
+            });
       }
    }, [tour, user]);
    const onSubmit = (e, type) => {
@@ -236,9 +237,10 @@ const Tour = (props) => {
 
          <section className="section-reviews">
             <div className="reviews">
-               {tour.reviews.map((review) => (
-                  <ReviewCard review={review} key={review._id} />
-               ))}
+               {tour.reviews &&
+                  tour.reviews.map((review) => (
+                     <ReviewCard review={review} key={review._id} />
+                  ))}
             </div>
          </section>
 

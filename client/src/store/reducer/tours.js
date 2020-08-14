@@ -7,6 +7,8 @@ import {
    LOAD_TOURS_SUCCESS,
    LOGOUT,
    UPDATE_REVIEW_SUCCESS,
+   UPDATE_TOUR_IMAGES_SUCCESS,
+   UPDATE_TOUR_SUCCESS,
 } from '../action/types';
 import produce from 'immer';
 
@@ -14,6 +16,7 @@ const initialState = {
    bookedTours: [],
    tour: null,
    isLoading: true,
+   tours: [],
 };
 
 export default produce((draft = initialState, action) => {
@@ -22,6 +25,16 @@ export default produce((draft = initialState, action) => {
       case LOAD_TOURS_SUCCESS:
          draft.tours = payload;
          draft.isLoading = false;
+         return draft;
+      case UPDATE_TOUR_SUCCESS:
+      case UPDATE_TOUR_IMAGES_SUCCESS:
+         draft.tour = payload.res;
+         draft.tours.some((e, i) => {
+            if (e._id === payload.id) {
+               draft.tours[i] = payload.res;
+            }
+            return e._id === payload.id;
+         });
          return draft;
       case GET_BOOKED_TOURS_SUCCESS:
          draft.bookedTours = payload;

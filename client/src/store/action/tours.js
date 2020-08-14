@@ -9,6 +9,11 @@ import {
    LOAD_TOURS_FAIL,
    LOAD_TOURS_INIT,
    LOAD_TOURS_SUCCESS,
+   UPDATE_TOUR_FAIL,
+   UPDATE_TOUR_IMAGES_FAIL,
+   UPDATE_TOUR_IMAGES_SUCCESS,
+   UPDATE_TOUR_INIT,
+   UPDATE_TOUR_SUCCESS,
 } from './types';
 import axiosInstance from '../../axiosInstance';
 import { setAlert } from './alert';
@@ -61,6 +66,41 @@ export const setSingleTour = (slug) => async (dispatch) => {
    } catch (e) {
       console.log(e);
       dispatch({ type: LOAD_SINGLE_TOUR_FAIL });
+      dispatch(setAlert('error', e.response.data.message));
+   }
+};
+
+export const updateImages = (id, formData) => async (dispatch) => {
+   try {
+      dispatch({ type: UPDATE_TOUR_INIT });
+      const tour = await axiosInstance.patch(`/tours/${id}`, formData);
+      dispatch({
+         type: UPDATE_TOUR_IMAGES_SUCCESS,
+         payload: tour.data.data.tour,
+      });
+      dispatch(setAlert('success', 'Tour Images updated'));
+   } catch (e) {
+      dispatch({ type: UPDATE_TOUR_IMAGES_FAIL });
+      dispatch(setAlert('error', e.response.data.message));
+   }
+};
+
+export const updateTour = (id, formData) => async (dispatch) => {
+   try {
+      dispatch({ type: UPDATE_TOUR_INIT });
+      const res = await axiosInstance.patch(`/tours/${id}`, formData);
+      dispatch({
+         type: UPDATE_TOUR_SUCCESS,
+         payload: {
+            id,
+            res: res.data.data.data,
+         },
+      });
+      dispatch(setAlert('success', 'Tour updated'));
+      return res.data.data.data.id;
+   } catch (e) {
+      console.log(e);
+      dispatch({ type: UPDATE_TOUR_FAIL });
       dispatch(setAlert('error', e.response.data.message));
    }
 };

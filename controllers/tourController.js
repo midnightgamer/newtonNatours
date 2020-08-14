@@ -26,35 +26,38 @@ const upload = multer({
 
 exports.resizeTourImages = catchAsync(async (req, res, next) => {
    if (!req.files) return next();
+   if (req.files.imageCover) {
+      const imageCoverFileName = `tour-${
+         req.params.id || req.body.name.split(' ').join('-')
+      }-${Date.now()}-cover.jpeg`;
+      await sharp(req.files.imageCover[0].buffer)
+         .resize(2000, 1333)
+         .toFormat('jpeg')
+         .jpeg({ quality: 90 })
+         .toFile(`public/img/tours/${imageCoverFileName}`);
+      req.body.imageCover = imageCoverFileName;
+   }
+   if (req.files.images) {
+      req.body.images = [];
+      await Promise.all(
+         req.files.images.map(async (file, index) => {
+            const fileName = `tour-${
+               req.params.id || req.body.name.split(' ').join('-')
+            }-${Date.now()}-${index + 1}.jpeg`;
+            await sharp(file.buffer)
+               .resize(2000, 1333)
+               .toFormat('jpeg')
+               .jpeg({ quality: 90 })
+               .toFile(`public/img/tours/${fileName}`);
+
+            req.body.images.push(fileName);
+         })
+      );
+   }
    if (!req.files.imageCover || !req.files.images) return next();
    // Cover image
 
-   const imageCoverFileName = `tour-${
-      req.params.id || req.body.name.split(' ').join('-')
-   }-${Date.now()}-cover.jpeg`;
-   await sharp(req.files.imageCover[0].buffer)
-      .resize(2000, 1333)
-      .toFormat('jpeg')
-      .jpeg({ quality: 90 })
-      .toFile(`public/img/tours/${imageCoverFileName}`);
-   req.body.imageCover = imageCoverFileName;
-
    // Images
-   req.body.images = [];
-   await Promise.all(
-      req.files.images.map(async (file, index) => {
-         const fileName = `tour-${
-            req.params.id || req.body.name.split(' ').join('-')
-         }-${Date.now()}-${index + 1}.jpeg`;
-         await sharp(file.buffer)
-            .resize(2000, 1333)
-            .toFormat('jpeg')
-            .jpeg({ quality: 90 })
-            .toFile(`public/img/tours/${fileName}`);
-
-         req.body.images.push(fileName);
-      })
-   );
    next();
 });
 

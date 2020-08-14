@@ -6,12 +6,12 @@
 }
 
 .side-by-side {
-   width: calc((100% - 20px) / 2);
+   width: calc((100% - 40px) / 3);
    display: inline-block;
 }
 
-.starLocation {
-   margin-right: 20px;
+.starLocation + div {
+   margin: 0 20px;
 }
 
 .form__upload + label {

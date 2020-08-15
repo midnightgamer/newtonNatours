@@ -1,5 +1,11 @@
 import {
    CLEAR_SINGLE_TOUR,
+   CREATE_TOUR_FAIL,
+   CREATE_TOUR_INIT,
+   CREATE_TOUR_SUCCESS,
+   DELETE_TOUR_FAIL,
+   DELETE_TOUR_INIT,
+   DELETE_TOUR_SUCCESS,
    GET_BOOKED_TOURS_FAIL,
    GET_BOOKED_TOURS_INIT,
    GET_BOOKED_TOURS_SUCCESS,
@@ -80,27 +86,58 @@ export const updateImages = (id, formData) => async (dispatch) => {
       });
       dispatch(setAlert('success', 'Tour Images updated'));
    } catch (e) {
+      console.log(e);
       dispatch({ type: UPDATE_TOUR_IMAGES_FAIL });
+   }
+};
+
+export const updateTour = (id, formData, type) => async (dispatch) => {
+   try {
+      console.log(type);
+      if (type !== 'create') {
+         dispatch({ type: UPDATE_TOUR_INIT });
+         const res = await axiosInstance.patch(`/tours/${id}`, formData);
+         dispatch({
+            type: UPDATE_TOUR_SUCCESS,
+            payload: {
+               id,
+               res: res.data.data.data,
+            },
+         });
+         dispatch(setAlert('success', 'Tour updated'));
+         return res.data.data.data.id;
+      } else if (type === 'create') {
+         dispatch({ type: CREATE_TOUR_INIT });
+         const res = await axiosInstance.post(`/tours`, formData);
+         dispatch({
+            type: CREATE_TOUR_SUCCESS,
+            payload: {
+               id,
+               res: res.data.data.data,
+            },
+         });
+         dispatch(setAlert('success', 'Tour created'));
+         return res.data.data.data.id;
+      }
+   } catch (e) {
+      console.log(e);
+      dispatch({ type: CREATE_TOUR_FAIL });
       dispatch(setAlert('error', e.response.data.message));
    }
 };
 
-export const updateTour = (id, formData) => async (dispatch) => {
+export const deleteTour = (id) => async (dispatch) => {
    try {
-      dispatch({ type: UPDATE_TOUR_INIT });
-      const res = await axiosInstance.patch(`/tours/${id}`, formData);
+      dispatch({ type: DELETE_TOUR_INIT });
+      await axiosInstance.delete(`/tours/${id}`);
       dispatch({
-         type: UPDATE_TOUR_SUCCESS,
-         payload: {
-            id,
-            res: res.data.data.data,
-         },
+         type: DELETE_TOUR_SUCCESS,
+         payload: id,
       });
-      dispatch(setAlert('success', 'Tour updated'));
-      return res.data.data.data.id;
+      dispatch(setAlert('success', 'Tour Deleted Successfully'));
    } catch (e) {
       console.log(e);
-      dispatch({ type: UPDATE_TOUR_FAIL });
+      dispatch({ type: DELETE_TOUR_FAIL });
       dispatch(setAlert('error', e.response.data.message));
    }
 };

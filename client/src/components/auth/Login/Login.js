@@ -47,13 +47,15 @@ const Login = (props) => {
                   />
                </div>
                <div className="form__group">
-                  <button
+                  <Buttons
+                     to={'/login'}
                      type="submit"
+                     isLoading={isLoading}
                      onClick={(e) => onSubmit(e)}
                      className="btn btn--green"
                   >
-                     {isLoading ? 'Login . . .' : 'Login'}
-                  </button>
+                     Login
+                  </Buttons>
                </div>
                <div className="form__group ">
                   <Buttons to={'/forgetPassword'} type={'text'}>

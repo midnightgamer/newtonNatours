@@ -42,6 +42,15 @@ import {
    GET_ALL_REVIEW_SUCCESS,
    ADD_REVIEW_SUCCESS,
    UPDATE_REVIEW_SUCCESS,
+   CREATE_TOUR_INIT,
+   CREATE_TOUR_SUCCESS,
+   CREATE_TOUR_FAIL,
+   UPDATE_TOUR_INIT,
+   UPDATE_TOUR_SUCCESS,
+   UPDATE_TOUR_FAIL,
+   DELETE_TOUR_INIT,
+   DELETE_TOUR_SUCCESS,
+   DELETE_TOUR_FAIL,
 } from '../action/types';
 import produce from 'immer';
 
@@ -67,6 +76,9 @@ export default produce((draft = initialState, action) => {
       case BOOK_TOUR_INIT:
       case FORGET_PASSWORD_INIT:
       case RESET_PASSWORD_INIT:
+      case CREATE_TOUR_INIT:
+      case UPDATE_TOUR_INIT:
+      case DELETE_TOUR_INIT:
          draft.isLoading = true;
          return draft;
       case REGISTER_SUCCESS:
@@ -98,6 +110,9 @@ export default produce((draft = initialState, action) => {
       case BOOK_TOUR_SUCCESS:
       case FORGET_PASSWORD_SUCCESS:
       case RESET_PASSWORD_SUCCESS:
+      case CREATE_TOUR_SUCCESS:
+      case DELETE_TOUR_SUCCESS:
+      case UPDATE_TOUR_SUCCESS:
          draft.isLoading = false;
          return draft;
 
@@ -113,6 +128,9 @@ export default produce((draft = initialState, action) => {
       case BOOK_TOUR_FAIL:
       case RESET_PASSWORD_FAIL:
       case FORGET_PASSWORD_FAIL:
+      case CREATE_TOUR_FAIL:
+      case UPDATE_TOUR_FAIL:
+      case DELETE_TOUR_FAIL:
          draft.isLoading = false;
          return draft;
       default:

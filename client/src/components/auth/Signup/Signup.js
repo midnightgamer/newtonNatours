@@ -93,8 +93,12 @@ const Signup = ({ registerUser, isAuthenticated, isLoading }) => {
                      />
                   </div>
                   <div className="form__group">
-                     <Buttons onClick={(e) => onSubmit(e)}>
-                        {isLoading ? 'Sing up...' : 'Sing up'}
+                     <Buttons
+                        onClick={(e) => onSubmit(e)}
+                        isLoading={isLoading}
+                        to={'/signup'}
+                     >
+                        Sing up
                      </Buttons>
                   </div>
                   <div className="form__group">

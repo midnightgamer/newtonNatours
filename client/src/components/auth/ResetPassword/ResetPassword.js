@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './ResetPassword.css';
 import { connect } from 'react-redux';
 import { resetPassword } from '../../../store/action/auth';
+import Buttons from '../../../shared/Buttons/Buttons';
 
 const ResetPassword = (props) => {
    const [formData, setFormData] = useState({
@@ -60,12 +61,9 @@ const ResetPassword = (props) => {
                   />
                </div>
                <div className="form__group">
-                  <button
-                     onClick={(e) => onSubmit(e)}
-                     className="btn btn--green"
-                  >
-                     {isLoading ? 'Reset Password...' : 'Reset Password'}
-                  </button>
+                  <Buttons onClick={(e) => onSubmit(e)} isLoading={isLoading}>
+                     Reset Password
+                  </Buttons>
                </div>
             </form>
          </div>

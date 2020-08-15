@@ -3,9 +3,10 @@ import './Account.css';
 import { updateUser } from '../../store/action/profile';
 import { connect } from 'react-redux';
 import Sidenav from '../../shared/Sidenav/Sidenav';
+import Buttons from '../../shared/Buttons/Buttons';
 
 const Account = (props) => {
-   const { updateUser, user } = props;
+   const { updateUser, user, isLoading } = props;
    const [name, setName] = useState(user.name);
    const [email, setEmail] = useState(user.email);
    const [photo, setPhoto] = useState(null);
@@ -93,12 +94,12 @@ const Account = (props) => {
                         <label htmlFor="photo">Choose new photo</label>
                      </div>
                      <div className="form__group right">
-                        <button
+                        <Buttons
                            onClick={(e) => updateSettings(e, 'data')}
-                           className="btn btn--small btn--green"
+                           isLoading={isLoading}
                         >
                            Save settings
-                        </button>
+                        </Buttons>
                      </div>
                   </form>
                </div>
@@ -157,12 +158,12 @@ const Account = (props) => {
                         />
                      </div>
                      <div className="form__group right">
-                        <button
-                           className="btn btn--small btn--green"
+                        <Buttons
+                           isLoading={isLoading}
                            onClick={(e) => updateSettings(e, 'password')}
                         >
                            Save password
-                        </button>
+                        </Buttons>
                      </div>
                   </form>
                </div>
@@ -173,5 +174,6 @@ const Account = (props) => {
 };
 const mapStateToPro = (state) => ({
    user: state.profile.users,
+   isLoading: state.auth.isLoading,
 });
 export default connect(mapStateToPro, { updateUser })(Account);

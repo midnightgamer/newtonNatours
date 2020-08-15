@@ -103,7 +103,7 @@ const CreateTour = (props) => {
          locations,
          guides: guideIDs,
       };
-      const res = await updateTour(formData);
+      const res = await updateTour(null, formData, 'create');
       /* if (res) {
          setTimeout(() => {
             history.push(`/tour/${tour.slug}`);
@@ -111,6 +111,7 @@ const CreateTour = (props) => {
       }*/
       return res;
    };
+
    //Handle Images
    const handleImages = async (e, tourId) => {
       const formData = new FormData();

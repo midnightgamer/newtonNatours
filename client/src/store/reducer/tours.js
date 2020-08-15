@@ -2,6 +2,7 @@ import {
    ADD_REVIEW_SUCCESS,
    CLEAR_SINGLE_TOUR,
    DELETE_REVIEW_SUCCESS,
+   DELETE_TOUR_SUCCESS,
    GET_BOOKED_TOURS_SUCCESS,
    LOAD_SINGLE_TOUR_SUCCESS,
    LOAD_TOURS_SUCCESS,
@@ -60,6 +61,11 @@ export default produce((draft = initialState, action) => {
             (el) => el._id !== payload
          );
          draft.tour.reviews = filterDraft;
+         return draft;
+      case DELETE_TOUR_SUCCESS:
+         const filterTours = draft.tours.filter((el) => el._id !== payload);
+         draft.tours = filterTours;
+         draft.tour = '';
          return draft;
       case CLEAR_SINGLE_TOUR:
          draft.tour = null;

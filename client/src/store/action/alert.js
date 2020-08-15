@@ -1,6 +1,6 @@
 import { SET_ALERT, REMOVE_ALERT } from './types';
 
-export const setAlert = (type, msg, timeout = 3000) => (dispatch) => {
+export const setAlert = (type, msg, timeout = 5000) => (dispatch) => {
    dispatch({
       type: SET_ALERT,
       payload: {

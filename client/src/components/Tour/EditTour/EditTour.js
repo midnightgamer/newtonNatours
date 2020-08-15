@@ -6,7 +6,11 @@ import Spinner from '../../../shared/Spinner/Spinner';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import Buttons from '../../../shared/Buttons/Buttons';
 import axiosInstance from '../../../axiosInstance';
-import { updateImages, updateTour } from '../../../store/action/tours';
+import {
+   updateImages,
+   updateTour,
+   deleteTour,
+} from '../../../store/action/tours';
 
 const EditTour = (props) => {
    const {
@@ -16,6 +20,8 @@ const EditTour = (props) => {
       updateImages,
       updateTour,
       history,
+      isLoading,
+      deleteTour,
    } = props;
    const [fetchedGudies, setFetchedGudies] = useState(null);
    const [name, setName] = useState('');
@@ -484,13 +490,30 @@ const EditTour = (props) => {
                   <label htmlFor="picture">Choose new photo</label>
                </div>
                <div className="form__group">
-                  <button
-                     type="submit"
-                     className="btn btn--green"
+                  <Buttons
+                     to={`/tour/${tour.slug}/EditTour`}
+                     isLoading={isLoading}
                      onClick={(e) => updateTourHandler(e)}
                   >
                      Update
-                  </button>
+                  </Buttons>
+                  <Buttons
+                     style={{
+                        marginLeft: 20 + 'px',
+                        marginRight: 20 + 'px',
+                     }}
+                     to={`/tour/${tour.slug}`}
+                  >
+                     View Tour
+                  </Buttons>
+                  <Buttons
+                     to={`/tours`}
+                     onClick={() => deleteTour(tour._id)}
+                     type={'danger'}
+                     isLoading={isLoading}
+                  >
+                     Delete
+                  </Buttons>
                </div>
             </form>
          </div>
@@ -502,9 +525,11 @@ const EditTour = (props) => {
 
 const mapStateToProps = (state) => ({
    tour: state.tours.tour,
+   isLoading: state.auth.isLoading,
 });
 export default connect(mapStateToProps, {
    setSingleTour,
    updateImages,
    updateTour,
+   deleteTour,
 })(EditTour);

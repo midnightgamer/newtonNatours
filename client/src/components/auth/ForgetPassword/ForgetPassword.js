@@ -3,6 +3,7 @@ import './ForgetPassword.css';
 import { connect } from 'react-redux';
 import { forgetPassword } from '../../../store/action/auth';
 import { Redirect } from 'react-router-dom';
+import Buttons from '../../../shared/Buttons/Buttons';
 
 const ForgetPassword = ({ isAuthenticated, forgetPassword, isLoading }) => {
    const [eamil, setEmail] = useState('');
@@ -33,12 +34,12 @@ const ForgetPassword = ({ isAuthenticated, forgetPassword, isLoading }) => {
                      />
                   </div>
                   <div className="form__group">
-                     <button
-                        className="btn btn--green"
+                     <Buttons
+                        isLoading={isLoading}
                         onClick={(e) => onSubmit(e)}
                      >
-                        {isLoading ? 'Send Mail...' : 'Send Mail'}
-                     </button>
+                        Send mail
+                     </Buttons>
                   </div>
                </form>
             </div>

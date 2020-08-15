@@ -12,6 +12,7 @@ import Starts from '../../shared/Starts';
 import { Link } from 'react-router-dom';
 import ReviewCard from '../../shared/ReviewCard/ReviewCard';
 import Spinner from '../../shared/Spinner/Spinner';
+import Buttons from '../../shared/Buttons/Buttons';
 
 const Tour = (props) => {
    const {
@@ -318,21 +319,20 @@ const Tour = (props) => {
                               />
                            </div>
                            <div className="form__group">
-                              <button
-                                 type="submit"
+                              <Buttons
                                  onClick={(e) => onSubmit(e, 'update')}
-                                 className="btn btn--green btn-tiny"
+                                 isLoading={loading}
                               >
                                  Update Review
-                              </button>
+                              </Buttons>
                               &nbsp;
-                              <button
-                                 type="submit"
+                              <Buttons
+                                 type="danger"
                                  onClick={(e) => onSubmit(e, 'delete')}
-                                 className="btn btn--red btn-tiny"
+                                 isLoading={loading}
                               >
                                  Delete Review
-                              </button>
+                              </Buttons>
                            </div>
                         </form>
                      </div>
@@ -366,13 +366,13 @@ const Tour = (props) => {
                               />
                            </div>
                            <div className="form__group">
-                              <button
+                              <Buttons
                                  type="submit"
                                  onClick={(e) => onSubmit(e, 'create')}
-                                 className="btn btn--green btn-tiny"
+                                 isLoading={loading}
                               >
                                  Add Review
-                              </button>
+                              </Buttons>
                            </div>
                         </form>
                      </div>

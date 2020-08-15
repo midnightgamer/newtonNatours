@@ -79,7 +79,8 @@ exports.getAll = (Model) =>
          .limitFields()
          .paginate();
       const doc = await features.query;
-
+      if (!doc || doc.length === 0)
+         return next(new AppError(`No ${Model} found`, 404));
       // SEND RESPONSE
       res.status(200).json({
          status: 'success',

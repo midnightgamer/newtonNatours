@@ -3,16 +3,17 @@ import { Link } from 'react-router-dom';
 import './Button.css';
 
 const Buttons = (props) => {
+   const { onClick, type, isLoading, to } = props;
    let buttons = (
       <Link
          {...props}
-         to={`${props.to}`}
+         to={`${to}`}
          className={`btn btn--green btn--small ${
-            props.type === 'danger' ? 'btn--red' : ''
+            type === 'danger' ? 'btn--red' : ''
          }`}
-         onClick={props.onClick}
+         onClick={onClick}
       >
-         <div className={props.isLoading ? 'spinner' : ''}>
+         <div className={isLoading ? 'spinner' : ''}>
             <div className="double-bounce1" />
             <div className="double-bounce2" />
          </div>
@@ -23,7 +24,7 @@ const Buttons = (props) => {
 
    if (props.type === 'text') {
       buttons = (
-         <Link to={`${props.to}`} className="btn-line" onClick={props.onClick}>
+         <Link to={`${to}`} className="btn-line" onClick={onClick}>
             {props.children}
          </Link>
       );

@@ -91,10 +91,9 @@ export const resetPassword = (props) => async (dispatch) => {
          password,
          passwordConfirm,
       });
-      console.log(res.data.data.user);
+      dispatch(loadCurrentUser());
       dispatch({
          type: RESET_PASSWORD_SUCCESS,
-         payload: res.data.data.user,
       });
       dispatch(setAlert('success', 'Password reset successfully'));
       history.push('/me');

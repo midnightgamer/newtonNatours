@@ -41,6 +41,7 @@ body {
    -webkit-box-direction: normal;
    -ms-flex-direction: column;
    flex-direction: column;
+   transition: all 0.3s ease;
 }
 
 .main {
@@ -157,4 +158,16 @@ body {
    right: 2rem;
    width: 70%;
    z-index: 10;
+}
+
+@media all and (max-width: 500px) {
+   body {
+      padding: 0;
+   }
+   .main {
+      padding: 2rem 1.5rem;
+   }
+}
+
+@media all and (max-width: 300px) {
 }

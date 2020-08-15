@@ -26,6 +26,6 @@ export const bookTour = (tourId) => async (dispatch) => {
    } catch (e) {
       console.log(e);
       dispatch({ type: BOOK_TOUR_FAIL });
-      dispatch(setAlert('error', e));
+      dispatch(setAlert('error', e.response.data.message));
    }
 };

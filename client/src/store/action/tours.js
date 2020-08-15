@@ -53,6 +53,9 @@ export const loadBookedTours = (userId) => async (dispatch) => {
          type: GET_BOOKED_TOURS_SUCCESS,
          payload: bookedTours.data.data.data,
       });
+      if (bookedTours.length === '0') {
+         dispatch(setAlert('error', 'No booked tour'));
+      }
    } catch (e) {
       dispatch(setAlert('error', e.response.data.message));
       dispatch({ type: GET_BOOKED_TOURS_FAIL });

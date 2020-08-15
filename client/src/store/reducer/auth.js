@@ -84,6 +84,7 @@ export default produce((draft = initialState, action) => {
       case REGISTER_SUCCESS:
       case LOGIN_SUCCESS:
       case USER_LOAD_SUCCESS:
+      case RESET_PASSWORD_SUCCESS:
          return {
             ...draft,
             isAuthenticated: true,
@@ -109,7 +110,6 @@ export default produce((draft = initialState, action) => {
       case USER_UPDATE_SUCCESS:
       case BOOK_TOUR_SUCCESS:
       case FORGET_PASSWORD_SUCCESS:
-      case RESET_PASSWORD_SUCCESS:
       case CREATE_TOUR_SUCCESS:
       case DELETE_TOUR_SUCCESS:
       case UPDATE_TOUR_SUCCESS:

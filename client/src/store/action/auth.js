@@ -86,13 +86,18 @@ export const forgetPassword = (body) => async (dispatch) => {
 export const resetPassword = (props) => async (dispatch) => {
    try {
       dispatch({ type: RESET_PASSWORD_INIT });
-      const { path, password, passwordConfirm } = props;
-      await axios.patch(`/auth${path}`, {
+      const { path, password, passwordConfirm, history } = props;
+      const res = await axios.patch(`/auth${path}`, {
          password,
          passwordConfirm,
       });
-      dispatch({ type: RESET_PASSWORD_SUCCESS });
+      console.log(res.data.data.user);
+      dispatch({
+         type: RESET_PASSWORD_SUCCESS,
+         payload: res.data.data.user,
+      });
       dispatch(setAlert('success', 'Password reset successfully'));
+      history.push('/me');
    } catch (e) {
       console.log(e);
       dispatch({ type: RESET_PASSWORD_FAIL });

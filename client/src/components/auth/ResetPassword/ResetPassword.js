@@ -25,6 +25,7 @@ const ResetPassword = (props) => {
          path,
          password,
          passwordConfirm,
+         history,
       });
    };
    return (

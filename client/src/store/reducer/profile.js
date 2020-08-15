@@ -1,6 +1,7 @@
 import {
    GET_ALL_REVIEW_SUCCESS,
    LOGOUT,
+   RESET_PASSWORD_SUCCESS,
    USER_LOAD_FAIL,
    USER_LOAD_SUCCESS,
    USER_UPDATE_SUCCESS,
@@ -17,6 +18,7 @@ export default produce((draft = initialState, action) => {
    const { type, payload } = action;
    switch (type) {
       case USER_LOAD_SUCCESS:
+      case RESET_PASSWORD_SUCCESS:
       case USER_UPDATE_SUCCESS:
          draft.users = payload;
          draft.isLoading = false;

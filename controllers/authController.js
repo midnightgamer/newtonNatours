@@ -41,8 +41,8 @@ exports.signup = catchAsync(async (req, res, next) => {
    if (
       !req.body.email ||
       !req.body.name ||
-      req.body.password ||
-      req.body.passwordConfirm
+      !req.body.password ||
+      !req.body.passwordConfirm
    ) {
       return next(new AppError('Please fill all required fields', 400));
    }

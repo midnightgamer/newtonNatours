@@ -479,3 +479,115 @@
    padding: 1rem 2.5rem !important;
    font-size: 1.4rem !important;
 }
+
+@media all and (max-width: 1000px) {
+   .section-header {
+      height: 42vw;
+      clip-path: none;
+      -webkit-clip-path: none;
+   }
+   .section-header .heading-box {
+      width: 50%;
+   }
+   .heading-box .heading-primary {
+      width: 100%;
+   }
+   .section-description {
+      flex-direction: column-reverse;
+   }
+
+   .overview-box > div:first-of-type {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+   }
+   .section-pictures {
+      clip-path: none;
+      -webkit-clip-path: none;
+      margin-top: 0;
+   }
+   .section-map {
+      display: none;
+   }
+   .section-reviews {
+      margin-top: 0;
+      clip-path: none;
+      -webkit-clip-path: none;
+   }
+
+   .section-cta .cta__img {
+      display: none;
+   }
+   .section-cta .cta {
+      padding: 9rem 5rem 9rem;
+   }
+   .section-cta .cta__content {
+      display: flex;
+      flex-direction: column;
+   }
+}
+
+@media all and (max-width: 700px) {
+   .section-header {
+      height: 60vw;
+   }
+   .section-header .heading-primary {
+      font-size: 4rem;
+   }
+   .section-header .heading-box {
+      width: 70%;
+      bottom: 20vw;
+   }
+   .overview-box > div:first-of-type {
+      flex-direction: column;
+   }
+   .section-pictures {
+      flex-direction: column;
+   }
+   .picture-box__img--1 {
+      padding-top: 0;
+   }
+}
+
+@media all and (max-width: 500px) {
+   .section-header .heading-primary {
+      font-size: 3rem;
+   }
+   .section-header .heading-box {
+      width: 80%;
+      bottom: 20vw;
+   }
+   .section-header {
+      height: 75vw;
+   }
+
+   .section-cta {
+      padding: 1rem;
+      padding-bottom: 1rem;
+      padding-top: calc(10rem + var(--section-rotate));
+   }
+   .section-cta .cta {
+      padding: 4rem 3rem;
+   }
+   .section-cta .cta__content {
+      align-items: flex-start;
+   }
+   .cta__content .heading-secondary,
+   .cta__content .cta__text {
+      margin-bottom: 1rem;
+   }
+   .heading-secondary {
+      font-size: 2rem;
+   }
+   .cta__text {
+      font-size: 1.8rem;
+   }
+   .section-review {
+      padding: 10px;
+      padding-bottom: 11rem;
+      padding-top: calc(15rem + var(--section-rotate));
+   }
+   .section-review .login-form {
+      padding: 2rem 4rem;
+   }
+}

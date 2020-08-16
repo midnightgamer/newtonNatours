@@ -264,6 +264,12 @@ li .active:hover {
    .nav--user {
       flex: auto;
    }
+   .admin-nav__heading {
+      display: none;
+   }
+   .admin-nav {
+      margin: 0;
+   }
 }
 
 @media all and (max-width: 500px) {

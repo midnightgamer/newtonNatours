@@ -101,7 +101,7 @@
 }
 
 @media all and (max-width: 500px) {
-   .login-form {
+   .main .login-form {
       padding: 7rem 2rem;
    }
 }

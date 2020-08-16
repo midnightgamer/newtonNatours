@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const Sidenav = ({ role }) => (
    <nav className="user-view__menu">
@@ -35,12 +35,12 @@ const Sidenav = ({ role }) => (
             <h5 className="admin-nav__heading">Admin</h5>
             <ul className="side-nav">
                <li>
-                  <NavLink to={'/'}>
+                  <Link to={'/'}>
                      <svg>
                         <use xlinkHref="/img/icons.svg#icon-map" />
                      </svg>
                      Manage tours
-                  </NavLink>
+                  </Link>
                </li>
                <li>
                   <NavLink to={'/all-users'}>

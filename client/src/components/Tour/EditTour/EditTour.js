@@ -23,6 +23,10 @@ const EditTour = (props) => {
       isLoading,
       deleteTour,
    } = props;
+
+   useEffect(() => {
+      document.title = `${document.title} | Edit tour!`;
+   }, []);
    const [fetchedGudies, setFetchedGudies] = useState(null);
    const [name, setName] = useState('');
    const [summary, setSummary] = useState('');
@@ -250,7 +254,7 @@ const EditTour = (props) => {
    return tour ? (
       <div className={'main'}>
          <div className="container">
-            <h2 className="heading-secondary ma-bt-lg">Edit Forest Hiker</h2>
+            <h2 className="heading-secondary ma-bt-lg">Edit {tour.name}</h2>
             <form className="form">
                <div className="form__group">
                   <label className="form__label" htmlFor="name">

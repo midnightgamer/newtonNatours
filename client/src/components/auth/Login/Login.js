@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { loginUser } from '../../../store/action/auth';
 import './Login.css';
@@ -11,6 +11,9 @@ const Login = (props) => {
       email: '',
       password: '',
    });
+   useEffect(() => {
+      document.title = `${document.title} | Log into your account `;
+   }, []);
    const { email, password } = formData;
    let login = (
       <main className="main">

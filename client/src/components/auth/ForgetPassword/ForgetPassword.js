@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ForgetPassword.css';
 import { connect } from 'react-redux';
 import { forgetPassword } from '../../../store/action/auth';
@@ -11,6 +11,10 @@ const ForgetPassword = ({ isAuthenticated, forgetPassword, isLoading }) => {
       e.preventDefault();
       forgetPassword(eamil);
    };
+
+   useEffect(() => {
+      document.title = `${document.title} | Forgot Password`;
+   }, []);
    let forgetPasswordUI = null;
    if (isAuthenticated) {
       forgetPasswordUI = <Redirect to={'/'} />;

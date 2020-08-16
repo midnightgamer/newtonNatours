@@ -33,7 +33,9 @@ const CreateTour = (props) => {
    ]);
    const [imageCover, setImageCover] = useState(null);
    const [images, setImages] = useState('');
-
+   useEffect(() => {
+      document.title = `${document.title} | Create Tour`;
+   }, []);
    //Autocomplete for locations
    useEffect(() => {
       const inputs = document.getElementsByClassName('searchTextField');

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TourCard from '../../shared/TourCard/TourCard';
 import { loadBookedTours } from '../../store/action/tours';
 import { connect } from 'react-redux';
@@ -11,10 +11,15 @@ const BookedTours = ({ bookedTours, loading }) => {
          return <TourCard tour={el} key={el._id} type={'booked'} />;
       });
    }
+
+   useEffect(() => {
+      document.title = `${document.title} | Booked tours`;
+   }, []);
    return loading || tour.length <= 0 ? (
       <Spinner />
    ) : (
       <main className={'main'}>
+         <h2 className="heading-secondary ma-bt-lg">Booked tour</h2>
          <div className="card-container">{tour}</div>
       </main>
    );

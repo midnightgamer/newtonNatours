@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Account.css';
 import { updateUser } from '../../store/action/profile';
 import { connect } from 'react-redux';
@@ -15,6 +15,9 @@ const Account = (props) => {
    const [passwordConfirm, setPasswordConfirm] = useState('');
    const formData = new FormData();
 
+   useEffect(() => {
+      document.title = `${document.title} | Your account`;
+   }, []);
    const onFileChange = (event) => {
       // Update the state
       setPhoto(event.target.files[0]);

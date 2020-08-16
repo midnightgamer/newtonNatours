@@ -6,6 +6,9 @@ import { loadTours } from '../../store/action/tours';
 import Spinner from '../../shared/Spinner/Spinner';
 
 const Overview = ({ tours, loading, user }) => {
+   useEffect(() => {
+      document.title = `${document.title} | All Tours`;
+   }, []);
    let role = 'user';
    let tour = [];
    if (tours && tours.length > 0) {

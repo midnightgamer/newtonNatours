@@ -7,6 +7,10 @@ const Reviews = ({ getAllReviewByUser, reviews }) => {
    useEffect(() => {
       getAllReviewByUser();
    }, [getAllReviewByUser]);
+
+   useEffect(() => {
+      document.title = `${document.title} | All reviews`;
+   }, []);
    return (
       <section className="section-review">
          <div className="reviews">

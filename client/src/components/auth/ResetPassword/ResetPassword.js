@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ResetPassword.css';
 import { connect } from 'react-redux';
 import { resetPassword } from '../../../store/action/auth';
@@ -9,6 +9,10 @@ const ResetPassword = (props) => {
       passwordConfirm: '',
       password: '',
    });
+
+   useEffect(() => {
+      document.title = `${document.title} | Reset your password!`;
+   }, []);
    const { resetPassword, history, isLoading } = props;
 
    const { passwordConfirm, password } = formData;

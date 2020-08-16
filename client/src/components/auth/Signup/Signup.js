@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { registerUser } from '../../../store/action/auth';
 import Buttons from '../../../shared/Buttons/Buttons';
@@ -18,6 +18,9 @@ const Signup = ({ registerUser, isAuthenticated, isLoading }) => {
          [e.target.id]: e.target.value,
       });
    };
+   useEffect(() => {
+      document.title = `${document.title} | Create your account!`;
+   }, []);
    const onSubmit = (e) => {
       e.preventDefault();
       registerUser({
@@ -98,7 +101,7 @@ const Signup = ({ registerUser, isAuthenticated, isLoading }) => {
                         isLoading={isLoading}
                         to={'/signup'}
                      >
-                        Sing up
+                        Sign up
                      </Buttons>
                   </div>
                   <div className="form__group">

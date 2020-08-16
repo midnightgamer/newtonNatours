@@ -46,8 +46,9 @@ const Tour = (props) => {
       scriptTag.src = '/js/mapBox.js';
       scriptTag.async = true;
       document.body.appendChild(scriptTag);
-      //Load tour by slug
    }, []);
+
+   //Load tour by slug
    useEffect(() => {
       setSingleTour(match.params.slug);
    }, [match.params.slug, setSingleTour]);
@@ -66,6 +67,9 @@ const Tour = (props) => {
             });
       }
    }, [tour, user]);
+   useEffect(() => {
+      document.title = `${document.title}  ${tour ? '| ' + tour.name : ''}`;
+   }, [tour]);
    const onSubmit = (e, type) => {
       e.preventDefault();
       if (type === 'create') {

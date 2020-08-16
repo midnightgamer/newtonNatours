@@ -9,7 +9,7 @@ const Footer = (props) => (
          <img src={logoGreen} alt="Natours logo" />
       </div>
       <p className="footer__copyright">
-         &copy; by Jonas Schmedtmann. All rights reserved.
+         &copy; by Natours. All rights reserved.
       </p>
    </footer>
 );

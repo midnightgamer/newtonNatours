@@ -19,7 +19,7 @@ const Signup = ({ registerUser, isAuthenticated, isLoading }) => {
       });
    };
    useEffect(() => {
-      document.title = `${document.title} | Create your account!`;
+      document.title = `Natours | Create your account!`;
    }, []);
    const onSubmit = (e) => {
       e.preventDefault();

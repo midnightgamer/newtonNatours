@@ -13,7 +13,7 @@ const ForgetPassword = ({ isAuthenticated, forgetPassword, isLoading }) => {
    };
 
    useEffect(() => {
-      document.title = `${document.title} | Forgot Password`;
+      document.title = ` Natours | Forgot Password`;
    }, []);
    let forgetPasswordUI = null;
    if (isAuthenticated) {

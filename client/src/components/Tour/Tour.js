@@ -68,7 +68,7 @@ const Tour = (props) => {
       }
    }, [tour, user]);
    useEffect(() => {
-      document.title = `${document.title}  ${tour ? '| ' + tour.name : ''}`;
+      document.title = ` Natours   ${tour ? '| ' + tour.name : ''}`;
    }, [tour]);
    const onSubmit = (e, type) => {
       e.preventDefault();

@@ -34,7 +34,7 @@ const CreateTour = (props) => {
    const [imageCover, setImageCover] = useState(null);
    const [images, setImages] = useState('');
    useEffect(() => {
-      document.title = `${document.title} | Create Tour`;
+      document.title = `Natours | Create Tour`;
    }, []);
    //Autocomplete for locations
    useEffect(() => {

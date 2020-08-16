@@ -9,7 +9,7 @@ const Reviews = ({ getAllReviewByUser, reviews }) => {
    }, [getAllReviewByUser]);
 
    useEffect(() => {
-      document.title = `${document.title} | All reviews`;
+      document.title = `Natours | All reviews`;
    }, []);
    return (
       <section className="section-review">

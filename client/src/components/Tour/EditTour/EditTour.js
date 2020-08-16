@@ -25,7 +25,7 @@ const EditTour = (props) => {
    } = props;
 
    useEffect(() => {
-      document.title = `${document.title} | Edit tour!`;
+      document.title = `Natours | Edit tour!`;
    }, []);
    const [fetchedGudies, setFetchedGudies] = useState(null);
    const [name, setName] = useState('');

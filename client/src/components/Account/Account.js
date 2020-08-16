@@ -16,7 +16,7 @@ const Account = (props) => {
    const formData = new FormData();
 
    useEffect(() => {
-      document.title = `${document.title} | Your account`;
+      document.title = `Natours | Your account`;
    }, []);
    const onFileChange = (event) => {
       // Update the state

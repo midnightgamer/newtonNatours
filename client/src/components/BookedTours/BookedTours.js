@@ -13,7 +13,7 @@ const BookedTours = ({ bookedTours, loading }) => {
    }
 
    useEffect(() => {
-      document.title = `${document.title} | Booked tours`;
+      document.title = `Natours | Booked tours`;
    }, []);
    return loading || tour.length <= 0 ? (
       <Spinner />

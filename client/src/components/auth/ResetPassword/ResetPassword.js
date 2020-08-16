@@ -11,7 +11,7 @@ const ResetPassword = (props) => {
    });
 
    useEffect(() => {
-      document.title = `${document.title} | Reset your password!`;
+      document.title = `Natours | Reset your password!`;
    }, []);
    const { resetPassword, history, isLoading } = props;
 

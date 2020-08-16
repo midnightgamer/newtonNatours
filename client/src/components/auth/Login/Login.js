@@ -12,7 +12,7 @@ const Login = (props) => {
       password: '',
    });
    useEffect(() => {
-      document.title = `${document.title} | Log into your account `;
+      document.title = `Natours | Log into your account `;
    }, []);
    const { email, password } = formData;
    let login = (

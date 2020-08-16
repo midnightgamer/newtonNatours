@@ -7,7 +7,7 @@ import Spinner from '../../shared/Spinner/Spinner';
 
 const Overview = ({ tours, loading, user }) => {
    useEffect(() => {
-      document.title = `${document.title} | All Tours`;
+      document.title = `Natours | All Tours`;
    }, []);
    let role = 'user';
    let tour = [];

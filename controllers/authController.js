@@ -46,6 +46,17 @@ exports.signup = catchAsync(async (req, res, next) => {
       passwordChangeAt: req.body.passwordChangeAt,
       role: this.role,
    });
+   if (
+      !req.body.email ||
+      !req.body.name ||
+      req.body.password ||
+      req.body.passwordConfirm
+   ) {
+      return next(new AppError('Please fill all required fields', 400));
+   }
+   if (req.body.password !== req.body.passwordConfirm) {
+      return next(new AppError('Password and Confirm password not match', 400));
+   }
    const url = `${req.protocol}://${req.get('host')}/me`;
    await new Email(newUser, url).sendWelcome();
    createAndSendToken(newUser, 201, req, res);

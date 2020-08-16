@@ -7,7 +7,6 @@ const handleCastErrorDB = (err) => {
 
 const handleDuplicateFieldsDB = (err) => {
    const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
-   console.log(value);
 
    const message = `Duplicate field value: ${value}. Please use another value!`;
    return new AppError(message, 400);
@@ -46,10 +45,8 @@ const sendErrorDev = (err, req, res) => {
 };
 
 const sendErrorProd = (err, req, res) => {
-   console.log('prod error', err);
    // A) API
    if (req.originalUrl.startsWith('/api')) {
-      console.log(req.originalUrl);
       // A) Operational, trusted error: send message to client
       if (err.isOperatinal) {
          return res.status(err.statusCode).json({
@@ -69,8 +66,7 @@ const sendErrorProd = (err, req, res) => {
 
    // B) RENDERED WEBSITE
    // A) Operational, trusted error: send message to client
-   /* if (err.isOperatinal) {
-      console.log(err);
+   if (err.isOperatinal) {
       return res.status(err.statusCode).render('error', {
          title: 'Something went wrong!',
          msg: err.message,
@@ -83,7 +79,7 @@ const sendErrorProd = (err, req, res) => {
    return res.status(err.statusCode).render('error', {
       title: 'Something went wrong!',
       msg: 'Please try again later.',
-   }); */
+   });
 };
 
 module.exports = (err, req, res, next) => {

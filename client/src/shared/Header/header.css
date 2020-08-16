@@ -261,6 +261,9 @@ li .active:hover {
    .header .nav--tours {
       display: none;
    }
+   .nav--user {
+      flex: auto;
+   }
 }
 
 @media all and (max-width: 500px) {
@@ -269,6 +272,9 @@ li .active:hover {
    }
    .nav--user img {
       display: none;
+   }
+   .nav--user {
+      flex: auto;
    }
    .header__logo img {
       height: 2.5rem;

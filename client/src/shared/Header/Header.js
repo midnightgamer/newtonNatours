@@ -60,7 +60,9 @@ const Header = ({ isAuthenticated, user, logoutUser }) => {
             </form>
          </nav>
          <div className="header__logo">
-            <img src={logoWhite} alt="Natours logo" />
+            <Link to={'/'}>
+               <img src={logoWhite} alt="Natours logo" />
+            </Link>
          </div>
          {isAuthenticated ? authLinks : guestLinks}
       </header>

@@ -36,3 +36,64 @@
    margin: 0 auto;
    padding: 0 8rem;
 }
+
+@media all and (max-width: 1000px) {
+   .user-view {
+      flex-direction: column;
+   }
+   .user-view__menu {
+      flex: auto;
+      padding: 0;
+   }
+   .user-view__menu .side-nav {
+      display: flex;
+   }
+
+   .side-nav a:link,
+   .side-nav a,
+   .side-nav a:visited {
+      padding: 2rem;
+   }
+   .side-nav li {
+      margin: 0;
+      border-left: 0 solid #fff;
+      transition: all 0.3s;
+   }
+   li .active {
+      background-color: #28b487;
+      border-left: none !important;
+   }
+   li:hover {
+      background-color: #28b487;
+   }
+}
+
+@media all and (max-width: 700px) {
+   .main {
+      padding: 0;
+   }
+}
+
+@media all and (max-width: 500px) {
+   .main {
+      padding: 2rem 10px;
+   }
+   #account {
+      padding: 0;
+   }
+   .side-nav a:link,
+   .side-nav a,
+   .side-nav a:visited {
+      flex-direction: column;
+      font-size: 1.3rem;
+      padding: 1rem;
+   }
+   .side-nav svg {
+      margin: 0;
+      height: 1.5rem;
+      width: 1.5rem;
+   }
+   .user-view__form-container {
+      padding: 0 2rem;
+   }
+}

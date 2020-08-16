@@ -39,7 +39,7 @@ const Account = (props) => {
       }
    };
    return (
-      <main className="main">
+      <main className="main" id="account">
          <div className="user-view">
             <Sidenav />
             <div className="user-view__content">

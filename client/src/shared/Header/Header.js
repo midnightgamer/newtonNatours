@@ -3,9 +3,23 @@ import './header.css';
 import { connect } from 'react-redux';
 import logoWhite from '../../assets/img/logo-white.png';
 import { logoutUser } from '../../store/action/auth';
+import { filterTours } from '../../store/action/tours';
 import { Link } from 'react-router-dom';
 
-const Header = ({ isAuthenticated, user, logoutUser }) => {
+const Header = ({ isAuthenticated, user, logoutUser, tours, filterTours }) => {
+   const onSearch = (e) => {
+      const value = e.target.value;
+      console.log(value);
+      let suggestions = [];
+      if (value.length > 0) {
+         suggestions = tours.filter((e) => {
+            if (e.name.toLowerCase().startsWith(value)) {
+               return e;
+            }
+         });
+         filterTours(suggestions);
+      }
+   };
    let authLinks = '';
    if (user) {
       const { name, photo } = user;
@@ -56,6 +70,7 @@ const Header = ({ isAuthenticated, user, logoutUser }) => {
                   type="text"
                   placeholder="Search tours"
                   className="nav__search-input"
+                  onChange={(e) => onSearch(e)}
                />
             </form>
          </nav>
@@ -71,5 +86,9 @@ const Header = ({ isAuthenticated, user, logoutUser }) => {
 const mapStateToProps = (state) => ({
    isAuthenticated: state.auth.isAuthenticated,
    user: state.profile.users,
+   tours: state.tours.tours,
 });
-export default connect(mapStateToProps, { logoutUser })(Header);
+export default connect(mapStateToProps, {
+   logoutUser,
+   filterTours,
+})(Header);

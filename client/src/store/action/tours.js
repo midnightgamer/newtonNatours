@@ -6,6 +6,7 @@ import {
    DELETE_TOUR_FAIL,
    DELETE_TOUR_INIT,
    DELETE_TOUR_SUCCESS,
+   FILTERED_TOURS,
    GET_BOOKED_TOURS_FAIL,
    GET_BOOKED_TOURS_INIT,
    GET_BOOKED_TOURS_SUCCESS,
@@ -143,4 +144,7 @@ export const deleteTour = (id) => async (dispatch) => {
       dispatch({ type: DELETE_TOUR_FAIL });
       dispatch(setAlert('error', e.response.data.message));
    }
+};
+export const filterTours = (e) => {
+   return { type: FILTERED_TOURS, payload: e };
 };

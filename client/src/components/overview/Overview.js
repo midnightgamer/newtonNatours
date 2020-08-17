@@ -5,14 +5,20 @@ import './Overview.css';
 import { loadTours } from '../../store/action/tours';
 import Spinner from '../../shared/Spinner/Spinner';
 
-const Overview = ({ tours, loading, user }) => {
+const Overview = ({ tours, loading, filteredTour }) => {
    useEffect(() => {
       document.title = `Natours | All Tours`;
    }, []);
    let role = 'user';
    let tour = [];
+   let filtered = [];
    if (tours && tours.length > 0) {
       tour = tours.map((el) => {
+         return <TourCard tour={el} key={el.name} />;
+      });
+   }
+   if (filteredTour && filteredTour.length > 0) {
+      filtered = filteredTour.map((el) => {
          return <TourCard tour={el} key={el.name} />;
       });
    }
@@ -20,12 +26,15 @@ const Overview = ({ tours, loading, user }) => {
       <Spinner />
    ) : (
       <main className={'main'}>
-         <div className="card-container">{tour}</div>
+         <div className="card-container">
+            {filteredTour.length > 0 ? filtered : tour}
+         </div>
       </main>
    );
 };
 const mapStateToProps = (state) => ({
    tours: state.tours.tours,
+   filteredTour: state.tours.filteredTour,
    loading: state.tours.loading,
    user: state.profile.users,
 });

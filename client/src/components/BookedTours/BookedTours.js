@@ -4,11 +4,18 @@ import { loadBookedTours } from '../../store/action/tours';
 import { connect } from 'react-redux';
 import Spinner from '../../shared/Spinner/Spinner';
 
-const BookedTours = ({ bookedTours, loading }) => {
+const BookedTours = ({ bookedTours, loading, filteredTour }) => {
    let tour = [];
+   let filtered = [];
    if (bookedTours && bookedTours.length > 0) {
       tour = bookedTours.map((el) => {
          return <TourCard tour={el} key={el._id} type={'booked'} />;
+      });
+   }
+
+   if (filteredTour && filteredTour.length > 0) {
+      filtered = filteredTour.map((el) => {
+         return <TourCard tour={el} key={el.name} />;
       });
    }
 
@@ -20,12 +27,15 @@ const BookedTours = ({ bookedTours, loading }) => {
    ) : (
       <main className={'main'}>
          <h2 className="heading-secondary ma-bt-lg">Booked tour</h2>
-         <div className="card-container">{tour}</div>
+         <div className="card-container">
+            {filteredTour.length > 0 ? filtered : tour}
+         </div>
       </main>
    );
 };
 const mapStateToProps = (state) => ({
    bookedTours: state.tours.bookedTours,
+   filteredTour: state.tours.filteredTour,
    loading: state.tours.loading,
 });
 

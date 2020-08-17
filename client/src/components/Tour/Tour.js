@@ -258,14 +258,16 @@ const Tour = (props) => {
                      className=""
                   />
                </div>
-               {tour.images.map((img) => (
-                  <img
-                     key={img}
-                     src={`${process.env.REACT_APP_API_ROUTE}/img/tours/${img}`}
-                     alt=""
-                     className="cta__img cta__img--1"
-                  />
-               ))}
+               {tour.images.map((img, i) =>
+                  i < 2 ? (
+                     <img
+                        key={img}
+                        src={`${process.env.REACT_APP_API_ROUTE}/img/tours/${img}`}
+                        alt=""
+                        className={`cta__img cta__img--${i + 1}`}
+                     />
+                  ) : null
+               )}
                <div className="cta__content">
                   <h2 className="heading-secondary">
                      What are you waiting for?

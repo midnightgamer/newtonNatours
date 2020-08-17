@@ -1,8 +1,10 @@
 import {
    ADD_REVIEW_SUCCESS,
+   CLEAR_FILTERED_TOURS,
    CLEAR_SINGLE_TOUR,
    DELETE_REVIEW_SUCCESS,
    DELETE_TOUR_SUCCESS,
+   FILTERED_TOURS,
    GET_BOOKED_TOURS_SUCCESS,
    LOAD_SINGLE_TOUR_SUCCESS,
    LOAD_TOURS_SUCCESS,
@@ -17,6 +19,7 @@ const initialState = {
    bookedTours: [],
    tour: null,
    isLoading: true,
+   filteredTour: [],
    tours: [],
 };
 
@@ -67,6 +70,11 @@ export default produce((draft = initialState, action) => {
          draft.tours = filterTours;
          draft.tour = '';
          return draft;
+      case FILTERED_TOURS:
+         draft.filteredTour = payload;
+         return draft;
+      case CLEAR_FILTERED_TOURS:
+         return (draft.filteredTour = []);
       case CLEAR_SINGLE_TOUR:
          draft.tour = null;
          draft.isLoading = true;

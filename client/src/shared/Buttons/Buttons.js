@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import './Button.css';
 
 const Buttons = (props) => {
-   const { onClick, type, isLoading, to } = props;
+   const { onClick, type, isLoading, to, ...newProps } = props;
    let buttons = (
       <Link
-         {...props}
+         {...newProps}
          to={`${to}`}
          className={`btn btn--green btn--small ${
             type === 'danger' ? 'btn--red' : ''

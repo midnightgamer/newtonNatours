@@ -276,7 +276,7 @@ li .active:hover {
    .header {
       padding: 0 2rem;
    }
-   .nav--user img {
+   .nav--user span {
       display: none;
    }
    .nav--user {

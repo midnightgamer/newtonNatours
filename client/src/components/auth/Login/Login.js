@@ -52,10 +52,8 @@ const Login = (props) => {
                <div className="form__group">
                   <Buttons
                      to={'/login'}
-                     type="submit"
                      isLoading={isLoading}
                      onClick={(e) => onSubmit(e)}
-                     className="btn btn--green"
                   >
                      Login
                   </Buttons>

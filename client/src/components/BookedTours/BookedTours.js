@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import TourCard from '../../shared/TourCard/TourCard';
+import './BookedTour.css';
 import { loadBookedTours } from '../../store/action/tours';
 import { connect } from 'react-redux';
 import Spinner from '../../shared/Spinner/Spinner';

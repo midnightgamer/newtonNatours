@@ -6,7 +6,7 @@ const ReviewCard = ({ review, type }) => (
       <div className="reviews__avatar">
          <img
             src={`/img/users/${review.user.photo}`}
-            alt="Jim Brown"
+            alt={review.user.name}
             className="reviews__avatar-img"
          />
          <h6 className="reviews__user">{review.user.name}</h6>

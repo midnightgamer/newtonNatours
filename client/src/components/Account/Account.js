@@ -21,6 +21,7 @@ const Account = (props) => {
    const onFileChange = (event) => {
       // Update the state
       setPhoto(event.target.files[0]);
+      console.log(event.target.files[0]);
    };
    const updateSettings = async (e, type) => {
       e.preventDefault();
@@ -94,7 +95,9 @@ const Account = (props) => {
                            onChange={(e) => onFileChange(e)}
                            name="photo"
                         />
-                        <label htmlFor="photo">Choose new photo</label>
+                        <label htmlFor="photo">
+                           {photo !== null ? 'Uploaded' : 'Choose new photo'}
+                        </label>
                      </div>
                      <div className="form__group right">
                         <Buttons

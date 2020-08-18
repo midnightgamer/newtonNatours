@@ -70,7 +70,12 @@ const App = (props) => {
                <PrivateRoute path="/my-bookings" component={BookedTours} />
                <PrivateRoute path="/reviews" component={Reviews} />
                <PrivateRoute path="/me" component={Account} />
-               <Route path="*" component={NotFound} />
+               <Route
+                  path="*"
+                  render={() => (
+                     <NotFound msg={'404, Page you looking for is not found'} />
+                  )}
+               />
             </Switch>
             <Footer />
          </BrowserRouter>

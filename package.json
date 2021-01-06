@@ -23,7 +23,7 @@
       "@sendgrid/mail": "^7.2.3",
       "@stripe/react-stripe-js": "^1.1.2",
       "@stripe/stripe-js": "^1.8.0",
-      "axios": "^0.19.2",
+      "axios": "^0.21.1",
       "bcryptjs": "^2.4.3",
       "compression": "^1.7.4",
       "concurrently": "^5.2.0",

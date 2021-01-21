@@ -38,7 +38,7 @@
       "helmet": "^3.23.3",
       "hpp": "^0.2.3",
       "html-to-text": "^5.1.1",
-      "immer": "^7.0.7",
+      "immer": "^8.0.1",
       "js-cookie": "^2.2.1",
       "jsonwebtoken": "^8.5.1",
       "mongoose": "^5.9.23",
